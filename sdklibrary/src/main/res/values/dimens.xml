@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="dialog_content_width">270.0dip</dimen>
+
+    <dimen name="dialog_width">330.0dip</dimen>
+    <dimen name="dialog_height">210.0dip</dimen>
+
+
+    <dimen name="dialog_button_width">200.0dip</dimen>
+    <dimen name="dialog_button_height">32.0dip</dimen>
+
+    <dimen name="font_size_10">10.0sp</dimen>
+    <dimen name="font_size_11">11.0sp</dimen>
+    <dimen name="font_size_12">12.0sp</dimen>
+    <dimen name="font_size_13">13.0sp</dimen>
+    <dimen name="font_size_14">14.0sp</dimen>
+    <dimen name="font_size_15">15.0sp</dimen>
+    <dimen name="font_size_16">16.0sp</dimen>
+    <dimen name="font_size_18">18.0sp</dimen>
+    <dimen name="widget_size_10">10.0dip</dimen>
+    <dimen name="widget_size_12">12.0dip</dimen>
+    <dimen name="widget_size_16">16.0dip</dimen>
+    <dimen name="widget_size_20">20.0dip</dimen>
+    <dimen name="widget_size_210">210.0dip</dimen>
+    <dimen name="widget_size_270">270.0dip</dimen>
+    <dimen name="widget_size_3">3.0dip</dimen>
+    <dimen name="widget_size_30">30.0dip</dimen>
+    <dimen name="widget_size_36">36.0dip</dimen>
+    <dimen name="widget_size_40">40.0dip</dimen>
+    <dimen name="widget_size_5">5.0dip</dimen>
+    <dimen name="widget_size_50">50.0dip</dimen>
+</resources>

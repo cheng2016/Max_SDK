@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:drawable="@drawable/u9_shape_button" android:state_checkable="true" />
+    <item android:drawable="@drawable/u9_shape_gray_button" android:state_checkable="false" />-->
+    <item android:drawable="@drawable/u9_shape_button" android:state_enabled="true" />
+    <item android:drawable="@drawable/u9_shape_gray_button" android:state_enabled="false" />
+
+</selector>

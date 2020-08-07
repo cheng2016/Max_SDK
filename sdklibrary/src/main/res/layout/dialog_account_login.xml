@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/u9_gray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/top_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_size_20"
+        android:layout_marginTop="@dimen/widget_size_20"
+        android:text="绑定账户"
+        android:textColor="#525252"
+        android:textSize="@dimen/font_size_18"
+        android:visibility="gone"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_tv"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/widget_size_20"
+        android:src="@drawable/u9_hygame_login_logo" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="38.0dip"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/widget_size_30"
+        android:layout_marginTop="15.0dip"
+        android:layout_marginRight="@dimen/widget_size_30"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_register_account"
+            style="@style/edittext_style"
+            android:layout_marginLeft="@dimen/widget_size_50"
+            android:background="@color/white"
+            android:gravity="left|center_vertical"
+            android:hint=""
+            android:text="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5.0dip"
+            android:text="@string/hy_account"
+            android:textColor="@color/gray_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="38.0dip"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/widget_size_30"
+        android:layout_marginTop="10.0dip"
+        android:layout_marginRight="@dimen/widget_size_30"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_register_psd"
+            style="@style/edittext_style"
+            android:layout_marginLeft="@dimen/widget_size_50"
+            android:background="@color/white"
+            android:gravity="left|center_vertical"
+            android:inputType="textPassword"
+            android:text=""
+            android:hint="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5.0dip"
+            android:text="@string/hy_password"
+            android:textColor="@color/gray_color" />
+    </RelativeLayout>
+
+
+    <CheckBox
+        android:id="@+id/checkbox_contract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_size_30"
+        android:layout_marginTop="@dimen/widget_size_5"
+        android:checked="true"
+        android:text="@string/hy_agree_user_contract"
+        android:textColor="#ff868686"
+        android:button="@drawable/u9_checkbox_contract"
+        android:textSize="@dimen/font_size_11"/>
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/pop_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_size_36"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/widget_size_10"
+        android:layout_marginBottom="@dimen/widget_size_30"
+        android:text="登录" />
+</LinearLayout>

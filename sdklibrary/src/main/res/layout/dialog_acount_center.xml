@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/widget_size_210"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/u9_gray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/top_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_size_20"
+        android:layout_marginTop="@dimen/widget_size_20"
+        android:drawableLeft="@drawable/u9_ic_setting"
+        android:drawablePadding="@dimen/widget_size_3"
+        android:text="@string/hy_account_setting"
+        android:textColor="#525252"
+        android:textSize="@dimen/font_size_18"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_tv"
+        android:layout_marginLeft="@dimen/widget_size_20"
+        android:layout_marginTop="@dimen/widget_size_12"
+        android:text="@string/hy_account_bind_message"
+        android:textSize="@dimen/font_size_10" />
+
+    <RelativeLayout
+        android:id="@+id/bind_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_size_40"
+        android:layout_centerInParent="true"
+        android:background="@drawable/u9_button_bind_selector"
+        android:layout_marginLeft="@dimen/widget_size_40"
+        android:layout_marginRight="@dimen/widget_size_40" >
+
+        <TextView
+            android:id="@+id/bind_tv"
+            style="@style/pop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/widget_size_20"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/u9_ic_account_safe"
+            android:drawablePadding="@dimen/widget_size_3"
+            android:gravity="center_vertical"
+            android:text="@string/hy_bind_account"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_13" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/widget_size_16"
+            android:src="@drawable/u9_ic_arrow_right"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/switch_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bind_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/widget_size_12"
+        android:layout_marginTop="@dimen/widget_size_12"
+        android:text="登录其他账号 切换账户"
+        android:textSize="@dimen/font_size_10" />
+
+</RelativeLayout>

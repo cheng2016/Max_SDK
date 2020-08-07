@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue_color">#ff24aef4</color>
+    <color name="colorAccent">#ffff4081</color>
+    <color name="colorPrimary">#ff3f51b5</color>
+    <color name="colorPrimaryDark">#ff303f9f</color>
+    <color name="dk_color_333333">#ff333333</color>
+    <color name="gray_color">#ff868686</color>
+
+    <color name="white">#ffffff</color>
+
+    <!-- 按钮颜色-黑 -->
+    <color name="hy_login_btn_black">#697B89</color>
+
+    <!-- 字体颜色:透明色-->
+    <color name="hy_text_color_white">#FFFFFF</color>
+    <!-- 标题背景颜色:蓝 -->
+    <color name="hy_dialog_title_color_blue_onclick">#0092DE</color>
+    <!-- 标题背景颜色:蓝 -->
+    <color name="hy_dialog_title_color_blue">#36AAF4</color>
+</resources>

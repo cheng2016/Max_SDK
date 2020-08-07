@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.huyu.sdk.demo"
+    android:versionCode="2"
+    android:versionName="1.0.4">
+
+    <!--com.leiou.legend.defense-->
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="23" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 读取设备信息 -->
+    <!--<uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 文件读写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.GET_DETAILED_TASKS" />-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!--googlepay必需权限-->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.webkit.permission.PLUGIN" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+    <application
+        android:name="com.huyu.sdk.base.HY_Application"
+        android:allowBackup="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:label="@string/hy_app_name">
+
+
+
+        <!--googlePay 需要的配置-->
+        <!--  <meta-data
+              android:name="com.google.android.gms.wallet.api.enabled"
+              android:value="true" />-->
+
+
+        <activity android:name="com.huyu.test.demo.Game_SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.huyu.test.demo.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+
+        <!-- 打包生成的参数 -->
+
+        <activity
+            android:name="com.huyu.googlepay.HY_GameCenterActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop" />
+
+        <!-- 游戏号必填 -->
+        <meta-data
+            android:name="HY_GAME_ID"
+            android:value="1270" />
+        <!-- 渠道号 分包时修改 直接拷贝 -->
+        <meta-data
+            android:name="HY_CHANNEL_CODE"
+            android:value="188" />
+        <!-- 渠道标识b 分包时修改 直接拷贝 -->
+        <meta-data
+            android:name="HY_CHANNEL_TYPE"
+            android:value="HY" />
+        <!-- 横竖屏表示，0表示横屏，1表示竖屏 -->
+        <meta-data
+            android:name="HY_IS_LANDSCAPE"
+            android:value="0" />
+
+        <!--AppFlayer  devKey -->
+        <meta-data
+            android:name="AF_DEV_KEY"
+            android:value="WSCXwCE4xFQL9ekVT7rpr7" />
+        <!-- 打包生成的参数end -->
+
+        <!--  悟饭的参数 -->
+        <meta-data
+            android:name="PA_APP_KEY"
+            android:value="16002994" />
+
+        <meta-data
+            android:name="PA_APP_PRIVATE_KEY"
+            android:value="3ee0a347a5e7a173" />
+
+    </application>
+
+</manifest>

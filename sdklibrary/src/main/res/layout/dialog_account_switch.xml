@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/widget_size_210"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/u9_gray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/top_tv"
+        android:layout_marginTop="@dimen/widget_size_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_size_20"
+        android:drawablePadding="@dimen/widget_size_3"
+        android:drawableLeft="@drawable/u9_ic_account_man"
+        android:textSize="@dimen/font_size_18"
+
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:textColor="#525252"
+        android:text="@string/hy_login_other_account" />
+
+<!--    <TextView
+        android:id="@+id/notice_tv"
+        android:layout_marginTop="@dimen/widget_size_12"
+        android:layout_below="@+id/top_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_size_12"
+        android:visibility="invisible"
+        android:textColor="@color/hy_login_btn_black"
+        android:layout_marginLeft="@dimen/widget_size_12"
+        android:text="绑定账户可以保护您的游戏进度，并使用多设备进行游戏" />-->
+
+
+    <LinearLayout
+        android:id="@+id/btn_login"
+        android:layout_width="@dimen/widget_size_270"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:background="@drawable/u9_shape_button" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/u9_hygame_login_logo"/>
+
+    </LinearLayout>
+
+
+    <!--<LinearLayout
+        android:layout_width="@dimen/widget_size_270"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <Button
+            android:id="@+id/btn_login"
+            style="@style/pop_button"
+            android:layout_gravity="center"
+            android:text="登录" />
+
+        <Button
+            android:id="@+id/btn_facebook"
+            style="@style/pop_button"
+            android:layout_gravity="center"
+            android:layout_marginTop="10.0dip"
+            android:text="facebook登录"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_google"
+            style="@style/pop_button"
+            android:layout_gravity="center"
+            android:layout_marginTop="10.0dip"
+            android:text="google登录"
+            android:visibility="gone" />
+    </LinearLayout>-->
+
+
+</RelativeLayout>

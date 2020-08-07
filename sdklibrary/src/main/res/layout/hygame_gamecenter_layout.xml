@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/u9pay_title_layout"
+        layout="@layout/hygame_title_bar" />
+    
+     <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/u9pay_webview_prb"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        />
+    
+    <WebView 
+        android:id="@+id/u9pay_webview"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="loading">加载中...</string>
+
+    <string name="hy_account">账户：</string>
+    <string name="hy_password">密码：</string>
+    <string name="hy_agree_user_contract">  我同意此用户协议</string>
+    <string name="hy_login_and_bind">登录并绑定</string>
+
+    <string name="hy_bind_account">绑定账户</string>
+    <string name="hy_bound">已绑定</string>
+    <string name="hy_bound_message">您已经成功注册并绑定了您的账号，现在可以在其他设备进行游戏了</string>
+
+    <string name="hy_account_setting">账户设置</string>
+    <string name="hy_account_bind_message">绑定账户可以保护您的游戏进度，并使用多设备进行游戏</string>
+
+    <string name="hy_switch_account">切换账户</string>
+    <string name="hy_login_other_account">登录其他账号</string>
+
+    <!--注册成功展示界面-->
+
+
+    <string name="alert">提示</string>
+
+    <string name="google_app_id">1023661811102-shdegd71u401394vm66v5qa0o6atts8u.apps.googleusercontent.com</string>
+
+    <string name="u9pay_get_pay_info">正在生成订单 ...</string>
+    <string name="u9pay_check_pay_result">检查支付结果</string>
+    <string name="u9pay_pay_amount">账号:</string>
+
+    <string name="u9pay_pay">支付</string>
+
+    <string name="u9pay_exit_pay_hint">是否取消购买？</string>
+
+    <string name="u9pay_quite_game">退出</string>
+    <string name="u9pay_play_game">返回</string>
+    <string name="u9pay_confirm_btn">确定</string>
+    <string name="u9pay_cannel_btn">取消</string>
+    <string name="u9pay_close_btn">关闭</string>
+</resources>
