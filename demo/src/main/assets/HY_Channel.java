@@ -6,16 +6,17 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.huyu.googlepay.util.AppsFlyerActionHelper;
 import com.huyu.sdk.HYPlatform;
 import com.huyu.sdk.base.BaseChannel;
-
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.GameRoleInfo;
-import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.bean.HYUser;
+import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.listener.CallbackListener;
 import com.huyu.sdk.listener.LoginCallBackListener;
@@ -31,6 +32,8 @@ public class HY_Channel extends BaseChannel {
     public static final String TAG = HY_Channel.class.getSimpleName();
 
     static HY_Channel instance;
+
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public static HY_Channel getInstance() {
         if (instance == null) {
@@ -52,7 +55,7 @@ public class HY_Channel extends BaseChannel {
         HYPlatform.getInstance().init(activity, new HYPlatform.SDKListener() {
             @Override
             public void onSwitchAccount(HYUser user) {
-                Logger.i(TAG,"onSwitchAccount");
+                Logger.i(TAG, "onSwitchAccount");
                 mHYSDKListener.onSwitchAccount(user);
 //                //cp更新数据，并重新跳转到登录界面进行登录操作
             }
@@ -76,7 +79,7 @@ public class HY_Channel extends BaseChannel {
                     listener.onLoginSuccess(user);
                 } else if (resultCode == ResultCode.Fail) {
                     listener.onLoginFailed(msg);
-                }else if(resultCode ==ResultCode.CANCEL){
+                } else if (resultCode == ResultCode.CANCEL) {
                     listener.onLoginCancel();
                 }
             }
@@ -122,6 +125,17 @@ public class HY_Channel extends BaseChannel {
                 Logger.i(TAG, "支付接口 ： " + resultCode + " ,msg : " + msg);
                 switch (resultCode) {
                     case SUCCESS:
+                        payParams.setOrderId(msg);
+                        HYPlatform.getInstance().checkPayResult(activity, payParams.getOrderId(), new CallbackListener() {
+                            @Override
+                            public void onResult(ResultCode resultCode, String msg, String data) {
+                                if (resultCode == ResultCode.SUCCESS) {
+                                    listener.onPaySuccess(payParams);
+                                } else if (resultCode == ResultCode.Fail) {
+                                    listener.onPayFailed(msg);
+                                }
+                            }
+                        });
                         listener.onPaySuccess(payParams);
                         break;
                     case Fail:
@@ -133,8 +147,20 @@ public class HY_Channel extends BaseChannel {
                 }
             }
         });
-
     }
+
+/*    private void checkPayResult(Activity activity, final PayParams payParams, final PayCallbackListener listener) {
+        HYPlatform.getInstance().checkPayResult(activity, payParams.getOrderId(), new CallbackListener() {
+            @Override
+            public void onResult(ResultCode resultCode, String msg, String data) {
+                if (resultCode == ResultCode.SUCCESS) {
+                    listener.onPaySuccess(payParams);
+                } else if (resultCode == ResultCode.Fail) {
+                    listener.onPayFailed(msg);
+                }
+            }
+        });
+    }*/
 
     @Override
     public void applicationDestroy(Activity activity) {

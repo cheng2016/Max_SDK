@@ -12,6 +12,7 @@ import com.huyu.sdk.data.config.ChannelInfoHelper;
 import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.XmlConfigHelper;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.util.AppUtils;
 import com.huyu.sdk.util.HY_Log_TimeUtils;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.OkHttpUtils;
@@ -37,7 +38,6 @@ public class Sdk implements ISdk {
         return instance;
     }
 
-
     public void initApp(Context context) {
         //必须先初始化文件日志类
         Logger.init(context);
@@ -47,6 +47,8 @@ public class Sdk implements ISdk {
         ChannelInfoHelper.getInstance().init(context);
         //获取设备信息
         PhoneInfoHelper.getInstance().init(context);
+        //获取app信息
+        AppUtils.getInstance().init(context);
     }
 
     private String imeiWeb = "";
@@ -130,10 +132,7 @@ public class Sdk implements ISdk {
 
     public void onStop() {}
 
-    public void onDestroy() {
-        //释放资源
-        OkHttpUtils.release();
-    }
+    public void onDestroy() {}
 
 
     private void resetU9Device(Context context) {

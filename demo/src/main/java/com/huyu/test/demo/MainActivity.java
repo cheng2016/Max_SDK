@@ -15,12 +15,12 @@ import android.widget.Toast;
 import com.huyu.sdk.HYSDK;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.GameRoleInfo;
-import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.bean.HYUser;
+import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.listener.HYSDKListener;
 import com.huyu.sdk.listener.LoginCallBackListener;
 import com.huyu.sdk.listener.PayCallbackListener;
-import com.huyu.sdk.listener.HYSDKListener;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.ToastUtils;
 
@@ -209,12 +209,11 @@ public class MainActivity extends Activity implements OnClickListener {
         payParams.setExchange(10);// 兑换率
         payParams.setProductId("com.mon20190902.gp299.99");// google后台配置的商品id
         payParams.setProductName("60钻石");// 商品名称
-
         payParams.setBody("获得60钻石");// 商品描述
         payParams.setCallBackUrl("");// 回调地址
         payParams.setGameOrderId("game" + time);// 订单号
         payParams.setAppExtInfo("支付回调拓展字段");
-        payParams.setPayChannel("");
+//        payParams.setPayChannel("");
 
         HYSDK.getInstance().pay(MainActivity.this, payParams, new PayCallbackListener() {
             @Override
@@ -282,6 +281,7 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onStart();
         HYSDK.getInstance().onStart(this);
     }
+
 
     @Override
     protected void onResume() {

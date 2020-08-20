@@ -23,7 +23,7 @@ import com.huyu.sdk.util.Logger;
 /**
  * 文件名：TestChannel
  * 创建日期：2020/8/6 18:46
- * 描述：测试渠道
+ * 描述：TODO
  */
 public class Test_Channel extends BaseChannel {
     public static final String TAG = Test_Channel.class.getSimpleName();
@@ -48,6 +48,7 @@ public class Test_Channel extends BaseChannel {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(activity, "第三方sdk登录成功，进行U9服务器校验", Toast.LENGTH_SHORT).show();
+
                         HYPlatform.getInstance().guestLogin(activity, new CallbackListener() {
                             @Override
                             public void onResult(ResultCode resultCode, String msg, String data) {

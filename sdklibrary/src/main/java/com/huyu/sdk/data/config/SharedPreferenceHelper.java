@@ -129,7 +129,7 @@ public class SharedPreferenceHelper {
     }
 
     public static SharedPreferences getPreference() {
-        return U9Platform.getInstance().getContext().getSharedPreferences("u9", Context.MODE_PRIVATE);
+        return U9Platform.getInstance().getApplication().getSharedPreferences("u9", Context.MODE_PRIVATE);
     }
 
     public static String getPsd() {

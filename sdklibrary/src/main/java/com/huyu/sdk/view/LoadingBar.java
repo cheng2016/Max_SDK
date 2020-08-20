@@ -5,16 +5,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.huyu.sdk.R;
+import com.huyu.sdk.util.ResourceHelper;
 
 public class LoadingBar extends Dialog {
   ObjectAnimator animator;
 
-  public LoadingBar(Context paramContext) {
-    super(paramContext, R.style.base_pop);
-    setContentView(R.layout.loading);
+  public LoadingBar(Context context) {
+    super(context, ResourceHelper.getStyleId(context,"base_pop"));
+    setContentView(ResourceHelper.getLayoutId(context,"loading"));
 
-    this.animator = ObjectAnimator.ofFloat((ImageView)findViewById(R.id.progressBar), "rotation", new float[] { 0.0F, 360.0F });
+    this.animator = ObjectAnimator.ofFloat((ImageView)findViewById(ResourceHelper.getId(context,"progressBar")), "rotation", new float[] { 0.0F, 360.0F });
     this.animator.setDuration(500L);
     this.animator.setRepeatCount(-1);
     this.animator.start();

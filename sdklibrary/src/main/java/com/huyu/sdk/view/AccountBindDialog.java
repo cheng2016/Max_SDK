@@ -9,9 +9,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.huyu.sdk.HYPlatform;
-import com.huyu.sdk.R;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.util.ResourceHelper;
 import com.huyu.sdk.util.ToastUtils;
 
 /**
@@ -33,11 +33,11 @@ public class AccountBindDialog extends Dialog   {
     private CheckBox checkbox_contract;
 
     public AccountBindDialog(Context context, CallbackListener listener) {
-        super(context, R.style.base_pop);
+        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context,"dialog_account_bind"));
 
         this.context = context;
         setCanceledOnTouchOutside(false);
-        setContentView(R.layout.dialog_account_bind);
 
         this.mCallbackListener = listener;
 
@@ -45,16 +45,16 @@ public class AccountBindDialog extends Dialog   {
     }
 
     void initView() {
-        this.et_register_account = (EditText) findViewById(R.id.et_register_account);
-        this.et_register_psd = (EditText) findViewById(R.id.et_register_psd);
-        this.btn_register = (Button) findViewById(R.id.btn_register);
+        this.et_register_account = (EditText) findViewById(ResourceHelper.getId(context,"et_register_account"));
+        this.et_register_psd = (EditText) findViewById(ResourceHelper.getId(context,"et_register_psd"));
+        this.btn_register = (Button) findViewById(ResourceHelper.getId(context,"btn_register"));
         this.btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 register();
             }
         });
-        this.checkbox_contract = findViewById(R.id.checkbox_contract);
+        this.checkbox_contract = findViewById(ResourceHelper.getId(context,"checkbox_contract"));
         this.checkbox_contract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

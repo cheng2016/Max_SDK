@@ -5,23 +5,24 @@ import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.huyu.sdk.impl.Pay;
-import com.huyu.sdk.impl.Sdk;
-import com.huyu.sdk.impl.User;
 import com.huyu.sdk.data.Constant;
 import com.huyu.sdk.data.HttpUrl;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.GameRoleInfo;
-import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.bean.HYUser;
+import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.data.config.XmlConfigHelper;
+import com.huyu.sdk.impl.Pay;
+import com.huyu.sdk.impl.Sdk;
+import com.huyu.sdk.impl.User;
 import com.huyu.sdk.listener.CallbackListener;
 import com.huyu.sdk.util.AppUtils;
 import com.huyu.sdk.util.HY_Log_TimeUtils;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.NetworkUtil;
+import com.huyu.sdk.util.OkHttpUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,12 +34,17 @@ import java.util.Map;
  * U9Platform  平台
  */
 public class U9Platform {
-    public final static String TAG = U9Platform.class.getSimpleName();
+    public static final String TAG = U9Platform.class.getSimpleName();
     private static U9Platform instance;
 
     public static CallbackListener payCallback;
     public static PayParams mPayParams;
-    private Context context;
+
+    public Context mApplication;
+
+    public Context getApplication() {
+        return mApplication;
+    }
 
     private U9Platform() {
     }
@@ -49,15 +55,14 @@ public class U9Platform {
         return instance;
     }
 
-
     /**
      * 本地信息初始化
      *
-     * @param atc
+     * @param application
      */
-    public void initApplication(Application atc) {
-        Logger.i(TAG, "init");
-        Sdk.getInstance().initApp(atc);
+    public void initApplication(Application application) {
+        this.mApplication = application;
+        Sdk.getInstance().initApp(application);
     }
 
     /**
@@ -67,7 +72,6 @@ public class U9Platform {
      * @param sdkInitListener
      */
     public void initActivity(Activity context, CallbackListener sdkInitListener) {
-        this.context = context;
         if (!NetworkUtil.isNetworkAvailable(context)) {
             if (sdkInitListener != null)
                 sdkInitListener.onResult(ResultCode.Fail, "网络连接失败", "");
@@ -145,7 +149,7 @@ public class U9Platform {
         User.getInstance().verifylogin(context, getLoginInfoRequest(user), listener);
     }
 
-    public static Map<String, String> getLoginInfoRequest( HYUser user) {
+    public static Map<String, String> getLoginInfoRequest(HYUser user) {
         JSONObject phoneInfo = new JSONObject();
         try {
             phoneInfo.put("Imei", PhoneInfoHelper.imei);
@@ -153,7 +157,7 @@ public class U9Platform {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("ChannelId", Constant.CHANNEL_CODE);
         map.put("IsDebug", Constant.isDebug);
         map.put("Token", user.token);
@@ -180,7 +184,8 @@ public class U9Platform {
 
     public void roleReport(Context context, GameRoleInfo gameRoleInfo, CallbackListener listener) {
         Logger.i(TAG, "roleReport");
-        Map<String, String> map = commonRequestData(new HashMap<String, String>());
+        Map<String, String> paramsMap = new HashMap<>();
+        Map<String, String> map = commonRequestData(paramsMap);
         map.put("u9uid", SharedPreferenceHelper.getChannelUserId());
         map.put("role_id", gameRoleInfo.getRoleId());
         map.put("role_name", gameRoleInfo.getRoleName());
@@ -194,7 +199,7 @@ public class U9Platform {
     }
 
     public static Map<String, String> getPayInfoRequest(PayParams mPayParsms, HYUser mHYUserVo) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("ChannelId", Constant.CHANNEL_CODE);
         map.put("UserId", mHYUserVo.userId);
         map.put("ProductId", Constant.APPID);
@@ -217,49 +222,12 @@ public class U9Platform {
         return map;
     }
 
-    public void startVerifyPay(final Context context, final PayParams payParams, final HYUser user, final CallbackListener payListener) {
+    public void startPay(final Context context, final PayParams payParams, final HYUser user, final CallbackListener payListener) {
         Logger.i(TAG, "startVerifyPay");
         Pay.getInstance().startPay(context, getPayInfoRequest(payParams, user), new CallbackListener() {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {
-                payListener.onResult(resultCode,msg,data);
-            }
-        });
-    }
-
-    public void startPay(final Context context, final PayParams payParams, final CallbackListener payListener) {
-        Logger.i(TAG, "startPay");
-        Map<String, String> map = new HashMap<>();
-        map.put("ChannelId", Constant.CHANNEL_CODE);
-        map.put("UserId", SharedPreferenceHelper.getUserId());
-        map.put("ProductId", Constant.APPID);
-        map.put("ProductOrderId", payParams.getGameOrderId());
-        map.put("Amount", payParams.getAmount() + "");
-        map.put("DeviceId", PhoneInfoHelper.deviceId);
-        map.put("CallbackUrl", payParams.getCallBackUrl());
-        map.put("AppExt", payParams.getAppExtInfo());
-        map.put("Aid", Constant.PLAN_ID);
-        map.put("PayChannel", payParams.getPayChannel());
-        map.put("IsSwitchPayChannel", 1 + "");
-        Pay.getInstance().startPay(context, map, new CallbackListener() {
-            @Override
-            public void onResult(ResultCode resultCode, String msg, String data) {
-                if (resultCode == ResultCode.SUCCESS) {
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(data);
-                        String public_key = jsonObject.optString("public_key");
-//                        String g_pay_public_key = jsonObject.optString("g_pay_public_key");
-                        payParams.setGooglePublicKey(public_key);
-//                        U9Platform.getInstance().startGooglePayActivity(context, payParams, payListener);
-
-                        payListener.onResult(ResultCode.SUCCESS, msg, data);
-                    } catch (JSONException e) {
-                        Logger.e(TAG, "startPay", e);
-                    }
-                } else {
-                    payListener.onResult(resultCode, msg, data);
-                }
+                payListener.onResult(resultCode, msg, data);
             }
         });
     }
@@ -281,11 +249,6 @@ public class U9Platform {
         Sdk.getInstance().logReport(params);
     }
 
-    //sdk退出
-    public void exit(Context context, CallbackListener listener) {
-
-    }
-
     public void onStart() {
         Sdk.getInstance().onStart();
     }
@@ -304,11 +267,11 @@ public class U9Platform {
 
     public void onDestroy() {
         Sdk.getInstance().onDestroy();
+        //释放资源
+        OkHttpUtils.release();
+
     }
 
-    public Context getContext() {
-        return context;
-    }
 
     public Map<String, String> commonRequestData(Map<String, String> paramsMap) {
         paramsMap.put("type", "0");
@@ -318,7 +281,7 @@ public class U9Platform {
         paramsMap.put("aid", Constant.PLAN_ID);
         paramsMap.put("app_id", Constant.APPID);
         paramsMap.put("app", Constant.APPID);
-        paramsMap.put("appversion", AppUtils.getVersionName(context));
+        paramsMap.put("appversion", AppUtils.APP_NAME);
         paramsMap.put("imei", PhoneInfoHelper.imei);
         paramsMap.put("channel", Constant.CHANNEL_CODE);
         paramsMap.put("channel_id", Constant.CHANNEL_CODE);
@@ -327,4 +290,5 @@ public class U9Platform {
         paramsMap.put("sdk_version", Constant.HY_SDK_VERSION_CODE);
         return paramsMap;
     }
+
 }

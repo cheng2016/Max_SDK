@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.huyu.sdk.R;
+import com.huyu.sdk.util.ResourceHelper;
 
 
-public class FailPop extends Dialog implements View.OnClickListener {
+public class FailPop extends Dialog {
     public static FailPop instance;
 
     private Button btn_return;
@@ -21,12 +21,12 @@ public class FailPop extends Dialog implements View.OnClickListener {
 
     private TextView tv_fail;
 
-    private FailPop(Context paramContext, String paramString) {
-        super(paramContext, R.style.base_pop);
-        this.context = paramContext;
+    private FailPop(Context context, String paramString) {
+        super(context, ResourceHelper.getStyleId(context, "base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context, "pop_fail"));
+        this.context = context;
         this.text = paramString;
         setCanceledOnTouchOutside(false);
-        setContentView(R.layout.pop_fail);
         initview();
         setListener();
     }
@@ -37,23 +37,24 @@ public class FailPop extends Dialog implements View.OnClickListener {
     }
 
     private void initview() {
-        this.tv_fail = (TextView) findViewById(R.id.tv_fail);
-        this.btn_return = (Button) findViewById(R.id.btn_return);
+        this.tv_fail = (TextView) findViewById(ResourceHelper.getId(context, "tv_fail"));
+        this.btn_return = (Button) findViewById(ResourceHelper.getId(context, "btn_return"));
+
         this.tv_fail.setText(this.text);
         (new InterThread(6000L, 1000L)).start();
     }
 
     private void setListener() {
-        this.btn_return.setOnClickListener(this);
+        this.btn_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
     }
 
     public void cancel() {
         super.cancel();
-    }
-
-    public void onClick(View paramView) {
-        if (paramView.getId() == R.id.btn_return)
-            cancel();
     }
 
     class InterThread extends CountDownTimer {

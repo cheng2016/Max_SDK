@@ -9,10 +9,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.huyu.sdk.HYPlatform;
-import com.huyu.sdk.R;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.util.ResourceHelper;
 import com.huyu.sdk.util.ToastUtils;
 
 /**
@@ -39,10 +39,10 @@ public class AccountLoginDialog extends Dialog {
     public static final int ACCOUNT_SWITCH = 1;
 
     public AccountLoginDialog(Context context, CallbackListener listener) {
-        super(context, R.style.base_pop);
+        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context,"dialog_account_login"));
         this.context = context;
         setCanceledOnTouchOutside(false);
-        setContentView(R.layout.dialog_account_login);
         this.listener = listener;
         initView();
         this.loginType = ACCOUNT_SWITCH;
@@ -56,16 +56,16 @@ public class AccountLoginDialog extends Dialog {
     }
 
     void initView() {
-        this.et_register_account = (EditText) findViewById(R.id.et_register_account);
-        this.et_register_psd = (EditText) findViewById(R.id.et_register_psd);
-        this.btn_register = (Button) findViewById(R.id.btn_register);
+        this.et_register_account = (EditText) findViewById(ResourceHelper.getId(context,"et_register_account"));
+        this.et_register_psd = (EditText) findViewById(ResourceHelper.getId(context,"et_register_psd"));
+        this.btn_register = (Button) findViewById(ResourceHelper.getId(context,"btn_register"));
         this.btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login();
             }
         });
-        this.checkbox_contract = findViewById(R.id.checkbox_contract);
+        this.checkbox_contract = findViewById(ResourceHelper.getId(context,"checkbox_contract"));
         this.checkbox_contract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

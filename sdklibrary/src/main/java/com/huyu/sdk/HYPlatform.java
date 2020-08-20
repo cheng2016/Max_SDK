@@ -7,23 +7,23 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.huyu.googlepay.HY_GameCenterActivity;
-import com.huyu.sdk.impl.Pay;
-import com.huyu.sdk.impl.Sdk;
-import com.huyu.sdk.impl.User;
 import com.huyu.sdk.data.Constant;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.GameRoleInfo;
-import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.bean.HYUser;
+import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
+import com.huyu.sdk.impl.Pay;
+import com.huyu.sdk.impl.Sdk;
+import com.huyu.sdk.impl.User;
 import com.huyu.sdk.listener.CallbackListener;
 import com.huyu.sdk.listener.LoginCallBackListener;
-
 import com.huyu.sdk.util.AppUtils;
 import com.huyu.sdk.util.HY_Log_TimeUtils;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.MD5Utils;
+import com.huyu.sdk.util.OkHttpUtils;
 import com.huyu.sdk.view.AccountCenterDialog;
 import com.huyu.sdk.view.AccountLoginDialog;
 
@@ -40,11 +40,7 @@ import java.util.Map;
  */
 public class HYPlatform {
     public final static String TAG = U9Platform.class.getSimpleName();
-
-    static HYPlatform instance;
-
-    private Context context;
-
+    private static HYPlatform instance;
     private SDKListener mSDKListener;
 
     public static HYPlatform getInstance() {
@@ -64,7 +60,6 @@ public class HYPlatform {
      * @param listener
      */
     public void login(Context ctx, CallbackListener listener) {
-        this.context = ctx;
         Logger.i(TAG, "login");
         HY_Log_TimeUtils.setStartLogin();
         logReport("3", "开始登录SDK", HY_Log_TimeUtils.startLogin - HY_Log_TimeUtils.initSdkSuccess + "");
@@ -73,7 +68,7 @@ public class HYPlatform {
             if (TextUtils.isEmpty(SharedPreferenceHelper.getChannelUserName())) {
                 guestLogin(ctx, listener);
             } else {
-                Dialog dialog = new AccountLoginDialog(context, listener, AccountLoginDialog.ACCOUNT_LOGIN);
+                Dialog dialog = new AccountLoginDialog(ctx, listener, AccountLoginDialog.ACCOUNT_LOGIN);
                 dialog.show();
             }
         } else {
@@ -83,7 +78,7 @@ public class HYPlatform {
 
     //游客登录
     public void guestLogin(Context context, CallbackListener listener) {
-        User.getInstance().guestLogin(context, commonRequestData(context, new HashMap<String, String>()), listener);
+        User.getInstance().guestLogin(context, commonRequestData(new HashMap<String, String>()), listener);
     }
 
     //自动登录
@@ -384,10 +379,9 @@ public class HYPlatform {
 
     public void onDestroy() {
         Sdk.getInstance().onDestroy();
-    }
+        //释放资源
+        OkHttpUtils.release();
 
-    public Context getContext() {
-        return context;
     }
 
     public Map<String, String> commonRequestData(Map<String, String> paramsMap) {
@@ -398,25 +392,7 @@ public class HYPlatform {
         paramsMap.put("aid", Constant.PLAN_ID);
         paramsMap.put("app_id", Constant.APPID);
         paramsMap.put("app", Constant.APPID);
-        paramsMap.put("appversion", AppUtils.getVersionName(context));
-        paramsMap.put("imei", PhoneInfoHelper.imei);
-        paramsMap.put("channel", Constant.CHANNEL_CODE);
-        paramsMap.put("channel_id", Constant.CHANNEL_CODE);
-        paramsMap.put("sub_channel", Constant.CHANNEL_ID);
-        paramsMap.put("sub_channel_id", Constant.CHANNEL_ID);
-        paramsMap.put("sdk_version", Constant.HY_SDK_VERSION_CODE);
-        return paramsMap;
-    }
-
-    public Map<String, String> commonRequestData(Context context, Map<String, String> paramsMap) {
-        paramsMap.put("type", "0");
-        if (!TextUtils.isEmpty(PhoneInfoHelper.deviceId)) {
-            paramsMap.put("device", PhoneInfoHelper.deviceId);
-        }
-        paramsMap.put("aid", Constant.PLAN_ID);
-        paramsMap.put("app_id", Constant.APPID);
-        paramsMap.put("app", Constant.APPID);
-        paramsMap.put("appversion", AppUtils.getVersionName(context));
+        paramsMap.put("appversion", AppUtils.APP_NAME);
         paramsMap.put("imei", PhoneInfoHelper.imei);
         paramsMap.put("channel", Constant.CHANNEL_CODE);
         paramsMap.put("channel_id", Constant.CHANNEL_CODE);

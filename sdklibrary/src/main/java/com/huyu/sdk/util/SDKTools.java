@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -150,7 +149,7 @@ public class SDKTools {
 
 
     public static Map<String, String> collectDeviceInfo(Context ctx) {
-        Map<String, String> info = new HashMap<String, String>();
+        Map<String, String> info = new HashMap<>();
         try {
             PackageManager pm = ctx.getPackageManager();
             PackageInfo p = pm.getPackageInfo(ctx.getPackageName(), 1);
@@ -182,7 +181,7 @@ public class SDKTools {
 
 
     public static String getSystemKeyboard(final Activity activity) {
-        FutureTask<String> futureResult = new FutureTask<String>(new Callable<String>() {
+        FutureTask<String> futureResult = new FutureTask<>(new Callable<String>() {
             @SuppressLint({"NewApi"})
             public String call() throws Exception {
                 ClipboardManager cmb = (ClipboardManager) activity.getSystemService("clipboard");
@@ -193,16 +192,12 @@ public class SDKTools {
             }
         });
 
-
         activity.runOnUiThread(futureResult);
-
         try {
             return (String) futureResult.get();
         } catch (InterruptedException e) {
-
             e.printStackTrace();
         } catch (ExecutionException e) {
-
             e.printStackTrace();
         }
 
@@ -259,19 +254,15 @@ public class SDKTools {
      */
     public static Object getMainClassByChannelName(Context context)
             throws ClassNotFoundException, NoSuchMethodException,
-            IllegalAccessException, InvocationTargetException {
-        try {
-            String hy_channelName = getMetaData(context,"HY_CHANNEL_TYPE");
-            Class<?> channelNameclazz = Class.forName("com.huyu.game." + hy_channelName +"_Channel");
-            Method method = channelNameclazz.getMethod("getInstance");
-            Object object = method.invoke(method);
-            return object;
-        } catch (Exception e) {
-            return null;
-        }
-
+            IllegalAccessException, InvocationTargetException, InstantiationException {
+        String hy_channelName = getMetaData(context, "HY_CHANNEL_TYPE");
+        String className = "com.huyu.game" + "." + hy_channelName + "_Channel";
+        Log.i("Logger ChannelName", "className : " + className);
+        Class channelNameclazz = Class.forName(className);
+//            Method method = channelNameclazz.getMethod("getInstance");
+        Object object = channelNameclazz.newInstance();
+        return object;
     }
-
 
 
     public static String getApplicationName(Context context) {
@@ -287,7 +278,42 @@ public class SDKTools {
         return (String) packageManager.getApplicationLabel(applicationInfo);
     }
 
+    /**
+     * 适配 Android 10 根据硬件信息拼凑出uuid
+     *
+     * @return
+     */
+   /* public static String getUUID() {
+        String serial = null;
+        String m_szDevIDShort = "35" +
+                Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
 
+                Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
+
+                Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
+
+                Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
+
+                Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
+
+                Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
+
+                Build.USER.length() % 10; //13 位
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                serial = android.os.Build.getSerial();
+            } else {
+                serial = Build.SERIAL;
+            }
+            //API>=9 使用serial号
+            return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+        } catch (Exception exception) {
+            //serial需要一个初始化
+            serial = "serial"; // 随便一个初始化
+        }
+        //使用硬件信息拼凑出来的15位号码
+        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+    }*/
     public static ProgressDialog showProgressTip(Activity context, String title) {
         ProgressDialog loadingActivity = new ProgressDialog(context);
         loadingActivity.setIndeterminate(true);
@@ -310,6 +336,18 @@ public class SDKTools {
         }
         dialog.dismiss();
         dialog = null;
+    }
+
+    public static int getId(Context paramActivity, String id) {
+        String packageName = paramActivity.getPackageName();
+        return paramActivity.getResources()
+                .getIdentifier(id, "id", packageName);
+    }
+
+    public static int getLayoutId(Context paramActivity, String id) {
+        String packageName = paramActivity.getPackageName();
+        return paramActivity.getResources().getIdentifier(id, "layout",
+                packageName);
     }
 }
 

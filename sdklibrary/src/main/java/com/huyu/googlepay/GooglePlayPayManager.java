@@ -3,7 +3,6 @@ package com.huyu.googlepay;
 import android.app.Activity;
 import android.text.TextUtils;
 
-
 import com.huyu.googlepay.util.AppsFlyerActionHelper;
 import com.huyu.googlepay.util.IabHelper;
 import com.huyu.googlepay.util.IabResult;

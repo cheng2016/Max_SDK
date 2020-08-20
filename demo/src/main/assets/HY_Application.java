@@ -1,4 +1,4 @@
-package com.huyu.sdk.base;
+package com.huyu.game;
 
 import android.app.Application;
 

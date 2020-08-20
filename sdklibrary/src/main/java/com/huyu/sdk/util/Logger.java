@@ -39,9 +39,11 @@ public class Logger {
 
     private static final String LINE_SEP = System.getProperty("line.separator");
 
-    private static final String LOG_FORMAT = "%s  %d/%d/%s  %c/%s  %s：";
+    private static final String LOG_FORMAT = "%s  %d-%d/%s  %c/%s  %s：";
 
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
+
+    private static boolean hasPermissions = false;
 
     private static boolean isWriter = false;
 
@@ -49,17 +51,13 @@ public class Logger {
 
     private static Level currentLevel = Level.VERBOSE;
 
-    private static String defaultTag = "HY Logger";
+    private static String defaultTag = "HY";
 
     private static String pkgName;
-
-    private static int pkgCode;
 
     private static int myPid;
 
     private static String defaultDir;
-
-    private static Context mContext;
 
     /**
      * application context
@@ -67,27 +65,21 @@ public class Logger {
      * @param context
      */
     public static void init(Context context) {
-        mContext = context;
-        pkgName = mContext.getPackageName();
+        if (lacksPermissions(context, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Log.e(TAG, "很抱歉，没有读写权限，无法写入SD卡中");
+            hasPermissions = false;
+        }else {
+            hasPermissions = true;
+        }
+        pkgName = context.getPackageName();
         myPid = Process.myPid();
-
         if (isSDCardOK()) {
             defaultDir = Environment.getExternalStorageDirectory() + File.separator + pkgName + File.separator + "logger" + File.separator;
         } else {
-            defaultDir = mContext.getCacheDir().getAbsolutePath() + File.separator + pkgName + File.separator + "logger" + File.separator;
+            defaultDir = context.getCacheDir().getAbsolutePath() + File.separator + pkgName + File.separator + "logger" + File.separator;
         }
     }
 
-/*    static {
-        pkgName = mContext.getPackageName();
-        myPid = Process.myPid();
-        pkgCode = AppUtil.getVersionCode(mContext);
-        if (isSDCardOK()) {
-            defaultDir = Environment.getExternalStorageDirectory() + "/logger/";
-        } else {
-            defaultDir = mContext.getCacheDir().getAbsolutePath() + "/logger";
-        }
-    }*/
 
     public static void setIsWriter(boolean isWriter) {
         Logger.isWriter = isWriter;
@@ -176,7 +168,7 @@ public class Logger {
         }
         if (isDebug)
             Log.println(type, TAG, tag + " " + msg);
-        if (isWriter) {
+        if (isWriter && hasPermissions) {
             write(tag, msg, type);
         }
     }
@@ -188,7 +180,7 @@ public class Logger {
 
         if (isDebug)
             Log.println(type, TAG, tag + " " + msg + " " + Log.getStackTraceString(throwable));
-        if (isWriter) {
+        if (isWriter && hasPermissions) {
             write(tag, msg, type, throwable);
         }
     }
@@ -204,7 +196,7 @@ public class Logger {
         String timeStamp = LOG_TIME_FORMAT.format(new Date(System.currentTimeMillis()));
         String date = timeStamp.substring(0, 10);
         String fullPath = defaultDir + date + ".txt";
-        StringBuilder sb = new StringBuilder(String.format(LOG_FORMAT, timeStamp, myPid, pkgCode, pkgName, T[level - V], defaultTag, tag));
+        StringBuilder sb = new StringBuilder(String.format(LOG_FORMAT, timeStamp, myPid, myPid, pkgName, T[level - V], defaultTag, tag));
         sb.append(msg);
         sb.append(LINE_SEP);
         //打印到文件日志中
@@ -223,7 +215,7 @@ public class Logger {
         String timeStamp = LOG_TIME_FORMAT.format(new Date(System.currentTimeMillis()));
         String date = timeStamp.substring(0, 10);
         String fullPath = defaultDir + date + ".txt";
-        StringBuilder sb = new StringBuilder(String.format(LOG_FORMAT, timeStamp, myPid, pkgCode, pkgName, T[level - V], defaultTag, tag));
+        StringBuilder sb = new StringBuilder(String.format(LOG_FORMAT, timeStamp, myPid, myPid, pkgName, T[level - V], defaultTag, tag));
         sb.append(msg);
         sb.append(LINE_SEP);
         sb.append(saveCrashInfo(throwable));
@@ -248,10 +240,6 @@ public class Logger {
     }
 
     private static void input2File(final String input, final String fullPath) {
-        if (lacksPermissions(mContext, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Log.e(TAG, "很抱歉，没有读写权限，无法写入SD卡中");
-            return;
-        }
         if (!createOrExistsFile(fullPath)) {
             Log.e("Logger", "create " + fullPath + " failed!");
             return;

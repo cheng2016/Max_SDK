@@ -71,7 +71,6 @@ public class ScreenUtils {
 				view.getMeasuredHeight());
 		newb.recycle();
 		newb = null;
-
 		return b;
 	}
 
@@ -174,7 +173,7 @@ public class ScreenUtils {
 					+ DateUtils.getFormatMilisDate() + ".jpg";
 			File file = new File(GAME_DIR, fileName);
 			ScreenUtils.getInstance(context).bitmapToFile(bmp, 100, file);
-			ToastUtils.show(context, Utils.getStringId(context,"hygame_toast_save_account"), Toast.LENGTH_LONG);
+			ToastUtils.show(context, "Screenshot successful", Toast.LENGTH_LONG);
 			noticeGallery(context, fileName, file);
 		} catch (Exception e) {
 		}

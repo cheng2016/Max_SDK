@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.huyu.sdk.view.LoadingBar;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
@@ -41,11 +43,13 @@ public class OkHttpUtils {
     private static final String TAG = "OkHttpUtil";
     private static volatile LoadingBar loadingBar;
     private static volatile boolean isSetLoading = false;
-
     private static volatile boolean isShowLoading = false;
     private static OkHttpClient client;
 
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
+
+    private OkHttpUtils() {
+    }
 
     static {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -57,40 +61,33 @@ public class OkHttpUtils {
                 .build();
     }
 
-    private OkHttpUtils() {
-    }
-
     public static OkHttpClient getClient() {
         return client;
     }
 
     public static void post(final Context context, String url, String jsonStr, final SimpleResponseHandler responseHandler) {
-        isSetLoading = true;
-        loadingBar = new LoadingBar(context);
         Logger.d(TAG, "post url:" + url + "\njsonStr:" + jsonStr);
+        isSetLoading = false;
         MediaType mediaType = MediaType.parse("text/x-markdown; charset=utf-8");
         Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(mediaType, Utils.generatingSign(jsonStr).toString()))
+                .post(RequestBody.create(mediaType, jsonStr))
                 .build();
-//        client.newCall(request).enqueue(responseHandler);
         Call call = client.newCall(request);
         EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
     }
 
-/*  public static void postNoLoading(String url, JSONObject jsonStr, final SimpleResponseHandler responseHandler) {
-    isSetLoading = false;
-    Logger.d(TAG, "postNoLoading url:" + url + "\njsonStr:" + jsonStr);
-//    MediaType mediaType = MediaType.parse("text/x-markdown; charset=utf-8");
-    MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-    Request request = new Request.Builder()
-            .url(url)
-            .post(RequestBody.create(mediaType, jsonStr.toString()))
-            .build();
-//    client.newCall(request).enqueue(responseHandler);
-    Call call = client.newCall(request);
-    EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
-  }*/
+    public static void post(String url, JSONObject jsonStr, final SimpleResponseHandler responseHandler) {
+        Logger.d(TAG, "postNoLoading url:" + url + "\njsonStr:" + jsonStr);
+        isSetLoading = false;
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(mediaType, jsonStr.toString()))
+                .build();
+        Call call = client.newCall(request);
+        EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
+    }
 
     public static void postLoading(Context context, String url, Map<String, String> paramsMap, final SimpleResponseHandler responseHandler) {
         Logger.d("postLoading", "url:" + url + " requestData: " + Arrays.asList(paramsMap).toString());
@@ -119,7 +116,6 @@ public class OkHttpUtils {
                 .url(url)
                 .post(formBody)
                 .build();
-//        client.newCall(request).enqueue(responseHandler);
         Call call = client.newCall(request);
         EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
     }
@@ -140,7 +136,6 @@ public class OkHttpUtils {
                 .url(url)
                 .post(formBody)
                 .build();
-//        client.newCall(request).enqueue(responseHandler);
         Call call = client.newCall(request);
         EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
     }
@@ -150,16 +145,17 @@ public class OkHttpUtils {
                 .get()
                 .url(url)
                 .build();
-//    client.newCall(request).enqueue(responseHandler); 异步
         Call call = client.newCall(request);
         EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
     }
 
     public static void release() {
-        if (loadingBar != null && loadingBar.isShowing()) {
-            loadingBar.cancel();
+        if ((isSetLoading && loadingBar != null) || isShowLoading) {
+            Logger.e(TAG, "SimpleResponseHandler    loadingBar hide");
+            loadingBar.dismiss();
+            loadingBar = null;
+            isShowLoading = false;
         }
-        loadingBar = null;
     }
 
     private static class ResponseRunnable implements Runnable {

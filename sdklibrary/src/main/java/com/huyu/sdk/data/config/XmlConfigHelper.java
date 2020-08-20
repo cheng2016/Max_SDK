@@ -20,7 +20,6 @@ public class XmlConfigHelper {
     public static final String TAG = XmlConfigHelper.class.getSimpleName();
     private static XmlConfigHelper instance;
 
-
     public String CHANNEL_ID = "default";
 
     public String GAME_ID = "default";

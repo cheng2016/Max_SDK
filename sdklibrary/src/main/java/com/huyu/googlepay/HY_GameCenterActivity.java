@@ -33,7 +33,6 @@ import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.listener.CallbackListener;
-
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.ToastUtils;
 

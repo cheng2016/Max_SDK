@@ -6,12 +6,11 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
-import com.huyu.sdk.HYPlatform;
-import com.huyu.sdk.R;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.listener.CallbackListener;
 import com.huyu.sdk.util.Logger;
+import com.huyu.sdk.util.ResourceHelper;
 
 /**
  * @author chengzj
@@ -31,10 +30,10 @@ public class AccountCenterDialog extends Dialog {
     private TextView bindTv;
 
     public AccountCenterDialog(Context context) {
-        super(context, R.style.base_pop);
+        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context,"dialog_acount_center"));
         this.context = context;
         setCanceledOnTouchOutside(false);
-        setContentView(R.layout.dialog_acount_center);
         initView();
         setListener();
     }
@@ -46,10 +45,11 @@ public class AccountCenterDialog extends Dialog {
     }
 
     void initView() {
-        bindLayout = findViewById(R.id.bind_layout);
-        switchTv = findViewById(R.id.switch_tv);
-        bindTv = findViewById(R.id.bind_tv);
-        String content = getContext().getString(R.string.hy_login_other_account) + "  <font color='#FF6100'>" + getContext().getString(R.string.hy_switch_account) + "</font>";
+
+        bindLayout = findViewById(ResourceHelper.getId(context,"bind_layout"));
+        switchTv = findViewById(ResourceHelper.getId(context,"switch_tv"));
+        bindTv = findViewById(ResourceHelper.getId(context,"bind_tv"));
+        String content = ResourceHelper.getStringId(context,"hy_login_other_account") + "  <font color='#FF6100'>" + ResourceHelper.getStringId(context,"hy_switch_account") + "</font>";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             switchTv.setText(Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY));
         } else {
@@ -58,10 +58,10 @@ public class AccountCenterDialog extends Dialog {
 
         if (SharedPreferenceHelper.getIsBindAccount() == 0) {
             bindLayout.setEnabled(true);
-            bindTv.setText(getContext().getString(R.string.hy_bind_account));
+            bindTv.setText(ResourceHelper.getStringId(context,"hy_bind_account"));
         } else {
             bindLayout.setEnabled(false);
-            bindTv.setText(getContext().getString(R.string.hy_bound));
+            bindTv.setText(ResourceHelper.getStringId(context,"hy_bound"));
         }
     }
 

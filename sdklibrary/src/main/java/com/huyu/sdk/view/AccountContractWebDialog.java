@@ -13,8 +13,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.huyu.sdk.R;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.util.ResourceHelper;
 
 /**
  * @author chengzj
@@ -37,14 +37,14 @@ public class AccountContractWebDialog extends Dialog {
     private ProgressBar pro;
 
     public AccountContractWebDialog(final Context context, final CallbackListener loginListener) {
-        super(context, R.style.base_pop);
+        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context,"dialog_account_contract_web"));
         this.loginListener = loginListener;
         this.context = context;
         setCanceledOnTouchOutside(false);
-        setContentView(R.layout.dialog_account_contract_web);
 
-        pro = (ProgressBar) findViewById(R.id.u9game_term_loading);
-        ImageView quite = findViewById(R.id.u9game_term_quite);
+        pro = (ProgressBar) findViewById(ResourceHelper.getId(context,"u9game_term_loading"));
+        ImageView quite = findViewById(ResourceHelper.getId(context,"u9game_term_quite"));
         quite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,8 @@ public class AccountContractWebDialog extends Dialog {
     }
 
     void initWebView(){
-        FrameLayout contentView = findViewById(R.id.u9game_term_webview);
+
+        FrameLayout contentView = findViewById(ResourceHelper.getId(context,"u9game_term_webview"));
         webView = new WebView(context.getApplicationContext());
         contentView.addView(webView);
 //        webView = findViewById(R.id.u9game_term_webview);

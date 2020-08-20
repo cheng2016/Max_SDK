@@ -5,7 +5,25 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
+
+
 public class AppUtils {
+    private static AppUtils instance;
+
+    public static String APP_NAME = "";
+    public static int APP_VERSION_CODE;
+
+    public static AppUtils getInstance() {
+        if (instance == null)
+            instance = new AppUtils();
+        return instance;
+    }
+
+    public void init(Context paramContext) {
+        this.APP_NAME = getVersionName(paramContext);
+        this.APP_VERSION_CODE = getVersionCode(paramContext);
+    }
+
     public static int getVersionCode(Context context) {
         int versionCode = 0;
         PackageManager pm = context.getPackageManager();
@@ -37,8 +55,3 @@ public class AppUtils {
     }
 }
 
-
-/* Location:              C:\Users\mitni\Desktop\gitwork\AndroidTool\classes-dex2jar.jar!\com\icloud\sd\\utils\AppUtil.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       1.0.6
- */

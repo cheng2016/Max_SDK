@@ -8,9 +8,9 @@ import android.content.res.Configuration;
 import com.huyu.sdk.data.bean.GameRoleInfo;
 import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.listener.HYSDKListener;
 import com.huyu.sdk.listener.LoginCallBackListener;
 import com.huyu.sdk.listener.PayCallbackListener;
-import com.huyu.sdk.listener.HYSDKListener;
 
 /**
  * 文件名：SDKProxy
@@ -19,11 +19,11 @@ import com.huyu.sdk.listener.HYSDKListener;
  */
 public interface SDKProxy {
 
-    void setHYSDKListener(HYSDKListener listener);
-
     void initApplication(Application activity);
 
     void initActivity(Activity activity, CallbackListener listener);
+
+    void setHYSDKListener(HYSDKListener listener);
 
     void login(Activity activity, LoginCallBackListener listener);
 
@@ -43,7 +43,7 @@ public interface SDKProxy {
     void exit(Activity activity);
 
 
-    void onCreate(Activity activity);
+    void onCreate(Activity context);
 
 
     void onNewIntent(Intent intent);
@@ -52,18 +52,20 @@ public interface SDKProxy {
 
 
 
-    void onStart(Activity activity);
+    void onStart(Activity context);
 
-    void onResume(Activity activity);
+
+
+    void onResume(Activity context);
 
 
     void onConfigurationChanged(Configuration newConfig);
 
 
-    void onPause(Activity activity);
+    void onPause(Activity context);
 
-    void onStop(Activity activity);
+    void onStop(Activity context);
 
-    void onDestroy(Activity activity);
+    void onDestroy(Activity context);
 
 }
