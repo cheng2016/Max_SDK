@@ -60,7 +60,7 @@ public class Pay implements IPay {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(param1Response.body().string()));
                     int status = jsonObject.optInt("Code");
-                    String message = jsonObject.optString("message");
+                    String message = jsonObject.optString("Message");
                     if (status == 0) {
                         String OrderId = jsonObject.optString("OrderId");
                         listener.onResult(ResultCode.SUCCESS, OrderId, jsonObject.optJSONObject("Ext").optString("data"));

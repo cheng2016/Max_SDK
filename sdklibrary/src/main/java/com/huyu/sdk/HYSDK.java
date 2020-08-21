@@ -141,6 +141,10 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void pay(final Activity activity, final PayParams params, final PayCallbackListener listener) {
+        if (this.mHYUser == null) {
+            listener.onPayFailed("请先登录");
+            return;
+        }
         U9Platform.getInstance().startPay(activity, params, mHYUser, new CallbackListener() {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {
@@ -218,5 +222,6 @@ public class HYSDK implements SDKProxy, HYSDKListener {
     @Override
     public void onLogout() {
         Logger.i(TAG, "onLogout");
+        this.mHYUser = null;
     }
 }

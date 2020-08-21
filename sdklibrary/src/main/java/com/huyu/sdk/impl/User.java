@@ -183,8 +183,8 @@ public class User implements IUser {
             public void onSuccess(Call param1Call, Response param1Response) {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(param1Response.body().string()));
-                    int status = jsonObject.optInt("status");
-                    String message = jsonObject.optString("message");
+                    int status = jsonObject.optInt("Code");
+                    String message = jsonObject.optString("Message");
                     if (status == 0) {
 
                         SharedPreferenceHelper.setUserId(jsonObject.optString("UserId"));
@@ -216,8 +216,8 @@ public class User implements IUser {
             public void onSuccess(Call param1Call, Response param1Response) {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(param1Response.body().string()));
-                    int status = jsonObject.optInt("status");
-                    String message = jsonObject.optString("message");
+                    int status = jsonObject.optInt("Code");
+                    String message = jsonObject.optString("Message");
                     if (status == 0) {
                         listener.onResult(ResultCode.SUCCESS, message, "");
                         Logger.i(TAG, "roleReport 上传角色成功");

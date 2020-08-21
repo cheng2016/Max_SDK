@@ -40,7 +40,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 
 public class OkHttpUtils {
-    private static final String TAG = "OkHttpUtil";
+    private static final String TAG = "OkHttpUtils";
     private static volatile LoadingBar loadingBar;
     private static volatile boolean isSetLoading = false;
     private static volatile boolean isShowLoading = false;
@@ -196,7 +196,6 @@ public class OkHttpUtils {
         }
 
         public void handleMessage(Message message) {
-//      Log.d(TAG, "SimpleResponseHandler  handleMessage current Thread: " + Thread.currentThread().getName() + ", message.what() == " + message.what);
             switch (message.what) {
                 case -1:
                     onStart();

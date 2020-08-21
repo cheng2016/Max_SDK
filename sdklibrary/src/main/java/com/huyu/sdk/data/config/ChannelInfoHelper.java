@@ -69,7 +69,6 @@ public class ChannelInfoHelper {
                 // sz 正式
                 U9_HttpUrl.URL_U9_HOST = Constant.URL_HOST_FORMAL;
                 break;
-
             case HY_StateType.Mode.HYSDK_TEST:
                 // 测试模式
                 Logger.isDebug = true;

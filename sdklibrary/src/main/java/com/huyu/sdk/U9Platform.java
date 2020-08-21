@@ -269,7 +269,6 @@ public class U9Platform {
         Sdk.getInstance().onDestroy();
         //释放资源
         OkHttpUtils.release();
-
     }
 
 

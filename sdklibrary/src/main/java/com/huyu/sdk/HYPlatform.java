@@ -379,9 +379,6 @@ public class HYPlatform {
 
     public void onDestroy() {
         Sdk.getInstance().onDestroy();
-        //释放资源
-        OkHttpUtils.release();
-
     }
 
     public Map<String, String> commonRequestData(Map<String, String> paramsMap) {
