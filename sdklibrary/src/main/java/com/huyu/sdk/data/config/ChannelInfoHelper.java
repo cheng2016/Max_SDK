@@ -63,7 +63,7 @@ public class ChannelInfoHelper {
         switch (mode) {
             case HY_StateType.Mode.HYSDK_FORMAL:
                 // sz 正式
-                Logger.isDebug = false;
+                Logger.setIsDebug(false);
                 Constant.isDebug = "false";
                 HttpUrl.URL_HOST = Constant.URL_HOST_FORMAL;
                 // sz 正式
@@ -71,7 +71,7 @@ public class ChannelInfoHelper {
                 break;
             case HY_StateType.Mode.HYSDK_TEST:
                 // 测试模式
-                Logger.isDebug = true;
+                Logger.setIsDebug(true);
                 Constant.isDebug = "true";
                 HttpUrl.URL_HOST = Constant.URL_HOST_OVERSEAS_TEST;
                 // 测试
@@ -79,7 +79,7 @@ public class ChannelInfoHelper {
                 break;
             case HY_StateType.Mode.HYSDK_FORMAL_WITH_LOG:
                 // sz Log
-                Logger.isDebug = true;
+                Logger.setIsDebug(true);
                 Constant.isDebug = "true";
                 HttpUrl.URL_HOST = Constant.URL_HOST_FORMAL;
                 // sz log

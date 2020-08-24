@@ -23,12 +23,8 @@ import com.huyu.sdk.util.AppUtils;
 import com.huyu.sdk.util.HY_Log_TimeUtils;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.MD5Utils;
-import com.huyu.sdk.util.OkHttpUtils;
 import com.huyu.sdk.view.AccountCenterDialog;
 import com.huyu.sdk.view.AccountLoginDialog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -90,32 +86,6 @@ public class HYPlatform {
     }
 
     //账号密码登录
-    public void accountlogin(Context ctx, String username, String password, final CallbackListener listener) {
-        HY_Log_TimeUtils.setStartLogin();
-        logReport("3", "开始登录SDK", HY_Log_TimeUtils.startLogin - HY_Log_TimeUtils.initSdkSuccess + "");
-        Map<String, String> map = commonRequestData(new HashMap<String, String>());
-        map.put("username", username);
-        map.put("password", MD5Utils.MD5(password));
-        User.getInstance().accountlogin(ctx, map, new LoginCallBackListener() {
-            @Override
-            public void onLoginSuccess(HYUser user) {
-                listener.onResult(ResultCode.SUCCESS, "", "");
-                if (mSDKListener != null)
-                    mSDKListener.onSwitchAccount(user);
-            }
-
-            @Override
-            public void onLoginCancel() {
-                listener.onResult(ResultCode.CANCEL, "cancel", "");
-            }
-
-            @Override
-            public void onLoginFailed(String message) {
-                listener.onResult(ResultCode.Fail, message, "");
-            }
-        });
-    }
-
     public void accountlogin(Context ctx, final int loginType, String username, String password, final CallbackListener listener) {
         HY_Log_TimeUtils.setStartLogin();
         logReport("3", "开始登录SDK", HY_Log_TimeUtils.startLogin - HY_Log_TimeUtils.initSdkSuccess + "");
@@ -144,37 +114,39 @@ public class HYPlatform {
         });
     }
 
-/*    public void accountlogin(Context ctx, String username, String password, final LoginCallBackListener listener) {
-        HY_Log_TimeUtils.setStartLogin();
-        logReport("3", "开始登录SDK", HY_Log_TimeUtils.startLogin - HY_Log_TimeUtils.initSdkSuccess + "");
-        Map<String, String> map = commonRequestData(new HashMap<String, String>());
-        map.put("username", username);
-        map.put("password", MD5Utils.MD5(password));
-        User.getInstance().accountlogin(ctx, map, new LoginCallBackListener() {
-            @Override
-            public void onLoginSuccess(HY_User user) {
-                if (mUserListener != null)
-                    mUserListener.onSwitchUser(user);
-            }
-
-            @Override
-            public void onLoginCancel() {
-
-            }
-
-            @Override
-            public void onLoginFailed(String message) {
-
-            }
-        });
-    }*/
-
     public void logout(Context context, final CallbackListener listener) {
         Logger.i(TAG, "logout");
         Map<String, String> map = commonRequestData(new HashMap<String, String>());
         map.put("usecret", SharedPreferenceHelper.getAccessToken());
         map.put("uid", SharedPreferenceHelper.getUserId());
         User.getInstance().logout(context, map, listener);
+    }
+
+    /**
+     * 打开个人中心（设置中心）
+     *
+     * @param context
+     */
+    public void showAccountCenter(Context context) {
+        Logger.i(TAG, "showAccountCenter");
+        Dialog dialog = new AccountCenterDialog(context);
+        dialog.show();
+    }
+
+    //检查支付参数配置,是否切换支付方式
+    public void checkPaymentMethod(Context context, CallbackListener listener) {
+        Logger.i(TAG, "createPaymentOrder");
+        Map<String, String> params = commonRequestData(new HashMap<String, String>());
+        params.put("total_fee", 99 + "");
+        params.put("u9uid", SharedPreferenceHelper.getUserId());
+        params.put("role_id", "1235698465");
+        params.put("guid", SharedPreferenceHelper.getChannelUserId());
+        params.put("token", SharedPreferenceHelper.getAccessToken());
+        Pay.getInstance().checkPaymentMethod(context, params, listener);
+    }
+
+    public void startPay(final Context context, final PayParams payParams, final CallbackListener listener) {
+        Pay.getInstance().startPay(context, getPayParamsMap(payParams), listener);
     }
 
     public void roleReport(Context context, GameRoleInfo gameRoleInfo, CallbackListener listener) {
@@ -204,116 +176,7 @@ public class HYPlatform {
     }
 
 
-    /**
-     * 打开个人中心（设置中心）
-     *
-     * @param context
-     */
-    public void showAccountCenter(Context context) {
-        Logger.i(TAG, "showAccountCenter");
-        Dialog dialog = new AccountCenterDialog(context);
-        dialog.show();
-    }
-
-    /**
-     * 打开个人中心（设置中心）
-     *
-     * @param context
-     * @param listener
-     */
-    public void showAccountCenter(Context context, CallbackListener listener) {
-        Logger.i(TAG, "showAccountCenter");
-        Dialog dialog = new AccountCenterDialog(context, listener);
-        dialog.show();
-    }
-
-
-    /**
-     * 支付入口
-     *
-     * @param context
-     * @param payParams
-     * @param payListener
-     * @return
-     */
-    public boolean pay(final Context context, final PayParams payParams, final CallbackListener payListener) {
-        Logger.i(TAG, "pay");
-        checkPaymentMethod(context, new CallbackListener() {
-            @Override
-            public void onResult(ResultCode resultCode, String msg, String data) {
-                if (resultCode == ResultCode.SUCCESS) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        String url = jsonObject.optString("url");
-                        String order_id = jsonObject.optString("order_id");
-
-                        payParams.setOrderId(order_id);
-                        payParams.setPayUrl(url);
-                        payParams.setPayChannel("GOOGLEPAY");
-
-                        startPay(context, payParams, payListener);
-                    } catch (JSONException e) {
-                        Logger.e(TAG, "pay", e);
-                    }
-                } else {
-                    payListener.onResult(resultCode, msg, data);
-                }
-            }
-        });
-        return false;
-    }
-
-    //检查支付参数配置,是否切换支付方式
-    private void checkPaymentMethod(Context context, CallbackListener listener) {
-        Logger.i(TAG, "createPaymentOrder");
-        Map<String, String> params = commonRequestData(new HashMap<String, String>());
-        params.put("total_fee", 99 + "");
-        params.put("u9uid", SharedPreferenceHelper.getUserId());
-        params.put("role_id", "1235698465");
-        params.put("guid", SharedPreferenceHelper.getChannelUserId());
-        params.put("token", SharedPreferenceHelper.getAccessToken());
-        Pay.getInstance().checkPaymentMethod(context, params, listener);
-    }
-
-    private void startPay(final Context context, final PayParams payParams, final CallbackListener payListener) {
-        Logger.i(TAG, "startPay");
-        Map<String, String> map = new HashMap<>();
-        map.put("ChannelId", Constant.CHANNEL_CODE);
-        map.put("UserId", SharedPreferenceHelper.getUserId());
-        map.put("ProductId", Constant.APPID);
-        map.put("ProductOrderId", payParams.getGameOrderId());
-        map.put("Amount", payParams.getAmount() + "");
-        map.put("DeviceId", PhoneInfoHelper.deviceId);
-        map.put("CallbackUrl", payParams.getCallBackUrl());
-        map.put("AppExt", payParams.getAppExtInfo());
-        map.put("Aid", Constant.PLAN_ID);
-        map.put("PayChannel", payParams.getPayChannel());
-        map.put("IsSwitchPayChannel", 1 + "");
-        Pay.getInstance().startPay(context, map, new CallbackListener() {
-            @Override
-            public void onResult(ResultCode resultCode, String msg, String data) {
-                if (resultCode == ResultCode.SUCCESS) {
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(data);
-                        String public_key = jsonObject.optString("public_key");
-//                        String g_pay_public_key = jsonObject.optString("g_pay_public_key");
-                        payParams.setGooglePublicKey(public_key);
-
-                        startGooglePayActivity(context, payParams, payListener);
-//                        payListener.onResult(ResultCode.SUCCESS, msg, data);
-
-                    } catch (JSONException e) {
-                        Logger.e(TAG, "startPay", e);
-                    }
-                } else {
-                    payListener.onResult(resultCode, msg, data);
-                }
-            }
-        });
-    }
-
-    public void startGooglePayActivity(Context context, PayParams params, CallbackListener payListener) {
+    private void startChoosePayActivity(Context context, PayParams params, CallbackListener payListener) {
         Logger.i(TAG, "startGooglePayActivity");
         params.setU9uid(SharedPreferenceHelper.getChannelUserId());
         U9Platform.payCallback = payListener;
@@ -379,6 +242,23 @@ public class HYPlatform {
 
     public void onDestroy() {
         Sdk.getInstance().onDestroy();
+    }
+
+
+    private Map<String, String> getPayParamsMap(PayParams payParams) {
+        Map<String, String> map = new HashMap<>();
+        map.put("ChannelId", Constant.CHANNEL_CODE);
+        map.put("UserId", SharedPreferenceHelper.getUserId());
+        map.put("ProductId", Constant.APPID);
+        map.put("ProductOrderId", payParams.getGameOrderId());
+        map.put("Amount", payParams.getAmount() + "");
+        map.put("DeviceId", PhoneInfoHelper.deviceId);
+        map.put("CallbackUrl", payParams.getCallBackUrl());
+        map.put("AppExt", payParams.getAppExtInfo());
+        map.put("Aid", Constant.PLAN_ID);
+        map.put("PayChannel", payParams.getPayChannel());
+        map.put("IsSwitchPayChannel", 1 + "");
+        return map;
     }
 
     public Map<String, String> commonRequestData(Map<String, String> paramsMap) {

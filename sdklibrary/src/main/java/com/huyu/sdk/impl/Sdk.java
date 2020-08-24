@@ -94,7 +94,7 @@ public class Sdk implements ISdk {
                         U9Platform.getInstance().logReport("22", "初始化失败", HY_Log_TimeUtils.initSdk-HY_Log_TimeUtils.startGame+"");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "initU9Server", e);
+                    e.printStackTrace();
                 }
             }
         });
@@ -118,7 +118,7 @@ public class Sdk implements ISdk {
                         Logger.i(TAG, "logReport  " + step_desc + " logReport fail");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "logReport", e);
+                    e.printStackTrace();
                 }
             }
         });

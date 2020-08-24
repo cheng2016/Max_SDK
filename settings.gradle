@@ -1,2 +1,2 @@
-include ':u9library'
-include  ':hy_gametool_international'
+include ':demo'
+include ':sdklibrary'

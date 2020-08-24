@@ -31,12 +31,12 @@ android {
 
 //    compile 'com.google.code.gson:gson:2.3.1'
 
-    implementation 'com.appsflyer:af-android-sdk:4+@aar'
+        implementation 'com.appsflyer:af-android-sdk:4+@aar'
         //paypal支付
-    implementation 'com.braintreepayments.api:braintree:2.+'
+        implementation 'com.braintreepayments.api:braintree:2.+'
 
-    implementation 'com.google.android.gms:play-services-wallet:16.0.1'
-    implementation 'com.android.installreferrer:installreferrer:1.0'
+        implementation 'com.google.android.gms:play-services-wallet:16.0.1'
+        implementation 'com.android.installreferrer:installreferrer:1.0'
 
 //    compile 'com.github.bumptech.glide:glide:3.7.0'
     }

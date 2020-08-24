@@ -149,38 +149,15 @@ public class U9Platform {
         User.getInstance().verifylogin(context, getLoginInfoRequest(user), listener);
     }
 
-    public static Map<String, String> getLoginInfoRequest(HYUser user) {
-        JSONObject phoneInfo = new JSONObject();
-        try {
-            phoneInfo.put("Imei", PhoneInfoHelper.imei);
-            phoneInfo.put("Imsi", PhoneInfoHelper.imsi);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put("ChannelId", Constant.CHANNEL_CODE);
-        map.put("IsDebug", Constant.isDebug);
-        map.put("Token", user.token);
-        map.put("ProductId", Constant.APPID);
-        map.put("ChannelUserId", user.channelUserId);
-        map.put("MobileInfo", phoneInfo.toString());
-        map.put("ChannelUserName", XmlConfigHelper.getInstance().HY_CHANNEL_TYPE);
-        map.put("DeviceId", PhoneInfoHelper.deviceId);
-        map.put("Aid", Constant.PLAN_ID);
-        Logger.d(TAG, "设备信息:" + phoneInfo.toString());
-        Logger.d(
-                TAG,
-                "登录请求信息: " + HttpUrl.URL_LOGIN + "?ChannelId="
-                        + Constant.CHANNEL_CODE + "&IsDebug="
-                        + Constant.isDebug + "&Token="
-                        + user.token + "&ProductId="
-                        + Constant.APPID + "&ChannelUserId="
-                        + user.channelUserId + "&ChannelUserName="
-                        + XmlConfigHelper.getInstance().HY_CHANNEL_TYPE + "&PhoneInfo="
-                        + phoneInfo.toString());
-        return map;
+    public void startPay(final Context context, final PayParams payParams, final HYUser user, final CallbackListener payListener) {
+        Logger.i(TAG, "startVerifyPay");
+        Pay.getInstance().startPay(context, getPayInfoRequest(payParams, user), new CallbackListener() {
+            @Override
+            public void onResult(ResultCode resultCode, String msg, String data) {
+                payListener.onResult(resultCode, msg, data);
+            }
+        });
     }
-
 
     public void roleReport(Context context, GameRoleInfo gameRoleInfo, CallbackListener listener) {
         Logger.i(TAG, "roleReport");
@@ -197,41 +174,6 @@ public class U9Platform {
         map.put("party_name", gameRoleInfo.getPartyName());
         User.getInstance().roleReport(context, map, listener);
     }
-
-    public static Map<String, String> getPayInfoRequest(PayParams mPayParsms, HYUser mHYUserVo) {
-        Map<String, String> map = new HashMap<>();
-        map.put("ChannelId", Constant.CHANNEL_CODE);
-        map.put("UserId", mHYUserVo.userId);
-        map.put("ProductId", Constant.APPID);
-        map.put("ProductOrderId", mPayParsms.getGameOrderId());
-        map.put("Amount", mPayParsms.getAmount() + "");
-        map.put("DeviceId", PhoneInfoHelper.deviceId);
-        map.put("CallbackUrl", mPayParsms.getCallBackUrl());
-        map.put("AppExt", mPayParsms.getAppExtInfo());
-        map.put("Aid", Constant.PLAN_ID);
-
-        Logger.d(
-                TAG,
-                "支付请求信息: " + HttpUrl.URL_PAY + "?ChannelId="
-                        + Constant.CHANNEL_CODE + "&UserId="
-                        + mHYUserVo.userId + "&ProductId="
-                        + Constant.APPID + "&ProductOrderId="
-                        + mPayParsms.getGameOrderId() + "&Amount="
-                        + mPayParsms.getAmount() + "&CallbackUrl="
-                        + mPayParsms.getCallBackUrl());
-        return map;
-    }
-
-    public void startPay(final Context context, final PayParams payParams, final HYUser user, final CallbackListener payListener) {
-        Logger.i(TAG, "startVerifyPay");
-        Pay.getInstance().startPay(context, getPayInfoRequest(payParams, user), new CallbackListener() {
-            @Override
-            public void onResult(ResultCode resultCode, String msg, String data) {
-                payListener.onResult(resultCode, msg, data);
-            }
-        });
-    }
-
 
     public void logReport(String step, String step_desc, String time) {
         Logger.i(TAG, "logReport");
@@ -271,6 +213,61 @@ public class U9Platform {
         OkHttpUtils.release();
     }
 
+    public static Map<String, String> getLoginInfoRequest(HYUser user) {
+        JSONObject phoneInfo = new JSONObject();
+        try {
+            phoneInfo.put("Imei", PhoneInfoHelper.imei);
+            phoneInfo.put("Imsi", PhoneInfoHelper.imsi);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("ChannelId", Constant.CHANNEL_CODE);
+        map.put("IsDebug", Constant.isDebug);
+        map.put("Token", user.token);
+        map.put("ProductId", Constant.APPID);
+        map.put("ChannelUserId", user.channelUserId);
+        map.put("MobileInfo", phoneInfo.toString());
+        map.put("ChannelUserName", XmlConfigHelper.getInstance().HY_CHANNEL_TYPE);
+        map.put("DeviceId", PhoneInfoHelper.deviceId);
+        map.put("Aid", Constant.PLAN_ID);
+        Logger.d(TAG, "设备信息:" + phoneInfo.toString());
+        Logger.d(
+                TAG,
+                "登录请求信息: " + HttpUrl.URL_LOGIN + "?ChannelId="
+                        + Constant.CHANNEL_CODE + "&IsDebug="
+                        + Constant.isDebug + "&Token="
+                        + user.token + "&ProductId="
+                        + Constant.APPID + "&ChannelUserId="
+                        + user.channelUserId + "&ChannelUserName="
+                        + XmlConfigHelper.getInstance().HY_CHANNEL_TYPE + "&PhoneInfo="
+                        + phoneInfo.toString());
+        return map;
+    }
+
+    public static Map<String, String> getPayInfoRequest(PayParams mPayParsms, HYUser mHYUserVo) {
+        Map<String, String> map = new HashMap<>();
+        map.put("ChannelId", Constant.CHANNEL_CODE);
+        map.put("UserId", mHYUserVo.userId);
+        map.put("ProductId", Constant.APPID);
+        map.put("ProductOrderId", mPayParsms.getGameOrderId());
+        map.put("Amount", mPayParsms.getAmount() + "");
+        map.put("DeviceId", PhoneInfoHelper.deviceId);
+        map.put("CallbackUrl", mPayParsms.getCallBackUrl());
+        map.put("AppExt", mPayParsms.getAppExtInfo());
+        map.put("Aid", Constant.PLAN_ID);
+
+        Logger.d(
+                TAG,
+                "支付请求信息: " + HttpUrl.URL_PAY + "?ChannelId="
+                        + Constant.CHANNEL_CODE + "&UserId="
+                        + mHYUserVo.userId + "&ProductId="
+                        + Constant.APPID + "&ProductOrderId="
+                        + mPayParsms.getGameOrderId() + "&Amount="
+                        + mPayParsms.getAmount() + "&CallbackUrl="
+                        + mPayParsms.getCallBackUrl());
+        return map;
+    }
 
     public Map<String, String> commonRequestData(Map<String, String> paramsMap) {
         paramsMap.put("type", "0");

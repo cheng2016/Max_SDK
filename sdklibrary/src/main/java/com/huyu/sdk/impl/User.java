@@ -59,7 +59,7 @@ public class User implements IUser {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "guestLogin", e);
+                    e.printStackTrace();
                 }
             }
 
@@ -87,7 +87,7 @@ public class User implements IUser {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "autoLogin", e);
+                    e.printStackTrace();
                 }
             }
         });
@@ -114,7 +114,7 @@ public class User implements IUser {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "accountlogin ", e);
+                    e.printStackTrace();
                 }
             }
         });
@@ -151,7 +151,7 @@ public class User implements IUser {
                         listener.onLoginFailed(message);
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "accountlogin ", e);
+                    e.printStackTrace();
                 }
             }
         });
@@ -199,7 +199,6 @@ public class User implements IUser {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Logger.e(TAG, "verifylogin fail", e);
                 }
             }
         });
@@ -225,7 +224,7 @@ public class User implements IUser {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "roleReport", e);
+                    e.printStackTrace();
                 }
             }
 
@@ -249,7 +248,7 @@ public class User implements IUser {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "bindAccount", e);
+                    e.printStackTrace();
                 }
             }
 
@@ -286,7 +285,7 @@ public class User implements IUser {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "logout", e);
+                    e.printStackTrace();
                 }
             }
 

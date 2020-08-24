@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.huyu.sdk.base.BaseChannel;
 import com.huyu.sdk.base.SDKProxy;
+import com.huyu.sdk.data.Constant;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.GameRoleInfo;
 import com.huyu.sdk.data.bean.HYUser;
@@ -125,6 +126,10 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void showAccountCenter(Activity activity) {
+        if (this.mHYUser == null) {
+            Logger.e(TAG,"showAccountCenter 请先登录");
+            return;
+        }
         mChannel.showAccountCenter(activity);
     }
 
@@ -143,6 +148,10 @@ public class HYSDK implements SDKProxy, HYSDKListener {
     public void pay(final Activity activity, final PayParams params, final PayCallbackListener listener) {
         if (this.mHYUser == null) {
             listener.onPayFailed("请先登录");
+            return;
+        }
+        if(Constant.CHANNEL_TYPE.contains("HY")){
+            mChannel.pay(activity, params, listener);
             return;
         }
         U9Platform.getInstance().startPay(activity, params, mHYUser, new CallbackListener() {
@@ -215,13 +224,13 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void onSwitchAccount(HYUser user) {
-        Logger.i(TAG, "onSwitchAccount");
+        Logger.d(TAG, "onSwitchAccount");
         this.mHYUser = user;
     }
 
     @Override
     public void onLogout() {
-        Logger.i(TAG, "onLogout");
+        Logger.d(TAG, "onLogout");
         this.mHYUser = null;
     }
 }

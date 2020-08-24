@@ -21,7 +21,6 @@ public class HY_GameInit {
 		Logger.d(TAG, "SDK版本:" + Constant.HY_SDK_VERSION);
 		init(context);
 		Logger.d(TAG, "HY_GanmeInit--->Application 调用");
-		// }
 	}
 
 	private static void init(Context context) {

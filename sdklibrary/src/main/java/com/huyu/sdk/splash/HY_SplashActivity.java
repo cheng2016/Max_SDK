@@ -78,7 +78,7 @@ public abstract class HY_SplashActivity extends Activity {
 		count = 0;
 		while (true) {
 			if (count < assetPaths.length) {
-				this.sequence.addSplash(new HY_SpashAsset(this.mRel_lin,
+				this.sequence.addSplash(new HY_SplashAsset(this.mRel_lin,
 						this.imageView, assetDir + "/" + assetPaths[count]));
 			} else {
 				int id = getResources().getIdentifier(resourcePrefix + count,

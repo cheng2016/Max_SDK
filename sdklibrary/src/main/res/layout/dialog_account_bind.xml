@@ -41,8 +41,10 @@
             style="@style/edittext_style"
             android:layout_marginLeft="@dimen/widget_size_50"
             android:background="@color/white"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:gravity="left|center_vertical"
             android:hint=""
+            android:maxLength="18"
             android:text="" />
 
         <TextView
@@ -68,10 +70,10 @@
             style="@style/edittext_style"
             android:layout_marginLeft="@dimen/widget_size_50"
             android:background="@color/white"
-            android:inputType="textPassword"
             android:gravity="left|center_vertical"
-            android:text=""
-            android:hint="" />
+            android:hint=""
+            android:inputType="textPassword"
+            android:text="" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,11 +90,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/widget_size_30"
         android:layout_marginTop="@dimen/widget_size_5"
+        android:button="@drawable/u9_checkbox_contract"
         android:checked="true"
         android:text="@string/hy_agree_user_contract"
         android:textColor="#ff868686"
-        android:textSize="@dimen/font_size_11"
-        android:button="@drawable/u9_checkbox_contract"/>
+        android:textSize="@dimen/font_size_11" />
 
     <Button
         android:id="@+id/btn_register"

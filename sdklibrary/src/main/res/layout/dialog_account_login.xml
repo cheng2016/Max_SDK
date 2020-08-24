@@ -15,8 +15,8 @@
         android:text="绑定账户"
         android:textColor="#525252"
         android:textSize="@dimen/font_size_18"
-        android:visibility="gone"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -40,8 +40,10 @@
             style="@style/edittext_style"
             android:layout_marginLeft="@dimen/widget_size_50"
             android:background="@color/white"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:gravity="left|center_vertical"
             android:hint=""
+            android:maxLength="18"
             android:text="" />
 
         <TextView
@@ -68,9 +70,9 @@
             android:layout_marginLeft="@dimen/widget_size_50"
             android:background="@color/white"
             android:gravity="left|center_vertical"
+            android:hint=""
             android:inputType="textPassword"
-            android:text=""
-            android:hint="" />
+            android:text="" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,11 +90,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/widget_size_30"
         android:layout_marginTop="@dimen/widget_size_5"
+        android:button="@drawable/u9_checkbox_contract"
         android:checked="true"
         android:text="@string/hy_agree_user_contract"
         android:textColor="#ff868686"
-        android:button="@drawable/u9_checkbox_contract"
-        android:textSize="@dimen/font_size_11"/>
+        android:textSize="@dimen/font_size_11" />
 
     <Button
         android:id="@+id/btn_register"

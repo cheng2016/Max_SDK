@@ -30,17 +30,17 @@ public class Test_Channel extends BaseChannel {
 
     @Override
     public void initApplication(Application activity) {
-        Logger.i(TAG, "initConfig");
+        Logger.d(TAG, "initConfig");
     }
 
     @Override
     public void initActivity(Activity activity, CallbackListener listener) {
-        Logger.i(TAG, "init");
+        Logger.d(TAG, "init");
     }
 
     @Override
     public void login(final Activity activity, final LoginCallBackListener listener) {
-        Logger.i(TAG, "login");
+        Logger.d(TAG, "login");
         new AlertDialog.Builder(activity)
                 .setTitle("模拟SDK登录框")
                 .setMessage("进入游戏请选择登录按钮")
@@ -77,28 +77,28 @@ public class Test_Channel extends BaseChannel {
 
     @Override
     public void logout(Activity activity) {
-        Logger.i(TAG, "logout");
+        Logger.d(TAG, "logout");
         mHYSDKListener.onLogout();
     }
 
     @Override
     public void switchAccount(Activity activity) {
-        Logger.i(TAG, "switchAccount");
+        Logger.d(TAG, "switchAccount");
     }
 
     @Override
     public void showAccountCenter(Activity activity) {
-        Logger.i(TAG, "showAccountCenter");
+        Logger.d(TAG, "showAccountCenter");
     }
 
     @Override
     public void roleReport(Activity activity, GameRoleInfo gameRoleInfo, CallbackListener listener) {
-        Logger.i(TAG, "roleReport");
+        Logger.d(TAG, "roleReport");
     }
 
     @Override
     public void pay(final Activity activity, final PayParams payParams, final PayCallbackListener listener) {
-        Logger.i(TAG, "pay");
+        Logger.d(TAG, "pay");
         new AlertDialog.Builder(activity)
                 .setTitle("模拟SDK支付框")
                 .setMessage("充值请点击支付按钮")
@@ -122,7 +122,7 @@ public class Test_Channel extends BaseChannel {
 
     @Override
     public void exit(final Activity activity) {
-        Logger.i(TAG, "exit");
+        Logger.d(TAG, "exit");
 
         new AlertDialog.Builder(activity)
                 .setTitle("模拟SDK推出框")
@@ -142,47 +142,47 @@ public class Test_Channel extends BaseChannel {
 
     @Override
     public void onCreate(Activity activity) {
-        Logger.i(TAG, "onCreate");
+        Logger.d(TAG, "onCreate");
     }
 
     @Override
     public void onNewIntent(Intent intent) {
-        Logger.i(TAG, "onNewIntent");
+        Logger.d(TAG, "onNewIntent");
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Logger.i(TAG, " onActivityResult requestCode = " + requestCode + " , resultCode = " + resultCode);
+        Logger.d(TAG, " onActivityResult requestCode = " + requestCode + " , resultCode = " + resultCode);
     }
 
     @Override
     public void onStart(Activity activity) {
-        Logger.i(TAG, "onStart");
+        Logger.d(TAG, "onStart");
     }
 
     @Override
     public void onResume(Activity activity) {
-        Logger.i(TAG, "onResume");
+        Logger.d(TAG, "onResume");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        Logger.i(TAG, " onConfigurationChanged");
+        Logger.d(TAG, " onConfigurationChanged");
     }
 
     @Override
     public void onPause(Activity activity) {
-        Logger.i(TAG, "onPause");
+        Logger.d(TAG, "onPause");
     }
 
     @Override
     public void onStop(Activity activity) {
-        Logger.i(TAG, "onStop");
+        Logger.d(TAG, "onStop");
     }
 
     @Override
     public void onDestroy(Activity activity) {
-        Logger.i(TAG, "onDestroy");
+        Logger.d(TAG, "onDestroy");
     }
 
 }

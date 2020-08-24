@@ -53,6 +53,7 @@ public class XmlConfigHelper {
         Logger.d("sub_channel:" + Constant.CHANNEL_ID);
         Constant.CHANNEL_CODE = this.CHANNEL_CODE;
         Constant.PLAN_ID = this.PLAN_ID;
+        Constant.CHANNEL_TYPE = this.HY_CHANNEL_TYPE;
     }
 
     public static String getManifestMetaData(Context ctx, String key) {

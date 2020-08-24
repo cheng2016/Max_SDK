@@ -19,7 +19,7 @@ public class SplashActivity extends HY_SplashActivity
     public boolean getIsLandscape() {
         //横竖屏设置
         // true 横屏   false竖屏
-        return false;
+        return true;
     }
 
 

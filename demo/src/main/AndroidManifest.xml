@@ -83,7 +83,7 @@
         <!-- 渠道标识b 分包时修改 直接拷贝 -->
         <meta-data
             android:name="HY_CHANNEL_TYPE"
-            android:value="Test" />
+            android:value="HY" />
         <!-- 横竖屏表示，0表示横屏，1表示竖屏 -->
         <meta-data
             android:name="HY_IS_LANDSCAPE"

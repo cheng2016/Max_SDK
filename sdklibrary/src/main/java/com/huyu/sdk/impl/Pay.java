@@ -6,7 +6,6 @@ import com.huyu.sdk.data.HttpUrl;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.U9_HttpUrl;
 import com.huyu.sdk.listener.CallbackListener;
-import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.OkHttpUtils;
 
 import org.json.JSONObject;
@@ -44,7 +43,7 @@ public class Pay implements IPay {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "createPaymentOrder", e);
+                    e.printStackTrace();
                 }
             }
         });
@@ -68,8 +67,7 @@ public class Pay implements IPay {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    listener.onResult(ResultCode.Fail, "exception : " + e.toString(), "");
-                     Logger.e(TAG, "startPay", e);
+                    e.printStackTrace();
                 }
             }
         });
@@ -92,7 +90,7 @@ public class Pay implements IPay {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "checkPayResult", e);
+                    e.printStackTrace();
                 }
             }
         });
@@ -112,7 +110,7 @@ public class Pay implements IPay {
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
-                    Logger.e(TAG, "orderServerVerify", e);
+                    e.printStackTrace();
                 }
             }
 
