@@ -119,31 +119,6 @@ public class U9Platform {
         User.getInstance().verifylogin(context, map, listener);
     }
 
-    //最终登录入口
-    public void verifylogin(Context context, HYUser user, CallbackListener listener) {
-        Logger.i(TAG, "verifylogin");
-        Map<String, String> map = new HashMap<>();
-        JSONObject phoneInfo = new JSONObject();
-        try {
-            phoneInfo.put("Imei", PhoneInfoHelper.imei);
-            phoneInfo.put("Imsi", PhoneInfoHelper.imsi);
-        } catch (JSONException e) {
-            Logger.e(TAG, "commonlogin", e);
-        }
-        map.put("Token", user.token);
-        map.put("ChannelId", Constant.CHANNEL_CODE);
-        map.put("IsDebug", Constant.isDebug);
-        map.put("ProductId", Constant.APPID);
-        map.put("ChannelUserId", user.channelUserId);
-        map.put("MobileInfo", phoneInfo.toString());
-        map.put("ChannelUserName", user.channelUserName);
-        map.put("DeviceId", PhoneInfoHelper.deviceId);
-        map.put("Aid", Constant.PLAN_ID);
-        map.put("LoginType", "0");
-        map.put("Ext", user.extInfo);
-        User.getInstance().verifylogin(context, map, listener);
-    }
-
     public void verifyChannelLogin(Context context, HYUser user, CallbackListener listener) {
         Logger.i(TAG, "verifyChannelLogin");
         User.getInstance().verifylogin(context, getLoginInfoRequest(user), listener);
@@ -151,12 +126,7 @@ public class U9Platform {
 
     public void startPay(final Context context, final PayParams payParams, final HYUser user, final CallbackListener payListener) {
         Logger.i(TAG, "startVerifyPay");
-        Pay.getInstance().startPay(context, getPayInfoRequest(payParams, user), new CallbackListener() {
-            @Override
-            public void onResult(ResultCode resultCode, String msg, String data) {
-                payListener.onResult(resultCode, msg, data);
-            }
-        });
+        Pay.getInstance().startPay(context, getPayInfoRequest(payParams, user), payListener);
     }
 
     public void roleReport(Context context, GameRoleInfo gameRoleInfo, CallbackListener listener) {
@@ -208,9 +178,9 @@ public class U9Platform {
     }
 
     public void onDestroy() {
-        Sdk.getInstance().onDestroy();
         //释放资源
         OkHttpUtils.release();
+        Sdk.getInstance().onDestroy();
     }
 
     public static Map<String, String> getLoginInfoRequest(HYUser user) {
@@ -228,7 +198,7 @@ public class U9Platform {
         map.put("ProductId", Constant.APPID);
         map.put("ChannelUserId", user.channelUserId);
         map.put("MobileInfo", phoneInfo.toString());
-        map.put("ChannelUserName", XmlConfigHelper.getInstance().HY_CHANNEL_TYPE);
+        map.put("ChannelUserName", user.channelUserName);
         map.put("DeviceId", PhoneInfoHelper.deviceId);
         map.put("Aid", Constant.PLAN_ID);
         Logger.d(TAG, "设备信息:" + phoneInfo.toString());
@@ -240,32 +210,35 @@ public class U9Platform {
                         + user.token + "&ProductId="
                         + Constant.APPID + "&ChannelUserId="
                         + user.channelUserId + "&ChannelUserName="
-                        + XmlConfigHelper.getInstance().HY_CHANNEL_TYPE + "&PhoneInfo="
+                        + user.channelUserName + "&PhoneInfo="
                         + phoneInfo.toString());
         return map;
     }
 
-    public static Map<String, String> getPayInfoRequest(PayParams mPayParsms, HYUser mHYUserVo) {
+    public static Map<String, String> getPayInfoRequest(PayParams payParams, HYUser mHYUserVo) {
         Map<String, String> map = new HashMap<>();
         map.put("ChannelId", Constant.CHANNEL_CODE);
         map.put("UserId", mHYUserVo.userId);
         map.put("ProductId", Constant.APPID);
-        map.put("ProductOrderId", mPayParsms.getGameOrderId());
-        map.put("Amount", mPayParsms.getAmount() + "");
+        map.put("ProductOrderId", payParams.getGameOrderId());
+        map.put("Amount", payParams.getAmount() + "");
         map.put("DeviceId", PhoneInfoHelper.deviceId);
-        map.put("CallbackUrl", mPayParsms.getCallBackUrl());
-        map.put("AppExt", mPayParsms.getAppExtInfo());
+        map.put("CallbackUrl", payParams.getCallBackUrl());
+        map.put("AppExt", payParams.getAppExtInfo());
         map.put("Aid", Constant.PLAN_ID);
-
+        map.put("appversion", AppUtils.APP_VERSION_NAME);
+        map.put("BundleId", AppUtils.APP_PACKAGE_NAME);
         Logger.d(
                 TAG,
                 "支付请求信息: " + HttpUrl.URL_PAY + "?ChannelId="
                         + Constant.CHANNEL_CODE + "&UserId="
                         + mHYUserVo.userId + "&ProductId="
                         + Constant.APPID + "&ProductOrderId="
-                        + mPayParsms.getGameOrderId() + "&Amount="
-                        + mPayParsms.getAmount() + "&CallbackUrl="
-                        + mPayParsms.getCallBackUrl());
+                        + payParams.getGameOrderId() + "&Amount="
+                        + payParams.getAmount() + "&CallbackUrl="
+                        + payParams.getCallBackUrl() + "&appversion="
+                        + AppUtils.APP_VERSION_NAME + "&BundleId="
+                        + AppUtils.APP_PACKAGE_NAME);
         return map;
     }
 
@@ -277,7 +250,7 @@ public class U9Platform {
         paramsMap.put("aid", Constant.PLAN_ID);
         paramsMap.put("app_id", Constant.APPID);
         paramsMap.put("app", Constant.APPID);
-        paramsMap.put("appversion", AppUtils.APP_NAME);
+        paramsMap.put("appversion", AppUtils.APP_VERSION_NAME);
         paramsMap.put("imei", PhoneInfoHelper.imei);
         paramsMap.put("channel", Constant.CHANNEL_CODE);
         paramsMap.put("channel_id", Constant.CHANNEL_CODE);
@@ -286,5 +259,4 @@ public class U9Platform {
         paramsMap.put("sdk_version", Constant.HY_SDK_VERSION_CODE);
         return paramsMap;
     }
-
 }

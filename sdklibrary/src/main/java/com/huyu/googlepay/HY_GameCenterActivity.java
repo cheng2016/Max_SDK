@@ -34,6 +34,7 @@ import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.listener.CallbackListener;
 import com.huyu.sdk.util.Logger;
+import com.huyu.sdk.util.ResourceHelper;
 import com.huyu.sdk.util.ToastUtils;
 
 
@@ -60,7 +61,6 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
     private boolean isUrlFinish = false;
 //	 private HYGame_GetPayResult result;
 
-
     // TODO 支付方式开关
 
     @Override
@@ -69,7 +69,7 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         mActivity = this;
-        setContentView(getLayoutId(mActivity,
+        setContentView(ResourceHelper.getLayoutId(mActivity,
                 "hygame_gamecenter_layout"));
         // isStartCenter = false;
         isBackCenter = false;
@@ -86,7 +86,7 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
      * 初始化支付方式
      */
     private void initPayUrl() {
-        String getPayInfoStr = getStringId(mActivity, "u9pay_get_pay_info");
+        String getPayInfoStr = ResourceHelper.getStringId(mActivity, "u9pay_get_pay_info");
        /* prd = HY_ProgressUtil.showByString(mActivity, getPayInfoStr,
                 new OnCancelListener() {
 
@@ -102,23 +102,23 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
      * 初始化组件
      */
     private void initView() {
-        backBtn = (ImageView) findViewById(getId(mActivity,
+        backBtn = (ImageView) findViewById(ResourceHelper.getId(mActivity,
                 "u9pay_pay_back_btn"));
 
-        payWebView = (WebView) mActivity.findViewById(getId(mActivity,
+        payWebView = (WebView) mActivity.findViewById(ResourceHelper.getId(mActivity,
                 "u9pay_webview"));
-        webview_prb = (ProgressBar) mActivity.findViewById(getId(
+        webview_prb = (ProgressBar) mActivity.findViewById(ResourceHelper.getId(
                 mActivity, "u9pay_webview_prb"));
 
 
-        tvTitle = (TextView) mActivity.findViewById(getId(mActivity, "hygame_title_text"));
-        String payStr = getStringId(mActivity, "u9pay_pay");
+        tvTitle = (TextView) mActivity.findViewById(ResourceHelper.getId(mActivity, "hygame_title_text"));
+        String payStr = ResourceHelper.getStringId(mActivity, "u9pay_pay");
         tvTitle.setText(payStr);
 
         // ---------------------------- 分割线 界面设置----------------------------
 
         if (mPayParams == null) {
-            String no_payparamsMsg = getStringId(mActivity, "hygame_no_pay_params");
+            String no_payparamsMsg = ResourceHelper.getStringId(mActivity, "u9pay_no_pay_params");
             ToastUtils.show(mActivity, no_payparamsMsg);
             this.finish();
             return;
@@ -236,7 +236,6 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
             }
         });
 
-
         //payWebView.loadUrl("http://oversea.hyhygame.com/pay.html");
         Logger.d("url:" + payWebView.getUrl());
         // ---------------------------- 分割线 功能设置----------------------------
@@ -283,8 +282,10 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
     private void opendGoogPay(String produceId) {
         String googlePublicKey = mPayParams.getGooglePublicKey();
         Logger.d("webView", "打开google支付publicKey>>>" + googlePublicKey);
-        googlePublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzPmOXXYMTHFWflHCkUwAEGOdvqkpjngjolR2PdgVMLAPC5w6tU0Quzml72noqTmMa3n+DSbS1wZ+nAjNdxlSF1HID4h155BzkBiRYRFevdAII+uKr9CoI9jBcB9Y+yYPMHAzBvtVJIUa1Ii6+GGfWHcia6HPL0jCuF9WmGvS3BIiNnW2LFuFBhHW0MQxwMFfa8vL7T+S4oJ9RkU/4l1zXx0bajl7jpfdxKN/noiU/U0hBt5hobECAdA83iSLkQvxmuzbu1JpTN5rp+l7o+FX3kQu+gTFKSCQwmp537Q9jtmwstJjqFRowlVh0MM1F3bYufnHbhVqRJtiw2S/OyvXywIDAQAB";
-        Logger.d("webView", "打开google支付publicKey>>>" + googlePublicKey);
+        if(TextUtils.isEmpty(googlePublicKey)){
+            googlePublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzPmOXXYMTHFWflHCkUwAEGOdvqkpjngjolR2PdgVMLAPC5w6tU0Quzml72noqTmMa3n+DSbS1wZ+nAjNdxlSF1HID4h155BzkBiRYRFevdAII+uKr9CoI9jBcB9Y+yYPMHAzBvtVJIUa1Ii6+GGfWHcia6HPL0jCuF9WmGvS3BIiNnW2LFuFBhHW0MQxwMFfa8vL7T+S4oJ9RkU/4l1zXx0bajl7jpfdxKN/noiU/U0hBt5hobECAdA83iSLkQvxmuzbu1JpTN5rp+l7o+FX3kQu+gTFKSCQwmp537Q9jtmwstJjqFRowlVh0MM1F3bYufnHbhVqRJtiw2S/OyvXywIDAQAB";
+            Logger.d("webView", "打开默认google支付publicKey>>>" + googlePublicKey);
+        }
         GooglePlayPayManager googlePlayPayManager = new GooglePlayPayManager(mActivity);
         googlePlayPayManager.doPay(googlePublicKey, produceId);
     }
@@ -336,9 +337,9 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
     private void back() {
         if (dialog == null) {
             Builder builder = new Builder(HY_GameCenterActivity.this);
-            String exitPayHint = getStringId(mActivity, "u9pay_exit_pay_hint");
-            String confirmStr = getStringId(mActivity, "u9pay_confirm_btn");
-            String cancelStr = getStringId(mActivity, "u9pay_cannel_btn");
+            String exitPayHint = ResourceHelper.getStringId(mActivity, "u9pay_exit_pay_hint");
+            String confirmStr = ResourceHelper.getStringId(mActivity, "u9pay_confirm_btn");
+            String cancelStr = ResourceHelper.getStringId(mActivity, "u9pay_cannel_btn");
             builder.setTitle(exitPayHint);
             builder.setNegativeButton(confirmStr, new DialogInterface.OnClickListener() {
 
@@ -431,24 +432,5 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Logger.d("onConfigurationChanged");
-    }
-
-    public static String getStringId(Context paramActivity, String id) {
-        String packageName = paramActivity.getPackageName();
-        return paramActivity.getResources().getString(
-                paramActivity.getResources().getIdentifier(id, "string",
-                        packageName));
-    }
-
-    public static int getId(Context paramActivity, String id) {
-        String packageName = paramActivity.getPackageName();
-        return paramActivity.getResources()
-                .getIdentifier(id, "id", packageName);
-    }
-
-    public static int getLayoutId(Context paramActivity, String id) {
-        String packageName = paramActivity.getPackageName();
-        return paramActivity.getResources().getIdentifier(id, "layout",
-                packageName);
     }
 }

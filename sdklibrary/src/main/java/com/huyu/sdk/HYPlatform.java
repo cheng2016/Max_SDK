@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.huyu.googlepay.HY_GameCenterActivity;
 import com.huyu.sdk.data.Constant;
+import com.huyu.sdk.data.HttpUrl;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.GameRoleInfo;
 import com.huyu.sdk.data.bean.HYUser;
@@ -142,6 +143,7 @@ public class HYPlatform {
         params.put("role_id", "1235698465");
         params.put("guid", SharedPreferenceHelper.getChannelUserId());
         params.put("token", SharedPreferenceHelper.getAccessToken());
+        params.put("bundle_id",AppUtils.APP_PACKAGE_NAME);
         Pay.getInstance().checkPaymentMethod(context, params, listener);
     }
 
@@ -258,6 +260,20 @@ public class HYPlatform {
         map.put("Aid", Constant.PLAN_ID);
         map.put("PayChannel", payParams.getPayChannel());
         map.put("IsSwitchPayChannel", 1 + "");
+        map.put("appversion", AppUtils.APP_VERSION_NAME);
+        map.put("BundleId", AppUtils.APP_PACKAGE_NAME);
+
+        Logger.d(
+                TAG,
+                "支付请求信息: " + HttpUrl.URL_PAY + "?ChannelId="
+                        + Constant.CHANNEL_CODE + "&UserId="
+                        + SharedPreferenceHelper.getUserId() + "&ProductId="
+                        + Constant.APPID + "&ProductOrderId="
+                        + payParams.getGameOrderId() + "&Amount="
+                        + payParams.getAmount() + "&CallbackUrl="
+                        + payParams.getCallBackUrl() +"&appversion="
+                        + AppUtils.APP_VERSION_NAME+"&BundleId="
+                        + AppUtils.APP_PACKAGE_NAME);
         return map;
     }
 

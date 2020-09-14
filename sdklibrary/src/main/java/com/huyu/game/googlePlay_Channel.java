@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import com.huyu.googlepay.GooglePlayPayManager;
 import com.huyu.googlepay.HY_GameCenterActivity;
@@ -34,19 +35,17 @@ import org.json.JSONObject;
  * 创建日期：2020/8/4 11:13
  * 描述：TODO
  */
-public class HY_Channel extends BaseChannel {
-    public static final String TAG = HY_Channel.class.getSimpleName();
+public class googlePlay_Channel extends BaseChannel {
+    public static final String TAG = googlePlay_Channel.class.getSimpleName();
 
-    static HY_Channel instance;
+//    public static googlePlay_Channel instance;
 
-    private Handler mHandler = new Handler(Looper.getMainLooper());
-
-    public static HY_Channel getInstance() {
+/*    public static googlePlay_Channel getInstance() {
         if (instance == null) {
-            instance = new HY_Channel();
+            instance = new googlePlay_Channel();
         }
         return instance;
-    }
+    }*/
 
     @Override
     public void initApplication(Application atc) {
@@ -57,7 +56,7 @@ public class HY_Channel extends BaseChannel {
     @Override
     public void initActivity(Activity activity, CallbackListener listener) {
         Logger.d(TAG, "  init success");
-        listener.onResult(ResultCode.SUCCESS, "thirdSdk init success", null);
+        listener.onResult(ResultCode.SUCCESS, TAG + " init success", null);
         HYPlatform.getInstance().init(activity, new HYPlatform.SDKListener() {
             @Override
             public void onSwitchAccount(HYUser user) {
@@ -157,31 +156,31 @@ public class HY_Channel extends BaseChannel {
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(data);
-//                        String public_key = jsonObject.optString("public_key");
-//                        payParams.setGooglePublicKey(public_key);
+                        String public_key = jsonObject.optString("public_key");
+                        payParams.setGooglePublicKey(public_key);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    openChoosePayActivity(activity, payParams, new CallbackListener() {
+                    startChoosePayActivity(activity, payParams, new CallbackListener() {
                         @Override
                         public void onResult(ResultCode resultCode, String msg, String data) {
-                            if(resultCode==ResultCode.SUCCESS){
+                            if (resultCode == ResultCode.SUCCESS) {
                                 payCallbackListener.onPaySuccess(payParams);
-                            }else if(resultCode ==ResultCode.Fail){
+                            } else if (resultCode == ResultCode.Fail) {
                                 payCallbackListener.onPayFailed(msg);
-                            }else if(resultCode ==ResultCode.CANCEL){
+                            } else if (resultCode == ResultCode.CANCEL) {
                                 payCallbackListener.onPayCancel();
                             }
                         }
                     });
-                }else {
+                } else {
                     payCallbackListener.onPayFailed(msg);
                 }
             }
         });
     }
 
-    public void openChoosePayActivity(Context context, PayParams params, CallbackListener payListener) {
+    public void startChoosePayActivity(Context context, PayParams params, CallbackListener payListener) {
         Logger.d(TAG, "startGooglePayActivity");
         params.setU9uid(SharedPreferenceHelper.getChannelUserId());
         U9Platform.payCallback = payListener;
@@ -199,8 +198,16 @@ public class HY_Channel extends BaseChannel {
             public void onResult(ResultCode resultCode, String msg, String data) {
                 if (resultCode == ResultCode.SUCCESS) {
                     payParams.setOrderId(msg);
-                    openGooglePay(activity, payParams,payCallbackListener);
-                }else {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(data);
+                        String public_key = jsonObject.optString("public_key");
+                        payParams.setGooglePublicKey(public_key);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    openGooglePay(activity, payParams, payCallbackListener);
+                } else {
                     payCallbackListener.onPayFailed(msg);
                 }
             }
@@ -210,22 +217,24 @@ public class HY_Channel extends BaseChannel {
     private void openGooglePay(Activity activity, final PayParams payParams, final PayCallbackListener payCallbackListener) {
         String googlePublicKey = payParams.getGooglePublicKey();
         Logger.d("webView", "打开google支付publicKey>>>" + googlePublicKey);
-        googlePublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzPmOXXYMTHFWflHCkUwAEGOdvqkpjngjolR2PdgVMLAPC5w6tU0Quzml72noqTmMa3n+DSbS1wZ+nAjNdxlSF1HID4h155BzkBiRYRFevdAII+uKr9CoI9jBcB9Y+yYPMHAzBvtVJIUa1Ii6+GGfWHcia6HPL0jCuF9WmGvS3BIiNnW2LFuFBhHW0MQxwMFfa8vL7T+S4oJ9RkU/4l1zXx0bajl7jpfdxKN/noiU/U0hBt5hobECAdA83iSLkQvxmuzbu1JpTN5rp+l7o+FX3kQu+gTFKSCQwmp537Q9jtmwstJjqFRowlVh0MM1F3bYufnHbhVqRJtiw2S/OyvXywIDAQAB";
-        Logger.d("webView", "打开google支付publicKey>>>" + googlePublicKey);
+        if (TextUtils.isEmpty(googlePublicKey)) {
+            googlePublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzPmOXXYMTHFWflHCkUwAEGOdvqkpjngjolR2PdgVMLAPC5w6tU0Quzml72noqTmMa3n+DSbS1wZ+nAjNdxlSF1HID4h155BzkBiRYRFevdAII+uKr9CoI9jBcB9Y+yYPMHAzBvtVJIUa1Ii6+GGfWHcia6HPL0jCuF9WmGvS3BIiNnW2LFuFBhHW0MQxwMFfa8vL7T+S4oJ9RkU/4l1zXx0bajl7jpfdxKN/noiU/U0hBt5hobECAdA83iSLkQvxmuzbu1JpTN5rp+l7o+FX3kQu+gTFKSCQwmp537Q9jtmwstJjqFRowlVh0MM1F3bYufnHbhVqRJtiw2S/OyvXywIDAQAB";
+            Logger.d("webView", "打开google支付publicKey>>>" + googlePublicKey);
+        }
         GooglePlayPayManager googlePlayPayManager = new GooglePlayPayManager(activity);
+        U9Platform.mPayParams = payParams;
         googlePlayPayManager.doPay(googlePublicKey, payParams.getProductId());
         googlePlayPayManager.payCallback = new CallbackListener() {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {
-                if(resultCode == ResultCode.SUCCESS){
+                if (resultCode == ResultCode.SUCCESS) {
                     payCallbackListener.onPaySuccess(payParams);
-                }else if(resultCode==ResultCode.Fail){
+                } else if (resultCode == ResultCode.Fail) {
                     payCallbackListener.onPayFailed(msg);
                 }
             }
         };
     }
-
 
     private void checkPayResult(Activity activity, final PayParams payParams, final PayCallbackListener listener) {
         HYPlatform.getInstance().checkPayResult(activity, payParams.getOrderId(), new CallbackListener() {
@@ -254,6 +263,7 @@ public class HY_Channel extends BaseChannel {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         activity.finish();
+                        System.exit(0);
                     }
                 }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -272,7 +282,6 @@ public class HY_Channel extends BaseChannel {
     public void onNewIntent(Intent intent) {
         Logger.d(TAG, " onNewIntent");
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

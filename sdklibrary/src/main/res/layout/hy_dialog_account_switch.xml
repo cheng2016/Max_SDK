@@ -3,60 +3,53 @@
     android:layout_width="@dimen/dialog_width"
     android:layout_height="@dimen/widget_size_210"
     android:layout_gravity="center_horizontal"
-    android:background="@drawable/u9_gray"
+    android:background="@drawable/hy_gray"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title_tv"
+        android:id="@+id/top_tv"
         android:layout_marginTop="@dimen/widget_size_20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/widget_size_20"
-        android:textSize="@dimen/font_size_16"
+        android:drawablePadding="@dimen/widget_size_3"
+        android:drawableLeft="@drawable/hy_ic_account_man"
+        android:textSize="@dimen/font_size_18"
+        android:background="@null"
         android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
         android:textColor="#525252"
-        android:layout_centerHorizontal="true"
-        android:text="@string/alert" />
+        android:text="@string/hy_login_other_account" />
 
-    <TextView
-        android:id="@+id/message_tv"
-        android:layout_marginTop="@dimen/widget_size_20"
+<!--    <TextView
+        android:id="@+id/notice_tv"
+        android:layout_marginTop="@dimen/widget_size_12"
+        android:layout_below="@+id/top_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_tv"
-        android:layout_marginLeft="@dimen/widget_size_30"
-        android:textSize="@dimen/font_size_13"
-        android:layout_marginRight="@dimen/widget_size_30"
-        android:textStyle="bold"
-        android:textColor="#525252"
-        android:layout_centerHorizontal="true"
-        android:text="@string/hy_bound_message" />
-
-    <!--    <TextView
-            android:id="@+id/notice_tv"
-            android:layout_marginTop="@dimen/widget_size_12"
-            android:layout_below="@+id/top_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_size_12"
-            android:visibility="invisible"
-            android:textColor="@color/hy_login_btn_black"
-            android:layout_marginLeft="@dimen/widget_size_12"
-            android:text="绑定账户可以保护您的游戏进度，并使用多设备进行游戏" />-->
+        android:textSize="@dimen/font_size_12"
+        android:visibility="invisible"
+        android:textColor="@color/hy_login_btn_black"
+        android:layout_marginLeft="@dimen/widget_size_12"
+        android:text="绑定账户可以保护您的游戏进度，并使用多设备进行游戏" />-->
 
 
-
-    <Button
-        android:id="@+id/btn_comfirm"
-        style="@style/pop_button"
-        android:layout_below="@+id/message_tv"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/widget_size_30"
-        android:text="@string/u9pay_confirm_btn"
+    <LinearLayout
+        android:id="@+id/btn_login"
+        android:layout_width="@dimen/widget_size_270"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="16.0sp" />
+        android:orientation="vertical"
+        android:background="@drawable/hy_shape_button" >
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/hygame_login_logo"/>
 
+    </LinearLayout>
 
 
     <!--<LinearLayout

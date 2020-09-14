@@ -41,9 +41,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttpUtils {
     private static final String TAG = "OkHttpUtils";
-    private static volatile LoadingBar loadingBar;
-    private static volatile boolean isSetLoading = false;
-    private static volatile boolean isShowLoading = false;
+
     private static OkHttpClient client;
 
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
@@ -61,34 +59,6 @@ public class OkHttpUtils {
                 .build();
     }
 
-    public static OkHttpClient getClient() {
-        return client;
-    }
-
-    public static void post(final Context context, String url, String jsonStr, final SimpleResponseHandler responseHandler) {
-        Logger.d(TAG, "post url:" + url + "\njsonStr:" + jsonStr);
-        isSetLoading = false;
-        MediaType mediaType = MediaType.parse("text/x-markdown; charset=utf-8");
-        Request request = new Request.Builder()
-                .url(url)
-                .post(RequestBody.create(mediaType, jsonStr))
-                .build();
-        Call call = client.newCall(request);
-        EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
-    }
-
-    public static void post(String url, JSONObject jsonStr, final SimpleResponseHandler responseHandler) {
-        Logger.d(TAG, "postNoLoading url:" + url + "\njsonStr:" + jsonStr);
-        isSetLoading = false;
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        Request request = new Request.Builder()
-                .url(url)
-                .post(RequestBody.create(mediaType, jsonStr.toString()))
-                .build();
-        Call call = client.newCall(request);
-        EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
-    }
-
     public static void postLoading(Context context, String url, Map<String, String> paramsMap, final SimpleResponseHandler responseHandler) {
         Logger.d("postLoading", "url:" + url + " requestData: " + Arrays.asList(paramsMap).toString());
         FormBody.Builder builder = new FormBody.Builder();
@@ -96,7 +66,8 @@ public class OkHttpUtils {
             //追加表单信息
             builder.add(key, paramsMap.get(key));
         }
-        postFormLoading(context, url, builder.build(), responseHandler);
+        responseHandler.isSetLoading = true;
+        postForm(context, url, builder.build(), responseHandler);
     }
 
     public static void postNoLoading(String url, Map<String, String> paramsMap, final SimpleResponseHandler responseHandler) {
@@ -106,37 +77,47 @@ public class OkHttpUtils {
             //追加表单信息
             builder.add(key, paramsMap.get(key));
         }
-        postFormNoLoading(url, builder.build(), responseHandler);
+        responseHandler.isSetLoading = false;
+        postForm(url, builder.build(), responseHandler);
     }
 
-    public static void postFormLoading(Context context, String url, FormBody formBody, final SimpleResponseHandler responseHandler) {
-        isSetLoading = true;
-        loadingBar = new LoadingBar(context);
+    public static void postForm(String url, FormBody formBody, final SimpleResponseHandler responseHandler) {
+        postForm(null, url, formBody, responseHandler);
+    }
+
+    public static void postForm(Context context, String url, FormBody formBody, final SimpleResponseHandler responseHandler) {
         Request request = new Request.Builder()
                 .url(url)
                 .post(formBody)
                 .build();
         Call call = client.newCall(request);
+        responseHandler.context = context;
         EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
     }
 
-    /**
-     * 表单请求参数
-     *
-     * @param url
-     * @param formBody
-     * @param responseHandler //创建表单请求参数
-     *                        FormBody.Builder builder = new FormBody.Builder();
-     *                        builder.add("cityName", cityName);
-     *                        FormBody formBody = builder.build();
-     */
-    public static void postFormNoLoading(String url, FormBody formBody, final SimpleResponseHandler responseHandler) {
-        isSetLoading = false;
+    public static void postMarkdown(Context context, String url, String jsonStr, final SimpleResponseHandler responseHandler) {
+        Logger.d(TAG, "post url:" + url + "\njsonStr:" + jsonStr);
+        MediaType mediaType = MediaType.parse("text/x-markdown; charset=utf-8");
         Request request = new Request.Builder()
                 .url(url)
-                .post(formBody)
+                .post(RequestBody.create(mediaType, jsonStr))
                 .build();
         Call call = client.newCall(request);
+        responseHandler.isSetLoading = true;
+        responseHandler.context = context;
+        EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
+    }
+
+    public static void postJson(Context context, String url, JSONObject jsonStr, final SimpleResponseHandler responseHandler) {
+        Logger.d(TAG, "postNoLoading url:" + url + "\njsonStr:" + jsonStr);
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(mediaType, jsonStr.toString()))
+                .build();
+        Call call = client.newCall(request);
+        responseHandler.isSetLoading = true;
+        responseHandler.context = context;
         EXECUTOR_SERVICE.execute(new ResponseRunnable(call, responseHandler));
     }
 
@@ -150,18 +131,12 @@ public class OkHttpUtils {
     }
 
     public static void release() {
-        if ((isSetLoading && loadingBar != null) || isShowLoading) {
-            Logger.e(TAG, "SimpleResponseHandler    loadingBar hide");
-            loadingBar.dismiss();
-            loadingBar = null;
-            isShowLoading = false;
-        }
+
     }
 
     private static class ResponseRunnable implements Runnable {
         private Call call;
         private SimpleResponseHandler callback;
-        private long start, end;
 
         public ResponseRunnable(Call call, SimpleResponseHandler callback) {
             this.call = call;
@@ -171,13 +146,11 @@ public class OkHttpUtils {
         @Override
         public void run() {
             try {
-                start = System.currentTimeMillis();
                 callback.sendStartMessage();
                 Response response = call.execute();
-                end = System.currentTimeMillis();
-                Logger.i(TAG, "SimpleResponseHandler request complete time : " + (end - start) + "ms");
                 callback.onResponse(call, response);
             } catch (IOException e) {
+                e.printStackTrace();
                 callback.onFailure(call, e);
             }
             callback.sendFinishMessage();
@@ -189,6 +162,10 @@ public class OkHttpUtils {
      */
     public abstract static class SimpleResponseHandler implements Callback {
         private Handler handler;
+
+        private Context context;
+        private boolean isSetLoading = false;
+        private LoadingBar loadingBar;
 
         public SimpleResponseHandler() {
             Looper looper = Looper.myLooper();
@@ -217,7 +194,7 @@ public class OkHttpUtils {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            Logger.i(TAG, "SimpleResponseHandler   onResponse current Thread: " + Thread.currentThread().getName() + " , ThreadId : " + Thread.currentThread().getId());
+            Logger.d(TAG, "SimpleResponseHandler   onResponse current Thread: " + Thread.currentThread().getName() + " , ThreadId : " + Thread.currentThread().getId());
             if (response.code() < 200 || response.code() >= 300) {
                 sendFailuerMessage(new IOException(response.message()));
             } else {
@@ -227,7 +204,7 @@ public class OkHttpUtils {
 
         @Override
         public void onFailure(Call call, IOException e) {
-            Log.i(TAG, "SimpleResponseHandler   onFailure current Thread: " + Thread.currentThread().getName() + " , ThreadId : " + Thread.currentThread().getId());
+            Log.e(TAG, "SimpleResponseHandler   onFailure current Thread: " + Thread.currentThread().getName() + " , ThreadId : " + Thread.currentThread().getId());
             sendFailuerMessage(e);
         }
 
@@ -253,20 +230,21 @@ public class OkHttpUtils {
 
         public void onStart() {
             Logger.d(TAG, "SimpleResponseHandler    onStart");
-            if (isSetLoading && loadingBar != null && !loadingBar.isShowing()) {
-                Logger.d(TAG, "SimpleResponseHandler    loadingBar show");
+            if (isSetLoading && context != null) {
+                Logger.i(TAG, "SimpleResponseHandler    loadingBar show");
+                loadingBar = new LoadingBar(context);
                 loadingBar.show();
-                isShowLoading = true;
             }
+
         }
 
         public void onFinish() {
             Logger.d(TAG, "SimpleResponseHandler    onFinish");
-            if ((isSetLoading && loadingBar != null) || isShowLoading) {
-                Logger.e(TAG, "SimpleResponseHandler    loadingBar hide");
-                loadingBar.dismiss();
+            if (isSetLoading) {
+                Logger.i(TAG, "SimpleResponseHandler    loadingBar hide");
+                if (loadingBar != null)
+                    loadingBar.cancel();
                 loadingBar = null;
-                isShowLoading = false;
             }
         }
 

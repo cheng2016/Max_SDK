@@ -242,6 +242,8 @@ public class User implements IUser {
                     int status = jsonObject.optInt("status");
                     String message = jsonObject.optString("message");
                     if (status == 0) {
+                        SharedPreferenceHelper.setIsBindAccount(1);
+//                        SharedPreferenceHelper.setIsBindAccount(jsonObject.optJSONObject("data").optInt("is_visitor"));
                         listener.onResult(ResultCode.SUCCESS, message, "");
                         Logger.i(TAG, "bindAccount  成功");
                     } else {

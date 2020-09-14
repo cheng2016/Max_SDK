@@ -21,7 +21,7 @@ public class AccountSwitchDialog extends Dialog   {
 
     public AccountSwitchDialog(final Context context, final CallbackListener loginListener) {
         super(context, ResourceHelper.getStyleId(context,"base_pop"));
-        setContentView(ResourceHelper.getLayoutId(context,"dialog_account_switch"));
+        setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_switch"));
 
         this.context = context;
         setCanceledOnTouchOutside(false);

@@ -115,7 +115,7 @@ public abstract class HY_SplashBaseImage implements HY_ISplash {
 		@Override
 		public void onFinish() {
 			Logger.d("播放结束");
-			HY_SplashBaseImage.this.layout.setVisibility(View.INVISIBLE);
+//			HY_SplashBaseImage.this.layout.setVisibility(View.INVISIBLE);
 			listener.onFinish();
 		}
 	}

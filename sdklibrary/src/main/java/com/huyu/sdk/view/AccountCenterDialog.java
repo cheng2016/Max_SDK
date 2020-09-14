@@ -31,7 +31,7 @@ public class AccountCenterDialog extends Dialog {
 
     public AccountCenterDialog(Context context) {
         super(context, ResourceHelper.getStyleId(context,"base_pop"));
-        setContentView(ResourceHelper.getLayoutId(context,"dialog_acount_center"));
+        setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_acount_center"));
         this.context = context;
         setCanceledOnTouchOutside(false);
         initView();

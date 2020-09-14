@@ -11,6 +11,9 @@ import android.widget.Toast;
  */
 public class ToastUtils
 {
+
+    public static boolean isShow = true;
+
     private ToastUtils()
     {
         /* cannot be instantiated */
@@ -28,10 +31,7 @@ public class ToastUtils
     public static void show(Context context, String mesmessage)
     {
         Toast.makeText(context, mesmessage, Toast.LENGTH_SHORT).show();
-        ;
     }
-
-    public static boolean isShow = true;
 
     /**
      * 短时间显示Toast

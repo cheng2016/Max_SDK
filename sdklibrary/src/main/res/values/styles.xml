@@ -11,12 +11,12 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
-    <style name="edittext_style">
+    <style name="pop_edittext">
         <item name="android:textSize">@dimen/font_size_14</item>
         <item name="android:textColor">#ff868686</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">@drawable/u9_gray</item>
+        <item name="android:background">@drawable/hy_gray</item>
         <item name="android:padding">5.0dip</item>
         <item name="android:layout_width">@dimen/dialog_content_width</item>
         <item name="android:layout_height">38.0dip</item>
@@ -26,7 +26,7 @@
         <item name="android:textSize">@dimen/font_size_15</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:background">@drawable/u9_shape_button</item>
+        <item name="android:background">@drawable/hy_shape_button</item>
         <item name="android:padding">0.0dip</item>
         <item name="android:layout_width">@dimen/dialog_button_width</item>
         <item name="android:layout_height">@dimen/dialog_button_height</item>
@@ -37,7 +37,7 @@
     </style>
     <style name="pop_checkbox">
         <item name="android:textColor">#ffaeaeae</item>
-        <item name="android:background">@drawable/u9_checkbox_state</item>
+        <item name="android:background">@drawable/hy_checkbox_state</item>
         <item name="android:layout_width">10.0dip</item>
         <item name="android:layout_height">10.0dip</item>
         <item name="android:button">@null</item>

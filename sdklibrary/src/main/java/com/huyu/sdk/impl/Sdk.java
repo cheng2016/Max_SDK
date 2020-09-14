@@ -39,7 +39,7 @@ public class Sdk implements ISdk {
     }
 
     public void initApp(Context context) {
-        //必须先初始化文件日志类
+        //最好先初始化文件日志类
         Logger.init(context);
         //获取Manifest.xml配置信息
         XmlConfigHelper.getInstance().init(context);
@@ -82,13 +82,13 @@ public class Sdk implements ISdk {
 
                         resetU9Device(context);
                         sdkInitListener.onResult(ResultCode.SUCCESS, "initServer 初始化成功", dataObject.toString());
-                        Logger.i(TAG, "HYPlatform SDK 初始化成功");
+                        Logger.i(TAG, "SDK 初始化成功");
 
                         HY_Log_TimeUtils.setInitSDKSuccess();
                         U9Platform.getInstance().logReport("21", "初始化成功", HY_Log_TimeUtils.initSdk-HY_Log_TimeUtils.startGame+"");
                     } else {
                         sdkInitListener.onResult(ResultCode.Fail, message, "");
-                        Logger.i(TAG, "HYPlatform SDK 初始化失败");
+                        Logger.i(TAG, "SDK 初始化失败");
 
                         HY_Log_TimeUtils.setInitSDKFail();
                         U9Platform.getInstance().logReport("22", "初始化失败", HY_Log_TimeUtils.initSdk-HY_Log_TimeUtils.startGame+"");

@@ -3,7 +3,7 @@
     android:layout_width="@dimen/dialog_width"
     android:layout_height="@dimen/widget_size_210"
     android:layout_gravity="center_horizontal"
-    android:background="@drawable/u9_gray"
+    android:background="@drawable/hy_gray"
     android:orientation="vertical">
 
     <TextView
@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/widget_size_20"
         android:layout_marginTop="@dimen/widget_size_20"
-        android:drawableLeft="@drawable/u9_ic_setting"
+        android:background="@null"
+        android:drawableLeft="@drawable/hy_ic_setting"
         android:drawablePadding="@dimen/widget_size_3"
         android:text="@string/hy_account_setting"
         android:textColor="#525252"
@@ -25,6 +26,7 @@
         android:layout_below="@+id/top_tv"
         android:layout_marginLeft="@dimen/widget_size_20"
         android:layout_marginTop="@dimen/widget_size_12"
+        android:background="@null"
         android:text="@string/hy_account_bind_message"
         android:textSize="@dimen/font_size_10" />
 
@@ -33,23 +35,23 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_size_40"
         android:layout_centerInParent="true"
-        android:background="@drawable/u9_button_bind_selector"
         android:layout_marginLeft="@dimen/widget_size_40"
-        android:layout_marginRight="@dimen/widget_size_40" >
+        android:layout_marginRight="@dimen/widget_size_40"
+        android:background="@drawable/hy_button_bind_selector">
 
         <TextView
             android:id="@+id/bind_tv"
             style="@style/pop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/widget_size_20"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_size_20"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/u9_ic_account_safe"
+            android:drawableLeft="@drawable/hy_ic_account_safe"
             android:drawablePadding="@dimen/widget_size_3"
             android:gravity="center_vertical"
             android:text="@string/hy_bind_account"
-            android:textColor="@color/white"
+            android:textColor="@color/hy_white"
             android:textSize="@dimen/font_size_13" />
 
         <ImageView
@@ -58,7 +60,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/widget_size_16"
-            android:src="@drawable/u9_ic_arrow_right"/>
+            android:background="@null"
+            android:src="@drawable/hy_ic_arrow_right" />
 
     </RelativeLayout>
 
@@ -70,6 +73,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/widget_size_12"
         android:layout_marginTop="@dimen/widget_size_12"
+        android:background="@null"
         android:text="登录其他账号 切换账户"
         android:textSize="@dimen/font_size_10" />
 

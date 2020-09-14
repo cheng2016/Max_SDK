@@ -38,7 +38,7 @@ public class AccountContractWebDialog extends Dialog {
 
     public AccountContractWebDialog(final Context context, final CallbackListener loginListener) {
         super(context, ResourceHelper.getStyleId(context,"base_pop"));
-        setContentView(ResourceHelper.getLayoutId(context,"dialog_account_contract_web"));
+        setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_contract_web"));
         this.loginListener = loginListener;
         this.context = context;
         setCanceledOnTouchOutside(false);

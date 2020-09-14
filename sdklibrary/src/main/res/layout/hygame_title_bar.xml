@@ -15,7 +15,7 @@
         android:layout_height="40dp"
         android:padding="8dp"
         android:layout_centerVertical="true" 
-        android:src="@drawable/u9pay_back_btn_bg"/>
+        android:src="@drawable/hy_pay_back_btn_bg"/>
 
     <TextView
         android:id="@+id/hygame_title_text"

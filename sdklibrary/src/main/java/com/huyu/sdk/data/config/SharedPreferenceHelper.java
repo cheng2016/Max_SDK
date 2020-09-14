@@ -32,8 +32,6 @@ public class SharedPreferenceHelper {
     public static final String IS_BIND_ACCOUNT = "is_bind_account";
 
 
-    public static final String CURRENTDAY = "current_day";
-
     public static final String NICK_NAME = "nick_name";
 
     public static final String IS_FIRST = "isFirst";
@@ -42,9 +40,11 @@ public class SharedPreferenceHelper {
 
     public static final String KEY_MAC = "macaddr";
 
-    public static final String PLAYERID = "playerId";
 
-    public static final String USER_TYPE = "type";
+    public static SharedPreferences getPreference() {
+        return U9Platform.getInstance().getApplication().getSharedPreferences("u9", Context.MODE_PRIVATE);
+    }
+
 
     public static String getAccessToken() {
         return getPreference().getString(ACCESSTOKEN, "");
@@ -94,24 +94,6 @@ public class SharedPreferenceHelper {
         getPreference().edit().putInt(IS_BIND_ACCOUNT, isBindAccount).commit();
     }
 
-    public static String getAccount() {
-        String account = getPreference().getString("account", null);
-        if (null != account) {
-            try {
-                byte[] b = TypeConvert.hexStr2ByteArr(account);
-                RC4Http.RC4Base(b, 0, b.length);
-                account = new String(b);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return account;
-    }
-
-    public static String getCurrentDay() {
-        return getPreference().getString(CURRENTDAY, "time");
-    }
-
     public static boolean getFirstState() {
         return getPreference().getBoolean("isFirst", true);
     }
@@ -124,38 +106,8 @@ public class SharedPreferenceHelper {
         return getPreference().getString(NICK_NAME, "name");
     }
 
-    public static String getPlayerId() {
-        return getPreference().getString(PLAYERID, "");
-    }
-
-    public static SharedPreferences getPreference() {
-        return U9Platform.getInstance().getApplication().getSharedPreferences("u9", Context.MODE_PRIVATE);
-    }
-
-    public static String getPsd() {
-        String str2 = getPreference().getString("psd", null);
-        String str1 = str2;
-        if (str2 != null) {
-            byte[] arrayOfByte = TypeConvert.hexStr2ByteArr(str2);
-            RC4Http.RC4Base(arrayOfByte, 0, arrayOfByte.length);
-            str1 = new String(arrayOfByte);
-        }
-        return str1;
-    }
-
-    public static int getUserType() {
-        return getPreference().getInt("type", 0);
-    }
-
     public static String getmac() {
         return getPreference().getString(KEY_MAC, "");
-    }
-
-    public static void saveAccount(String paramString) {
-        byte[] arrayOfByte = paramString.getBytes();
-        RC4Http.RC4Base(arrayOfByte, 0, arrayOfByte.length);
-        String str = TypeConvert.toHexString(arrayOfByte);
-        getPreference().edit().putString("account", str).commit();
     }
 
     public static void saveFirstState(boolean paramBoolean) {
@@ -166,18 +118,6 @@ public class SharedPreferenceHelper {
         getPreference().edit().putString(NICK_NAME, paramString).commit();
     }
 
-    public static void savePsd(String paramString) {
-        byte[] arrayOfByte = paramString.getBytes();
-        RC4Http.RC4Base(arrayOfByte, 0, paramString.length());
-        paramString = TypeConvert.toHexString(arrayOfByte);
-        getPreference().edit().putString("psd", paramString).commit();
-    }
-
-
-    public static void setCurrentDay(String paramString) {
-        getPreference().edit().putString(CURRENTDAY, paramString).commit();
-    }
-
     public static void setImei(String paramString) {
         getPreference().edit().putString(KEY_IMEI, paramString).commit();
     }
@@ -186,12 +126,5 @@ public class SharedPreferenceHelper {
         getPreference().edit().putString(KEY_MAC, paramString).commit();
     }
 
-    public static void setPlayerId(String paramString) {
-        getPreference().edit().putString(PLAYERID, paramString).commit();
-    }
-
-    public static void setUserType(int paramInt) {
-        getPreference().edit().putInt("type", 0).commit();
-    }
 }
 

@@ -47,6 +47,8 @@ public final class Constant {
     public static final String HY_SDK_VERSION = "1.5.1";
     public static final String HY_SDK_VERSION_CODE = "2";
 
+    public static final String IS_REQUEST_PERMISSION = "isRequestPermission";
+
     /**
      * 0:不启用 1:启用
      */

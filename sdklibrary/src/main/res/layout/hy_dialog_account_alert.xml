@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/widget_size_210"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/hy_gray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/widget_size_20"
+        android:layout_marginTop="@dimen/widget_size_20"
+        android:background="@null"
+        android:text="@string/hy_alert"
+        android:textColor="#525252"
+        android:textSize="@dimen/font_size_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/message_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/widget_size_30"
+        android:layout_marginTop="@dimen/widget_size_20"
+        android:layout_marginRight="@dimen/widget_size_30"
+        android:background="@null"
+        android:text="@string/hy_bound_message"
+        android:textColor="#525252"
+        android:textSize="@dimen/font_size_13"
+        android:textStyle="bold" />
+
+
+    <Button
+        android:id="@+id/btn_comfirm"
+        style="@style/pop_button"
+        android:layout_below="@+id/message_tv"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/widget_size_30"
+        android:text="@string/u9pay_confirm_btn"
+        android:textAllCaps="false"
+        android:textSize="16.0sp" />
+
+</RelativeLayout>

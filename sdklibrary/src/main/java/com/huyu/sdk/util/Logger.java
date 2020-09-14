@@ -24,6 +24,8 @@ import java.util.concurrent.Executors;
  * 文件日志工具类
  * <p>
  * Created by chengzj 2018/06/29
+ *
+ * 不初始化也可以使用，建议优先执行初始化init()方法
  */
 public class Logger {
     public static final String TAG = Logger.class.getSimpleName();
@@ -69,6 +71,7 @@ public class Logger {
             Log.e(TAG, "很抱歉，没有读写权限，无法写入SD卡中");
             hasPermissions = false;
         }else {
+            Log.i(TAG, "拥有读写权限，可以写入SD卡中");
             hasPermissions = true;
         }
         pkgName = context.getPackageName();

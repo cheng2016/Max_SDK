@@ -17,13 +17,13 @@ public class TimeThread extends CountDownTimer {
   public void onFinish() {
     this.timeButton.setText("重新获取");
     this.timeButton.setClickable(true);
-    this.timeButton.setBackgroundResource(R.drawable.u9_bg_003);
+    this.timeButton.setBackgroundResource(R.drawable.hy_bg_003);
     this.timeButton.setPadding(0, 0, 0, 0);
   }
   
   public void onTick(long paramLong) {
     this.timeButton.setClickable(false);
-    this.timeButton.setBackgroundResource(R.drawable.u9_bg_004);
+    this.timeButton.setBackgroundResource(R.drawable.hy_bg_004);
     this.timeButton.setPadding(0, 0, 0, 0);
     this.timeButton.setText((paramLong / 1000L) + "秒后可重新获取");
   }

@@ -43,13 +43,14 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void initApplication(Application context) {
+        Logger.d(TAG,"initApplication");
         if (mChannel == null) {
             Object object = null;
             try {
                 object = SDKTools.getMainClassByChannelName(context);
             } catch (Exception e) {
-                Log.e("Logger HYSDK", e.toString());
                 e.printStackTrace();
+                Logger.e(TAG, "initApplication exception",e);
             }
 //            mChannel = ((null == object) ? new Test_Channel() : (BaseChannel) object);
             mChannel = (BaseChannel) object;
@@ -59,13 +60,25 @@ public class HYSDK implements SDKProxy, HYSDKListener {
     }
 
     @Override
-    public void initActivity(Activity activity, CallbackListener listener) {
-        U9Platform.getInstance().initActivity(activity, listener);
-        mChannel.initActivity(activity, listener);
+    public void initActivity(final Activity activity, final CallbackListener listener) {
+        Logger.d(TAG,"initActivity");
+        U9Platform.getInstance().initActivity(activity, new CallbackListener() {
+            @Override
+            public void onResult(ResultCode resultCode, String msg, String data) {
+                if (resultCode == ResultCode.SUCCESS) {
+                    Logger.d(TAG, "----- U9Platform initActivity SUCCESS -----");
+                    mChannel.initActivity(activity, listener);
+                } else if (resultCode == ResultCode.Fail) {
+                    Logger.e(TAG, "----- U9Platform initActivity Fail -----");
+                    listener.onResult(resultCode, msg, data);
+                }
+            }
+        });
     }
 
     @Override
     public void setHYSDKListener(final HYSDKListener listener) {
+        Logger.d(TAG,"setHYSDKListener");
         mChannel.setHYSDKListener(new HYSDKListener() {
             @Override
             public void onSwitchAccount(HYUser user) {
@@ -83,6 +96,7 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void login(final Activity activity, final LoginCallBackListener listener) {
+        Logger.d(TAG,"login");
         mChannel.login(activity, new LoginCallBackListener() {
             @Override
             public void onLoginSuccess(final HYUser user) {
@@ -116,6 +130,7 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void logout(final Activity activity) {
+        Logger.d(TAG,"logout");
         mChannel.logout(activity);
     }
 
@@ -126,8 +141,9 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void showAccountCenter(Activity activity) {
+        Logger.d(TAG,"showAccountCenter");
         if (this.mHYUser == null) {
-            Logger.e(TAG,"showAccountCenter 请先登录");
+            Logger.e(TAG, "showAccountCenter 请先登录");
             return;
         }
         mChannel.showAccountCenter(activity);
@@ -135,6 +151,7 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void roleReport(Activity activity, GameRoleInfo gameRoleInfo, final CallbackListener listener) {
+        Logger.d(TAG,"roleReport");
         mChannel.roleReport(activity, gameRoleInfo, listener);
         U9Platform.getInstance().roleReport(activity, gameRoleInfo, new CallbackListener() {
             @Override
@@ -146,11 +163,12 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void pay(final Activity activity, final PayParams params, final PayCallbackListener listener) {
+        Logger.d(TAG,"pay");
         if (this.mHYUser == null) {
             listener.onPayFailed("请先登录");
             return;
         }
-        if(Constant.CHANNEL_TYPE.contains("HY")){
+        if (Constant.CHANNEL_TYPE.contains("google")) {
             mChannel.pay(activity, params, listener);
             return;
         }
@@ -158,6 +176,7 @@ public class HYSDK implements SDKProxy, HYSDKListener {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {
                 if (resultCode == ResultCode.SUCCESS) {
+                    params.setOrderId(msg);
                     mChannel.pay(activity, params, listener);
                 } else {
                     listener.onPayFailed(msg);
@@ -168,11 +187,13 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void applicationDestroy(Activity activity) {
+        Logger.d(TAG,"applicationDestroy");
         mChannel.applicationDestroy(activity);
     }
 
     @Override
     public void exit(Activity activity) {
+        Logger.d(TAG,"exit");
         mChannel.exit(activity);
     }
 
@@ -218,6 +239,7 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void onDestroy(Activity context) {
+        Logger.d(TAG,"onDestroy");
         U9Platform.getInstance().onDestroy();
         mChannel.onDestroy(context);
     }

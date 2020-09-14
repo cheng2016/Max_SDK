@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_tv"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/widget_size_10"
+        android:background="@drawable/hygame_login_logo" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="38.0dip"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/widget_size_30"
+        android:layout_marginTop="15.0dip"
+        android:layout_marginRight="@dimen/widget_size_30"
+        android:background="@color/hy_white">
+
+        <TextView
+            android:id="@+id/account_"
+            android:layout_width="@dimen/widget_size_80"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5.0dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/hy_account"
+            android:textColor="@color/hy_gray_color" />
+
+        <EditText
+            android:id="@+id/et_register_account"
+            style="@style/pop_edittext"
+            android:layout_toRightOf="@+id/account_"
+            android:background="@android:color/transparent"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:gravity="left|center_vertical"
+            android:hint=""
+            android:maxLength="18"
+            android:text=""
+            android:textColor="@color/hy_gray_color" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="38.0dip"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/widget_size_30"
+        android:layout_marginTop="10.0dip"
+        android:layout_marginRight="@dimen/widget_size_30"
+        android:background="@color/hy_white">
+
+        <TextView
+            android:id="@+id/password_"
+            android:layout_width="@dimen/widget_size_80"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5.0dip"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/hy_password"
+            android:textColor="@color/hy_gray_color" />
+
+        <EditText
+            android:id="@+id/et_register_psd"
+            style="@style/pop_edittext"
+            android:layout_toRightOf="@+id/password_"
+            android:background="@android:color/transparent"
+            android:gravity="left|center_vertical"
+            android:hint=""
+            android:inputType="textPassword"
+            android:text=""
+            android:textColor="@color/hy_gray_color" />
+
+    </RelativeLayout>
+</LinearLayout>

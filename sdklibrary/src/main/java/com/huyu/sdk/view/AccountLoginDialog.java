@@ -40,7 +40,7 @@ public class AccountLoginDialog extends Dialog {
 
     public AccountLoginDialog(Context context, CallbackListener listener) {
         super(context, ResourceHelper.getStyleId(context,"base_pop"));
-        setContentView(ResourceHelper.getLayoutId(context,"dialog_account_login"));
+        setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_login"));
         this.context = context;
         setCanceledOnTouchOutside(false);
         this.listener = listener;
@@ -79,11 +79,15 @@ public class AccountLoginDialog extends Dialog {
         final String account = this.et_register_account.getText().toString().trim();
         final String psd = this.et_register_psd.getText().toString().trim();
         if (TextUtils.isEmpty(account)) {
-            ToastUtils.show(context, "账号不能为空");
+            ToastUtils.show(context, ResourceHelper.getStringId(context,"hy_acount_cannot_be_null"));
             return;
         }
         if (TextUtils.isEmpty(psd)) {
-            ToastUtils.show(context, "密码不能为空");
+            ToastUtils.show(context, ResourceHelper.getStringId(context,"hy_password_cannot_be_null"));
+            return;
+        }
+        if(!this.checkbox_contract.isChecked()){
+            ToastUtils.show(context, ResourceHelper.getStringId(context,"hy_check_user_contract"));
             return;
         }
         HYPlatform.getInstance().accountlogin(context, loginType, account, psd, new CallbackListener() {

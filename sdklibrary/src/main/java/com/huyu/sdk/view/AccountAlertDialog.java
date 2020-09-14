@@ -19,7 +19,7 @@ public class AccountAlertDialog extends Dialog {
 
     public AccountAlertDialog(Context context, CallbackListener loginListener) {
         super(context, ResourceHelper.getStyleId(context, "base_pop"));
-        setContentView(ResourceHelper.getLayoutId(context, "dialog_account_alert"));
+        setContentView(ResourceHelper.getLayoutId(context, "hy_dialog_account_alert"));
 
         this.context = context;
         setCanceledOnTouchOutside(false);

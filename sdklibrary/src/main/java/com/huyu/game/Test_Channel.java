@@ -98,7 +98,7 @@ public class Test_Channel extends BaseChannel {
 
     @Override
     public void pay(final Activity activity, final PayParams payParams, final PayCallbackListener listener) {
-        Logger.d(TAG, "pay");
+        Logger.d(TAG, "pay orderid = " + payParams.getOrderId());
         new AlertDialog.Builder(activity)
                 .setTitle("模拟SDK支付框")
                 .setMessage("充值请点击支付按钮")

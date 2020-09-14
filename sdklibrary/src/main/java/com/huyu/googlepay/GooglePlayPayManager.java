@@ -212,7 +212,6 @@ public class GooglePlayPayManager {
             if (mHelper == null) return;
             //失败方法
 
-
             if (!result.isSuccess()) {
                 Logger.d(TAG, "---------------GP购买失败>>>" + result.getMessage());
 
@@ -283,14 +282,8 @@ public class GooglePlayPayManager {
         }
     }
 
-
-
-
-
-
    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (mHelper == null) return;
         // Pass on the activity result to the helper for handling
         if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {

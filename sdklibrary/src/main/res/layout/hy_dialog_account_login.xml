@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/hy_gray"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/top_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_size_20"
+        android:layout_marginTop="@dimen/widget_size_20"
+        android:text="绑定账户"
+        android:background="@null"
+        android:textColor="#525252"
+        android:textSize="@dimen/font_size_18"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <include layout="@layout/hy_common_account" />
+
+    <CheckBox
+        android:id="@+id/checkbox_contract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_size_30"
+        android:layout_marginTop="@dimen/widget_size_5"
+        android:button="@drawable/hy_checkbox_contract"
+        android:checked="true"
+        android:background="@null"
+        android:text="@string/hy_agree_user_contract"
+        android:textColor="#ff868686"
+        android:textSize="@dimen/font_size_11" />
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/pop_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_size_36"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/widget_size_10"
+        android:layout_marginBottom="@dimen/widget_size_30"
+        android:text="@string/hy_login"
+        android:textAllCaps="false" />
+</LinearLayout>

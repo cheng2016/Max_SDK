@@ -23,7 +23,7 @@ public class FailPop extends Dialog {
 
     private FailPop(Context context, String paramString) {
         super(context, ResourceHelper.getStyleId(context, "base_pop"));
-        setContentView(ResourceHelper.getLayoutId(context, "pop_fail"));
+        setContentView(ResourceHelper.getLayoutId(context, "hy_pop_fail"));
         this.context = context;
         this.text = paramString;
         setCanceledOnTouchOutside(false);

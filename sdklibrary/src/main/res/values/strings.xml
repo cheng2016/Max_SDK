@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="loading">Loading...</string>
+    <!--注册成功展示界面-->
+    <string name="hy_alert">Tips</string>
+    <string name="hy_loading">Loading...</string>
 
     <string name="hy_account">Account：</string>
     <string name="hy_password">Password：</string>
     <string name="hy_agree_user_contract">  I agree to this user agreement</string>
+
+    <string name="hy_login">Login</string>
     <string name="hy_login_and_bind">Login and bind</string>
+
+    <string name="hy_check_user_contract">Please check the user agreement first</string>
+
+    <string name="hy_acount_cannot_be_null">Account cannot be empty</string>
+    <string name="hy_password_cannot_be_null">Password cannot be empty</string>
 
     <string name="hy_bind_account">Bind account</string>
     <string name="hy_bound">Bound</string>
@@ -18,9 +26,6 @@
     <string name="hy_switch_account">Switch account</string>
     <string name="hy_login_other_account">Log in to another account</string>
 
-    <!--注册成功展示界面-->
-    <string name="alert">Tips</string>
-
     <string name="google_app_id">1023661811102-shdegd71u401394vm66v5qa0o6atts8u.apps.googleusercontent.com</string>
 
     <string name="u9pay_get_pay_info">Generating order ...</string>
@@ -28,12 +33,12 @@
     <string name="u9pay_pay_amount">Account:</string>
 
     <string name="u9pay_pay">Pay</string>
-
-    <string name="u9pay_exit_pay_hint">Whether to cancel the purchase？</string>
-
-    <string name="u9pay_quite_game">Sign out</string>
-    <string name="u9pay_play_game">Return</string>
     <string name="u9pay_confirm_btn">Confirm</string>
     <string name="u9pay_cannel_btn">Cancel</string>
+    <string name="u9pay_exit_pay_hint">Whether to cancel the purchase？</string>
+    <string name="u9pay_quite_game">Sign out</string>
+    <string name="u9pay_play_game">Return</string>
     <string name="u9pay_close_btn">Close</string>
+    <string name="u9pay_no_pay_params">The payment parameter is empty</string>
+
 </resources>

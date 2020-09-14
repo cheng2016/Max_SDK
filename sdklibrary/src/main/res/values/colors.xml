@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_color">#ff24aef4</color>
+
     <color name="colorAccent">#ffff4081</color>
     <color name="colorPrimary">#ff3f51b5</color>
     <color name="colorPrimaryDark">#ff303f9f</color>
-    <color name="dk_color_333333">#ff333333</color>
-    <color name="gray_color">#ff868686</color>
 
-    <color name="white">#ffffff</color>
+
+    <color name="hy_blue_color">#ff24aef4</color>
+    <color name="hy_dk_color">#ff333333</color>
+    <color name="hy_gray_color">#ff868686</color>
+    <color name="hy_white">#ffffff</color>
 
     <!-- 按钮颜色-黑 -->
     <color name="hy_login_btn_black">#697B89</color>

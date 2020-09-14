@@ -17,18 +17,13 @@ import java.util.Map;
 
 public class AssetsConfigHelper {
     private static final String TAG = "AssetsJsonConfig";
-    private static AssetsConfigHelper xmConfig;
+    private static AssetsConfigHelper instance;
     private Map<String, String> map = new HashMap<String, String>();
 
     public static AssetsConfigHelper getInstance(Context context) {
-        if (xmConfig == null) {
-            synchronized (AssetsConfigHelper.class) {
-                if (xmConfig == null) {
-                    xmConfig = new AssetsConfigHelper(context);
-                }
-            }
-        }
-        return xmConfig;
+        if (instance == null)
+            instance = new AssetsConfigHelper(context);
+        return instance;
     }
 
     private AssetsConfigHelper(Context context) {

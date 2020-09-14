@@ -19,7 +19,7 @@ import com.huyu.sdk.util.ToastUtils;
  * @time 2020/7/23 16:22
  * Description: BindAccountDialog
  */
-public class AccountBindDialog extends Dialog   {
+public class AccountBindDialog extends Dialog {
     private Context context;
 
     private CallbackListener mCallbackListener;
@@ -33,8 +33,8 @@ public class AccountBindDialog extends Dialog   {
     private CheckBox checkbox_contract;
 
     public AccountBindDialog(Context context, CallbackListener listener) {
-        super(context, ResourceHelper.getStyleId(context,"base_pop"));
-        setContentView(ResourceHelper.getLayoutId(context,"dialog_account_bind"));
+        super(context, ResourceHelper.getStyleId(context, "base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context, "hy_dialog_account_bind"));
 
         this.context = context;
         setCanceledOnTouchOutside(false);
@@ -45,20 +45,20 @@ public class AccountBindDialog extends Dialog   {
     }
 
     void initView() {
-        this.et_register_account = (EditText) findViewById(ResourceHelper.getId(context,"et_register_account"));
-        this.et_register_psd = (EditText) findViewById(ResourceHelper.getId(context,"et_register_psd"));
-        this.btn_register = (Button) findViewById(ResourceHelper.getId(context,"btn_register"));
+        this.et_register_account = (EditText) findViewById(ResourceHelper.getId(context, "et_register_account"));
+        this.et_register_psd = (EditText) findViewById(ResourceHelper.getId(context, "et_register_psd"));
+        this.btn_register = (Button) findViewById(ResourceHelper.getId(context, "btn_register"));
         this.btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 register();
             }
         });
-        this.checkbox_contract = findViewById(ResourceHelper.getId(context,"checkbox_contract"));
+        this.checkbox_contract = findViewById(ResourceHelper.getId(context, "checkbox_contract"));
         this.checkbox_contract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new AccountContractWebDialog(context,mCallbackListener);
+                Dialog dialog = new AccountContractWebDialog(context, mCallbackListener);
                 dialog.show();
             }
         });
@@ -68,11 +68,15 @@ public class AccountBindDialog extends Dialog   {
         final String account = this.et_register_account.getText().toString().trim();
         final String psd = this.et_register_psd.getText().toString().trim();
         if (TextUtils.isEmpty(account)) {
-            ToastUtils.show(context, "账号不能为空");
+            ToastUtils.show(context, ResourceHelper.getStringId(context, "hy_acount_cannot_be_null"));
             return;
         }
         if (TextUtils.isEmpty(psd)) {
-            ToastUtils.show(context, "密码不能为空");
+            ToastUtils.show(context, ResourceHelper.getStringId(context, "hy_password_cannot_be_null"));
+            return;
+        }
+        if (!this.checkbox_contract.isChecked()) {
+            ToastUtils.show(context, ResourceHelper.getStringId(context, "hy_check_user_contract"));
             return;
         }
         HYPlatform.getInstance().bindAccount(context, account, psd, new CallbackListener() {

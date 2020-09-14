@@ -8,31 +8,25 @@ import android.widget.ImageView;
 import com.huyu.sdk.util.ResourceHelper;
 
 public class LoadingBar extends Dialog {
-  ObjectAnimator animator;
+    ObjectAnimator animator;
 
-  public LoadingBar(Context context) {
-    super(context, ResourceHelper.getStyleId(context,"base_pop"));
-    setContentView(ResourceHelper.getLayoutId(context,"loading"));
+    public LoadingBar(Context context) {
+        super(context, ResourceHelper.getStyleId(context, "base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context, "hy_loading"));
 
-    this.animator = ObjectAnimator.ofFloat((ImageView)findViewById(ResourceHelper.getId(context,"progressBar")), "rotation", new float[] { 0.0F, 360.0F });
-    this.animator.setDuration(500L);
-    this.animator.setRepeatCount(-1);
-    this.animator.start();
-  }
-  
-  public void cancel() {
-    super.cancel();
-    this.animator = null;
-  }
+        this.animator = ObjectAnimator.ofFloat((ImageView) findViewById(ResourceHelper.getId(context, "progressBar")), "rotation", new float[]{0.0F, 360.0F});
+        this.animator.setDuration(500L);
+        this.animator.setRepeatCount(-1);
+        this.animator.start();
+    }
 
-  @Override
-  public void dismiss() {
-    super.dismiss();
-    this.animator = null;
-  }
+    public void cancel() {
+        super.cancel();
+        this.animator = null;
+    }
 
-  public void show() {
-    super.show();
-    setCanceledOnTouchOutside(false);
-  }
+    public void show() {
+        super.show();
+        setCanceledOnTouchOutside(false);
+    }
 }
