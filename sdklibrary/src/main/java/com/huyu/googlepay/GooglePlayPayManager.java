@@ -41,6 +41,11 @@ public class GooglePlayPayManager {
         this.mActivity = mActivity;
     }
 
+    public GooglePlayPayManager(Activity mActivity,boolean isOnlyGooglePays) {
+        this.mActivity = mActivity;
+        this.isOnlyGooglePay = isOnlyGooglePays;
+    }
+
 
     /********发起支付*****/
     public void doPay(String googlePublicKey, String productId) {

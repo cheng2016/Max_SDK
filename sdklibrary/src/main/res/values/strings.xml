@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--facebook参数-->
+    <string name="facebook_app_id">1039383782932111</string>
+    <string name="fb_login_protocol_scheme">fb1039383782932111</string>
+    <!--google参数-->
+    <string name="google_app_id">1023661811102-shdegd71u401394vm66v5qa0o6atts8u.apps.googleusercontent.com</string>
     <!--注册成功展示界面-->
     <string name="hy_alert">Tips</string>
     <string name="hy_loading">Loading...</string>
@@ -26,13 +31,12 @@
     <string name="hy_switch_account">Switch account</string>
     <string name="hy_login_other_account">Log in to another account</string>
 
-    <string name="google_app_id">1023661811102-shdegd71u401394vm66v5qa0o6atts8u.apps.googleusercontent.com</string>
-
     <string name="u9pay_get_pay_info">Generating order ...</string>
     <string name="u9pay_check_pay_result">Check payment result</string>
     <string name="u9pay_pay_amount">Account:</string>
 
     <string name="u9pay_pay">Pay</string>
+    <string name="u9pay_exit_game_hint">Whether to exit the game？</string>
     <string name="u9pay_confirm_btn">Confirm</string>
     <string name="u9pay_cannel_btn">Cancel</string>
     <string name="u9pay_exit_pay_hint">Whether to cancel the purchase？</string>

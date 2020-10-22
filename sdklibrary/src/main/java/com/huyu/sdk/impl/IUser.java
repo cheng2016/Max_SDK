@@ -3,6 +3,7 @@ package com.huyu.sdk.impl;
 import android.content.Context;
 
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.listener.LoginCallBackListener;
 
 import java.util.Map;
 
@@ -15,11 +16,15 @@ public interface IUser    {
 
     void autoLogin(final Context context, Map<String, String> map, final CallbackListener listener);
 
-    void accountlogin(final Context context, Map<String, String> map, final CallbackListener listener);
+//    void accountlogin(final Context context, Map<String, String> map, final CallbackListener listener);
+
+    void accountlogin(final Context context, Map<String, String> map, final LoginCallBackListener listener);
 
     void verifylogin(Context context, Map<String, String> map, final CallbackListener listener);
 
     void switchLogin(Map<String, String> map,CallbackListener listener);
+
+    void roleReport(Context context, Map<String, String> map, final CallbackListener listener);
 
     void submitExtraData(UserExtraData paramUserExtraData, CallbackListener listener);
 

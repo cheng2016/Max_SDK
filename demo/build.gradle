@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 26
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 26
         applicationId "com.hy.sdk.demo"
         versionCode 1
         versionName "1.0"
@@ -57,5 +57,7 @@ android {
 //        implementation 'com.google.android.gms:play-services-wallet:16.0.1'
 //        implementation 'com.appsflyer:af-android-sdk:4+@aar'
 //        implementation 'com.android.installreferrer:installreferrer:1.0'
+
+//        implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     }
 }

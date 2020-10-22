@@ -1,7 +1,9 @@
 package com.huyu.sdk.impl;
 
+import android.app.Activity;
 import android.content.Context;
 
+import com.huyu.googlepay.util.AppsFlyerActionHelper;
 import com.huyu.sdk.U9Platform;
 import com.huyu.sdk.data.HttpUrl;
 import com.huyu.sdk.data.ResultCode;
@@ -34,6 +36,7 @@ public class User implements IUser {
     }
 
     //游客登录
+    @Override
     public void guestLogin(final Context context, Map map, final CallbackListener listener) {
         OkHttpUtils.postNoLoading(U9_HttpUrl.URL_ONEKEYREGISTER, map, new OkHttpUtils.SimpleResponseHandler() {
             public void onSuccess(Call param1Call, Response param1Response) {
@@ -54,6 +57,10 @@ public class User implements IUser {
                         SharedPreferenceHelper.setChannelUserName(data.optString("username"));
                         SharedPreferenceHelper.setAccessToken(data.optString("token"));
 
+                        if (data.optInt("is_create") == 1) {
+                            AppsFlyerActionHelper.registerEvent((Activity) context);
+                        }
+
                         U9Platform.getInstance().verifylogin(context, listener);
                     } else {
                         listener.onResult(ResultCode.Fail, message, "");
@@ -70,6 +77,7 @@ public class User implements IUser {
     }
 
     //自动登录
+    @Override
     public void autoLogin(final Context context, Map<String, String> map, final CallbackListener listener) {
         OkHttpUtils.postNoLoading(U9_HttpUrl.URL_CHECK_TOKEN, map, new OkHttpUtils.SimpleResponseHandler() {
             public void onFailure(Exception param1Exception) {
@@ -94,32 +102,6 @@ public class User implements IUser {
     }
 
     @Override
-    public void accountlogin(final Context context, Map<String, String> map, final CallbackListener listener) {
-        OkHttpUtils.postNoLoading(U9_HttpUrl.URL_LOGIN, map, new OkHttpUtils.SimpleResponseHandler() {
-            public void onFailure(Exception param1Exception) {
-                listener.onResult(ResultCode.Fail, "accountlogin onFailure", param1Exception.toString());
-            }
-
-            public void onSuccess(Call param1Call, Response param1Response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(new String(param1Response.body().string()));
-                    int status = jsonObject.optInt("status");
-                    final String message = jsonObject.optString("message");
-                    if (status == 0) {
-                        JSONObject data = jsonObject.optJSONObject("data");
-                        final HYUser user = new HYUser();
-                        saveUserData(data, user);
-                        U9Platform.getInstance().verifylogin(context, listener);
-                    } else {
-                        listener.onResult(ResultCode.Fail, message, "");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     public void accountlogin(final Context context, Map<String, String> map, final LoginCallBackListener listener) {
         OkHttpUtils.postNoLoading(U9_HttpUrl.URL_LOGIN, map, new OkHttpUtils.SimpleResponseHandler() {
             public void onFailure(Exception param1Exception) {
@@ -133,8 +115,20 @@ public class User implements IUser {
                     final String message = jsonObject.optString("message");
                     if (status == 0) {
                         JSONObject data = jsonObject.optJSONObject("data");
+
+                        if (data.optInt("is_create") == 1) {
+                            AppsFlyerActionHelper.registerEvent((Activity) context);
+                        }
+
                         final HYUser user = new HYUser();
-                        saveUserData(data, user);
+                        SharedPreferenceHelper.setHyUserId(data.optString("uid"));
+                        SharedPreferenceHelper.setChannelUserId(data.optString("guid"));
+                        SharedPreferenceHelper.setChannelUserName(data.optString("username"));
+                        SharedPreferenceHelper.setAccessToken(data.optString("token"));
+                        user.hyuid = data.optString("uid");
+                        user.channelUserId = data.optString("guid");
+                        user.channelUserName = data.optString("username");
+                        user.token = data.optString("token");
                         U9Platform.getInstance().verifylogin(context, new CallbackListener() {
                             @Override
                             public void onResult(ResultCode resultCode, String msg, String data) {
@@ -157,23 +151,7 @@ public class User implements IUser {
         });
     }
 
-    void saveUserData(JSONObject data, HYUser user) {
-        SharedPreferenceHelper.setHyUserId(data.optString("uid"));
-        SharedPreferenceHelper.setChannelUserId(data.optString("guid"));
-        SharedPreferenceHelper.setChannelUserName(data.optString("username"));
-        SharedPreferenceHelper.setAccessToken(data.optString("token"));
-
-        String hyUserId = data.optString("uid");
-        String channelUserId = data.optString("guid");
-        String channelUserName = data.optString("username");
-        String token = data.optString("token");
-
-        user.hyuid = hyUserId;
-        user.channelUserId = channelUserId;
-        user.channelUserName = channelUserName;
-        user.token = token;
-    }
-
+    @Override
     public void verifylogin(Context context, Map<String, String> map, final CallbackListener listener) {
         OkHttpUtils.postLoading(context, HttpUrl.URL_LOGIN, map, new OkHttpUtils.SimpleResponseHandler() {
             public void onFailure(Exception param1Exception) {
@@ -210,6 +188,7 @@ public class User implements IUser {
 
     }
 
+    @Override
     public void roleReport(Context context, Map<String, String> map, final CallbackListener listener) {
         OkHttpUtils.postLoading(context, HttpUrl.URL_ROLE_REPORT, map, new OkHttpUtils.SimpleResponseHandler() {
             public void onSuccess(Call param1Call, Response param1Response) {

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.huyu.sdk.data.Constant;
-import com.huyu.sdk.data.config.AssetsConfigHelper;
+import com.huyu.sdk.data.config.XmlConfigHelper;
 import com.huyu.sdk.util.HY_Utils;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.PermissionHelper;
@@ -110,8 +110,8 @@ public abstract class HY_SplashActivity extends Activity {
         this.sequence.play(this, new HY_SplashListener() {
             public void onFinish() {
                 //根据asset目录配置文件判断是否拉起权限请求框
-                String isRequestPermission = AssetsConfigHelper.getInstance(HY_SplashActivity.this).get(Constant.IS_REQUEST_PERMISSION);
-                if (TextUtils.isEmpty(isRequestPermission) || "true".equals(isRequestPermission)) {
+                String isRequestPermission = XmlConfigHelper.getManifestMetaData(HY_SplashActivity.this, "HY_PERMISSION_NEED");
+                if (!TextUtils.isEmpty(isRequestPermission) && "true".equals(isRequestPermission)) {
                     mHelper = new PermissionHelper(HY_SplashActivity.this);
                     mHelper.requestPermissions("Please grant the necessary permissions to run",
                             new PermissionHelper.PermissionListener() {
@@ -143,10 +143,10 @@ public abstract class HY_SplashActivity extends Activity {
     }
 
     /**
+     * @return
      * @description: 当闪屏PNG图片无法铺满部分机型的屏幕时，设置与闪屏颜色配合的背景色会给用户更好的体验
      * @author:smile
      * @return:int
-     * @return
      */
     public int getBackgroundColor() {
         // 从AndroidManifest中获取渠道颜色配置

@@ -28,7 +28,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * Created by admin on 2019/6/14.
+ * Created by chengzj on 2019/6/14.
  * <p>
  * 模仿Async-Http通信库写出的okhttp子线程跨主线程通信类
  * <p>
@@ -245,6 +245,7 @@ public class OkHttpUtils {
                 if (loadingBar != null)
                     loadingBar.cancel();
                 loadingBar = null;
+                context = null;
             }
         }
 

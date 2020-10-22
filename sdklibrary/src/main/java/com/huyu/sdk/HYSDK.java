@@ -5,17 +5,18 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.util.Log;
 
 import com.huyu.sdk.base.BaseChannel;
-import com.huyu.sdk.base.SDKProxy;
+import com.huyu.sdk.base.BaseSdk;
 import com.huyu.sdk.data.Constant;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.GameRoleInfo;
 import com.huyu.sdk.data.bean.HYUser;
 import com.huyu.sdk.data.bean.PayParams;
+import com.huyu.sdk.data.config.AssetsConfigHelper;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.listener.ExitCallback;
 import com.huyu.sdk.listener.HYSDKListener;
 import com.huyu.sdk.listener.LoginCallBackListener;
 import com.huyu.sdk.listener.PayCallbackListener;
@@ -28,7 +29,7 @@ import com.huyu.sdk.util.SDKTools;
  * 创建日期：2020/8/4 11:13
  * 描述：平台所有入口
  */
-public class HYSDK implements SDKProxy, HYSDKListener {
+public class HYSDK extends BaseSdk implements HYSDKListener {
     public static final String TAG = HYSDK.class.getSimpleName();
     private static HYSDK instance;
     private BaseChannel mChannel;
@@ -136,6 +137,7 @@ public class HYSDK implements SDKProxy, HYSDKListener {
 
     @Override
     public void switchAccount(Activity activity) {
+        Logger.d(TAG,"switchAccount");
         mChannel.switchAccount(activity);
     }
 
@@ -191,6 +193,7 @@ public class HYSDK implements SDKProxy, HYSDKListener {
         mChannel.applicationDestroy(activity);
     }
 
+    @Deprecated
     @Override
     public void exit(Activity activity) {
         Logger.d(TAG,"exit");
@@ -198,42 +201,60 @@ public class HYSDK implements SDKProxy, HYSDKListener {
     }
 
     @Override
+    public void exit(Activity activity, ExitCallback callback) {
+        Logger.d(TAG,"------ exit ------");
+        if("true".equals(AssetsConfigHelper.getInstance(activity).get("isGameQuite"))){
+            callback.onGameExit(activity);
+        }else {
+            mChannel.exit(activity);
+        }
+    }
+
+    @Override
     public void onCreate(Activity context) {
+        Logger.d(TAG,"onCreate");
         mChannel.onCreate(context);
     }
 
     @Override
     public void onNewIntent(Intent intent) {
+        Logger.d(TAG,"onNewIntent");
         mChannel.onNewIntent(intent);
     }
 
     @Override
     public void onStart(Activity context) {
+        Logger.d(TAG,"onStart");
         mChannel.onStart(context);
     }
 
     @Override
     public void onResume(Activity context) {
+        Logger.d(TAG,"onResume");
         mChannel.onResume(context);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        Logger.d(TAG,"onConfigurationChanged");
         mChannel.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Logger.d(TAG,"onActivityResult");
         mChannel.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onPause(Activity context) {
+        Logger.d(TAG,"onPause");
         mChannel.onPause(context);
     }
 
     @Override
     public void onStop(Activity context) {
+        Logger.d(TAG,"onStop");
         mChannel.onStop(context);
     }
 

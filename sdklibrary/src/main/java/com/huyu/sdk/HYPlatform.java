@@ -262,18 +262,6 @@ public class HYPlatform {
         map.put("IsSwitchPayChannel", 1 + "");
         map.put("appversion", AppUtils.APP_VERSION_NAME);
         map.put("BundleId", AppUtils.APP_PACKAGE_NAME);
-
-        Logger.d(
-                TAG,
-                "支付请求信息: " + HttpUrl.URL_PAY + "?ChannelId="
-                        + Constant.CHANNEL_CODE + "&UserId="
-                        + SharedPreferenceHelper.getUserId() + "&ProductId="
-                        + Constant.APPID + "&ProductOrderId="
-                        + payParams.getGameOrderId() + "&Amount="
-                        + payParams.getAmount() + "&CallbackUrl="
-                        + payParams.getCallBackUrl() +"&appversion="
-                        + AppUtils.APP_VERSION_NAME+"&BundleId="
-                        + AppUtils.APP_PACKAGE_NAME);
         return map;
     }
 
@@ -292,6 +280,7 @@ public class HYPlatform {
         paramsMap.put("sub_channel", Constant.CHANNEL_ID);
         paramsMap.put("sub_channel_id", Constant.CHANNEL_ID);
         paramsMap.put("sdk_version", Constant.HY_SDK_VERSION_CODE);
+        paramsMap.put("BundleId", AppUtils.APP_PACKAGE_NAME);
         return paramsMap;
     }
 

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.huyu.sdk.U9Platform;
-import com.huyu.sdk.util.encry.RC4Http;
-import com.huyu.sdk.util.encry.TypeConvert;
 
 
 public class SharedPreferenceHelper {

@@ -3,6 +3,7 @@ package com.huyu.test.demo;
 import android.content.Intent;
 
 import com.huyu.sdk.splash.HY_SplashActivity;
+import com.huyu.sdk.util.HY_Utils;
 
 
 /**
@@ -18,8 +19,8 @@ public class SplashActivity extends HY_SplashActivity
     @Override
     public boolean getIsLandscape() {
         //横竖屏设置
-        // true 横屏   false竖屏
-        return true;
+        // true 0 横屏   false 1竖屏
+        return HY_Utils.getManifestMeta(this, "HY_IS_LANDSCAPE").equals("0");
     }
 
 

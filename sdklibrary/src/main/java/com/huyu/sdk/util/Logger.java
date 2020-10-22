@@ -250,7 +250,8 @@ public class Logger {
 
     private static void input2File(final String input, final String fullPath) {
         if (!createOrExistsFile(fullPath)) {
-            Log.e("Logger", "create " + fullPath + " failed!");
+            Log.e("Logger", "create " + fullPath + " failed!   ---------------  hasPermissions set false !!!");
+            hasPermissions = false;
             return;
         }
         EXECUTOR_SERVICE.execute(new Runnable() {

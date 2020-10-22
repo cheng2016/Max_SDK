@@ -13,7 +13,6 @@ import com.huyu.sdk.data.bean.HYUser;
 import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
-import com.huyu.sdk.data.config.XmlConfigHelper;
 import com.huyu.sdk.impl.Pay;
 import com.huyu.sdk.impl.Sdk;
 import com.huyu.sdk.impl.User;
@@ -201,17 +200,7 @@ public class U9Platform {
         map.put("ChannelUserName", user.channelUserName);
         map.put("DeviceId", PhoneInfoHelper.deviceId);
         map.put("Aid", Constant.PLAN_ID);
-        Logger.d(TAG, "设备信息:" + phoneInfo.toString());
-        Logger.d(
-                TAG,
-                "登录请求信息: " + HttpUrl.URL_LOGIN + "?ChannelId="
-                        + Constant.CHANNEL_CODE + "&IsDebug="
-                        + Constant.isDebug + "&Token="
-                        + user.token + "&ProductId="
-                        + Constant.APPID + "&ChannelUserId="
-                        + user.channelUserId + "&ChannelUserName="
-                        + user.channelUserName + "&PhoneInfo="
-                        + phoneInfo.toString());
+        map.put("BundleId", AppUtils.APP_PACKAGE_NAME);
         return map;
     }
 
@@ -226,19 +215,9 @@ public class U9Platform {
         map.put("CallbackUrl", payParams.getCallBackUrl());
         map.put("AppExt", payParams.getAppExtInfo());
         map.put("Aid", Constant.PLAN_ID);
+        map.put("PayChannel", payParams.getPayChannel());
         map.put("appversion", AppUtils.APP_VERSION_NAME);
         map.put("BundleId", AppUtils.APP_PACKAGE_NAME);
-        Logger.d(
-                TAG,
-                "支付请求信息: " + HttpUrl.URL_PAY + "?ChannelId="
-                        + Constant.CHANNEL_CODE + "&UserId="
-                        + mHYUserVo.userId + "&ProductId="
-                        + Constant.APPID + "&ProductOrderId="
-                        + payParams.getGameOrderId() + "&Amount="
-                        + payParams.getAmount() + "&CallbackUrl="
-                        + payParams.getCallBackUrl() + "&appversion="
-                        + AppUtils.APP_VERSION_NAME + "&BundleId="
-                        + AppUtils.APP_PACKAGE_NAME);
         return map;
     }
 
@@ -257,6 +236,7 @@ public class U9Platform {
         paramsMap.put("sub_channel", Constant.CHANNEL_ID);
         paramsMap.put("sub_channel_id", Constant.CHANNEL_ID);
         paramsMap.put("sdk_version", Constant.HY_SDK_VERSION_CODE);
+        paramsMap.put("BundleId", AppUtils.APP_PACKAGE_NAME);
         return paramsMap;
     }
 }

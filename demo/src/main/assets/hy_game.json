@@ -1,1 +1,8 @@
-{"mode":"3","isShowCS":"false","gdtUserActionSetID":"1107226634","gdtAppSecretKey":"lvWgNbMZJdbvlBNq"}
+{
+  "mode": "3",
+  "isGameQuite": "false",
+  "isShowCS": "false",
+  "gdtUserActionSetID": "1107226634",
+  "gdtAppSecretKey": "lvWgNbMZJdbvlBNq",
+  "isRequestPermission": "true"
+}

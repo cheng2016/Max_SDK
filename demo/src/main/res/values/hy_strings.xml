@@ -1,5 +1,5 @@
 <resources>
-    <string name="hy_app_name">u9demo</string>
+    <string name="hy_app_name">海外googleSdk</string>
     <string name="logon_button_txt">登录</string>
     <string name="logoff_button_txt">注销</string>
     <string name="pay_button_txt">支付</string>

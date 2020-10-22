@@ -42,7 +42,6 @@ public interface SDKProxy {
 
     void exit(Activity activity);
 
-
     void onCreate(Activity context);
 
 
@@ -51,10 +50,7 @@ public interface SDKProxy {
     void onActivityResult(int requestCode, int resultCode, Intent data);
 
 
-
     void onStart(Activity context);
-
-
 
     void onResume(Activity context);
 

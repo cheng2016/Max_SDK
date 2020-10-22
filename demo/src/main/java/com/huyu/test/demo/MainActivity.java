@@ -18,6 +18,7 @@ import com.huyu.sdk.data.bean.GameRoleInfo;
 import com.huyu.sdk.data.bean.HYUser;
 import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.listener.CallbackListener;
+import com.huyu.sdk.listener.ExitCallback;
 import com.huyu.sdk.listener.HYSDKListener;
 import com.huyu.sdk.listener.LoginCallBackListener;
 import com.huyu.sdk.listener.PayCallbackListener;
@@ -28,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends Activity implements OnClickListener {
-    protected static final String TAG = "HY";
+    protected static final String TAG = "MainActivity";
     private Button fbShareBtn;
     private Button mLogonBtn;
     private Button mPayBtn;
@@ -43,25 +44,12 @@ public class MainActivity extends Activity implements OnClickListener {
      **/
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        HYSDK.getInstance().onCreate(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Logger.i("MainActivity", "onCreate");
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId(this, "hygame_activity"));
-
-/*        U9Platform.getInstance().init(this, new CallbackListener() {
-            @Override
-            public void onResult(ResultCode resultCode, String msg, String data) {
-                if (resultCode == ResultCode.SUCCESS) {
-                    Toast.makeText(MainActivity.this, "HYPlatform 初始化成功", 100).show();
-//                    Logger.i(TAG,"HYPlatform 初始化成功");
-                } else {
-//                    Logger.i(TAG,"HYPlatform 初始化失败");
-                }
-            }
-        });*/
 
         //fbLoginBtn = findViewById(R.id.fb_login_button);
         fbShareBtn = (Button) findViewById(getId(this, "fb_share_button"));
@@ -82,15 +70,15 @@ public class MainActivity extends Activity implements OnClickListener {
         //fbLoginBtn.setOnClickListener(this);
 
         fbShareBtn.setOnClickListener(this);
-//        doLogin();
 
+        HYSDK.getInstance().onCreate(this);
         HYSDK.getInstance().initActivity(this, new CallbackListener() {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {
                 if (resultCode == ResultCode.SUCCESS) {
-                    Logger.i(TAG,"HYPlatform 初始化成功");
+                    Logger.i(TAG," ------------- 初始化成功 ----------------");
                 } else {
-                    Logger.i(TAG,"HYPlatform 初始化失败");
+                    Logger.i(TAG,"初始化失败");
                 }
             }
         });
@@ -119,7 +107,6 @@ public class MainActivity extends Activity implements OnClickListener {
     public void onBackPressed() {
         HYSDK.getInstance().exit(this);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -233,8 +220,6 @@ public class MainActivity extends Activity implements OnClickListener {
         });
     }
 
-
-
     /**
      * 退出接口说明：
      * <p>
@@ -242,7 +227,13 @@ public class MainActivity extends Activity implements OnClickListener {
      * 退出回调
      */
     private void doExit() {
-        HYSDK.getInstance().exit(this);
+//        HYSDK.getInstance().exit(this);
+        HYSDK.getInstance().exit(this, new ExitCallback() {
+            @Override
+            public void onGameExit(Activity activity) {
+                Toast.makeText(activity,"-- unity游戏退出接口 onGameExit --",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public static int getId(Context paramActivity, String id) {
@@ -256,7 +247,6 @@ public class MainActivity extends Activity implements OnClickListener {
         return paramActivity.getResources().getIdentifier(id, "layout",
                 packageName);
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -282,7 +272,6 @@ public class MainActivity extends Activity implements OnClickListener {
         HYSDK.getInstance().onStart(this);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -306,5 +295,4 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onDestroy();
         HYSDK.getInstance().onDestroy(this);
     }
-
 }
