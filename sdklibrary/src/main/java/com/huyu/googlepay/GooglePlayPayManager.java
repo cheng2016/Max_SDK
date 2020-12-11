@@ -3,13 +3,13 @@ package com.huyu.googlepay;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.huyu.game.googlePlay_Channel;
 import com.huyu.googlepay.util.AppsFlyerActionHelper;
 import com.huyu.googlepay.util.IabHelper;
 import com.huyu.googlepay.util.IabResult;
 import com.huyu.googlepay.util.Inventory;
 import com.huyu.googlepay.util.Purchase;
 import com.huyu.sdk.HYPlatform;
-import com.huyu.sdk.U9Platform;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.bean.PayParams;
 import com.huyu.sdk.data.config.XmlConfigHelper;
@@ -17,13 +17,15 @@ import com.huyu.sdk.listener.CallbackListener;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.ToastUtils;
 
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GooglePlayPayManager {
-    public static String GOOGLE_PAY = "GOOGLEPAY ";
-    private static final String TAG = "GooglePay";
+    private static final String TAG = "GooglePlayPayManager";
+
+    public static String GOOGLE_PAY = "GOOGLEPAY";
     /**
      * 支付参数
      */
@@ -33,30 +35,30 @@ public class GooglePlayPayManager {
     //标识 是否是 纯google 支付 ，来确定数据Af 购买数据上报（有 网页中打开的google支付，有 直接调起的 google支付，直接调起的 在此类支付完成需上报）
     public boolean isOnlyGooglePay = false;
 
-    public Activity mActivity;
+    WeakReference<Activity> mActivityWeakReference;
 
     public static GooglePlayPayManager instance;
 
-    public GooglePlayPayManager(Activity mActivity) {
-        this.mActivity = mActivity;
+    public GooglePlayPayManager(Activity activity) {
+        this.mActivityWeakReference = new WeakReference<>(activity);
     }
 
-    public GooglePlayPayManager(Activity mActivity,boolean isOnlyGooglePays) {
-        this.mActivity = mActivity;
+    public GooglePlayPayManager(Activity activity,boolean isOnlyGooglePays) {
+        this.mActivityWeakReference =  new WeakReference<>(activity);
         this.isOnlyGooglePay = isOnlyGooglePays;
     }
 
 
     /********发起支付*****/
-    public void doPay(String googlePublicKey, String productId) {
-        this.mPayParsms = U9Platform.mPayParams;
+    public GooglePlayPayManager doPay(String googlePublicKey, String productId) {
+        this.mPayParsms = googlePlay_Channel.mPayParams;
         Logger.d(TAG, "打开谷歌支付并且初始化>>productId传入》" + productId);
         GooglePayInit(googlePublicKey, productId);
+        return this;
     }
 
     /*************************************** googlePay start ********************************************************/
 
-    String googlePublicKey = "";
     String sku;
     IabHelper mHelper;
 
@@ -67,17 +69,17 @@ public class GooglePlayPayManager {
     //googlePay 支付
     public void GooglePayInit(String googlePublicKey, String productId) {
         if (TextUtils.isEmpty(googlePublicKey)) {
-            ToastUtils.show(mActivity, "Init GoooglePay Fail");
+            ToastUtils.show(mActivityWeakReference.get(), "Init GoooglePay Fail");
             return;
         }
         sku = productId;//商品id
         Logger.d(TAG, "googlePay商品id" + sku);
-        mHelper = new IabHelper(mActivity, googlePublicKey);
+        mHelper = new IabHelper(mActivityWeakReference.get(), googlePublicKey);
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             public void onIabSetupFinished(IabResult result) {
                 if (!result.isSuccess()) {
                     Logger.i(TAG, "Problem setting up In-app Billing: " + result);
-                    ToastUtils.show(mActivity, "Init GoooglePay Fail");
+                    ToastUtils.show(mActivityWeakReference.get(), "Init GoooglePay Fail");
 
                     Logger.d(TAG, "初始化googlePay失败");
                     return;
@@ -197,7 +199,7 @@ public class GooglePlayPayManager {
         //因为订单号不能唯一，所以使用当前时间生成订单号
         try {
             Logger.d(TAG, "进行支付");
-            mHelper.launchPurchaseFlow(mActivity, sku, RC_REQUEST, mPurchaseFinishedListener, mPayParsms.getOrderId());
+            mHelper.launchPurchaseFlow(mActivityWeakReference.get(), sku, RC_REQUEST, mPurchaseFinishedListener, mPayParsms.getOrderId());
         } catch (IabHelper.IabAsyncInProgressException e) {
             e.printStackTrace();
         }
@@ -243,7 +245,7 @@ public class GooglePlayPayManager {
      * @param
      */
     public void orderServerVerify(Purchase purchase) {
-        String payNotifyUrl = XmlConfigHelper.getPayCallbackUrl(mActivity);
+        String payNotifyUrl = XmlConfigHelper.getPayCallbackUrl(mActivityWeakReference.get());
         Map<String, String> params = new HashMap<>();
         params.put("order_id", mPayParsms.getOrderId());
         params.put("pay_amount", mPayParsms.getAmount() + "");
@@ -251,14 +253,14 @@ public class GooglePlayPayManager {
         if (!TextUtils.isEmpty(purchase.getSignature())) {
             params.put("inapp_data_signature", URLEncoder.encode(purchase.getSignature()));
         }
-        HYPlatform.getInstance().orderServerVerify(mActivity, payNotifyUrl, params, new CallbackListener() {
+        HYPlatform.getInstance().orderServerVerify(mActivityWeakReference.get(), payNotifyUrl, params, new CallbackListener() {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {
                 if (resultCode == ResultCode.SUCCESS) {
                     if (payCallback != null) {
                         //appFlyer 购买事件上报
                         if (isOnlyGooglePay) {
-                            AppsFlyerActionHelper.buyEvent(mActivity, mPayParsms.getAmount() + "", mPayParsms.getProductId());
+                            AppsFlyerActionHelper.buyEvent(mActivityWeakReference.get(), mPayParsms.getAmount() + "", mPayParsms.getProductId());
                         }
                         Logger.d(TAG, "支付验证成功");
                         payCallback.onResult(ResultCode.SUCCESS, "Pay check success !", "");

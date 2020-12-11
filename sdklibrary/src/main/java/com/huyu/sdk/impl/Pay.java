@@ -5,6 +5,7 @@ import android.content.Context;
 import com.huyu.sdk.data.HttpUrl;
 import com.huyu.sdk.data.ResultCode;
 import com.huyu.sdk.data.U9_HttpUrl;
+import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.listener.CallbackListener;
 import com.huyu.sdk.util.OkHttpUtils;
 
@@ -17,8 +18,12 @@ import okhttp3.Response;
 
 public class Pay implements IPay {
     public static final String TAG = Pay.class.getSimpleName();
-    private static Pay instance;
 
+    public static final int NOT_SWITCH_PAY = 0;
+
+    public static final int SWITCH_PAY = 1;
+
+    private static Pay instance;
 
     public static Pay getInstance() {
         if (instance == null)
@@ -38,8 +43,10 @@ public class Pay implements IPay {
                     int status = jsonObject.optInt("status");
                     String message = jsonObject.optString("message");
                     if (status == 0) {
+                        SharedPreferenceHelper.setIsSwitchPayChannel(SWITCH_PAY);
                         listener.onResult(ResultCode.SUCCESS, message, jsonObject.optString("data"));
                     } else {
+                        SharedPreferenceHelper.setIsSwitchPayChannel(NOT_SWITCH_PAY);
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {

@@ -3,17 +3,12 @@ package com.huyu.sdk;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 
-import com.huyu.googlepay.HY_GameCenterActivity;
 import com.huyu.sdk.data.Constant;
-import com.huyu.sdk.data.HttpUrl;
 import com.huyu.sdk.data.ResultCode;
-import com.huyu.sdk.data.bean.GameRoleInfo;
 import com.huyu.sdk.data.bean.HYUser;
 import com.huyu.sdk.data.bean.PayParams;
-import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.SharedPreferenceHelper;
 import com.huyu.sdk.impl.Pay;
 import com.huyu.sdk.impl.Sdk;
@@ -24,6 +19,7 @@ import com.huyu.sdk.util.AppUtils;
 import com.huyu.sdk.util.HY_Log_TimeUtils;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.MD5Utils;
+import com.huyu.sdk.util.Utils;
 import com.huyu.sdk.view.AccountCenterDialog;
 import com.huyu.sdk.view.AccountLoginDialog;
 
@@ -75,12 +71,12 @@ public class HYPlatform {
 
     //游客登录
     public void guestLogin(Context context, CallbackListener listener) {
-        User.getInstance().guestLogin(context, commonRequestData(new HashMap<String, String>()), listener);
+        User.getInstance().guestLogin(context, Utils.commonRequestData(new HashMap<String, String>()), listener);
     }
 
     //自动登录
     public void autoLogin(Context context, CallbackListener listener) {
-        Map<String, String> map = commonRequestData(new HashMap<String, String>());
+        Map<String, String> map = Utils.commonRequestData(new HashMap<String, String>());
         map.put("token", SharedPreferenceHelper.getAccessToken());
         map.put("guid", SharedPreferenceHelper.getChannelUserId());
         User.getInstance().autoLogin(context, map, listener);
@@ -90,7 +86,7 @@ public class HYPlatform {
     public void accountlogin(Context ctx, final int loginType, String username, String password, final CallbackListener listener) {
         HY_Log_TimeUtils.setStartLogin();
         logReport("3", "开始登录SDK", HY_Log_TimeUtils.startLogin - HY_Log_TimeUtils.initSdkSuccess + "");
-        Map<String, String> map = commonRequestData(new HashMap<String, String>());
+        Map<String, String> map = Utils.commonRequestData(new HashMap<String, String>());
         map.put("username", username);
         map.put("password", MD5Utils.MD5(password));
         User.getInstance().accountlogin(ctx, map, new LoginCallBackListener() {
@@ -117,7 +113,7 @@ public class HYPlatform {
 
     public void logout(Context context, final CallbackListener listener) {
         Logger.i(TAG, "logout");
-        Map<String, String> map = commonRequestData(new HashMap<String, String>());
+        Map<String, String> map = Utils.commonRequestData(new HashMap<String, String>());
         map.put("usecret", SharedPreferenceHelper.getAccessToken());
         map.put("uid", SharedPreferenceHelper.getUserId());
         User.getInstance().logout(context, map, listener);
@@ -137,7 +133,7 @@ public class HYPlatform {
     //检查支付参数配置,是否切换支付方式
     public void checkPaymentMethod(Context context, CallbackListener listener) {
         Logger.i(TAG, "createPaymentOrder");
-        Map<String, String> params = commonRequestData(new HashMap<String, String>());
+        Map<String, String> params = Utils.commonRequestData(new HashMap<String, String>());
         params.put("total_fee", 99 + "");
         params.put("u9uid", SharedPreferenceHelper.getUserId());
         params.put("role_id", "1235698465");
@@ -148,22 +144,7 @@ public class HYPlatform {
     }
 
     public void startPay(final Context context, final PayParams payParams, final CallbackListener listener) {
-        Pay.getInstance().startPay(context, getPayParamsMap(payParams), listener);
-    }
-
-    public void roleReport(Context context, GameRoleInfo gameRoleInfo, CallbackListener listener) {
-        Logger.i(TAG, "roleReport");
-        Map<String, String> map = commonRequestData(new HashMap<String, String>());
-        map.put("u9uid", SharedPreferenceHelper.getChannelUserId());
-        map.put("role_id", gameRoleInfo.getRoleId());
-        map.put("role_name", gameRoleInfo.getRoleName());
-        map.put("role_level", gameRoleInfo.getRoleLevel());
-        map.put("zone_id", gameRoleInfo.getZoneId());
-        map.put("zone_name", gameRoleInfo.getZoneName());
-        map.put("balance", gameRoleInfo.getBalance() + "");
-        map.put("vip", gameRoleInfo.getVip());
-        map.put("party_name", gameRoleInfo.getPartyName());
-        User.getInstance().roleReport(context, map, listener);
+        Pay.getInstance().startPay(context, Utils.getPayParamsMap(payParams), listener);
     }
 
     public void bindAccount(Context context, String username, String password, CallbackListener listener) {
@@ -177,8 +158,7 @@ public class HYPlatform {
         User.getInstance().bindAccount(context, map, listener);
     }
 
-
-    private void startChoosePayActivity(Context context, PayParams params, CallbackListener payListener) {
+/*    private void startChoosePayActivity(Context context, PayParams params, CallbackListener payListener) {
         Logger.i(TAG, "startGooglePayActivity");
         params.setU9uid(SharedPreferenceHelper.getChannelUserId());
         U9Platform.payCallback = payListener;
@@ -186,7 +166,7 @@ public class HYPlatform {
         Intent intent = new Intent();
         intent.setClass(context, HY_GameCenterActivity.class);
         context.startActivity(intent);
-    }
+    }*/
 
     //检查支付结果
     public void checkPayResult(Context context, String order_id, CallbackListener listener) {
@@ -207,7 +187,7 @@ public class HYPlatform {
 
     public void logReport(String step, String step_desc, String time) {
         Logger.i(TAG, "logReport");
-        Map<String, String> params = commonRequestData(new HashMap<String, String>());
+        Map<String, String> params = Utils.commonRequestData(new HashMap<String, String>());
         if (!TextUtils.isEmpty(step)) {
             params.put("step", step);
         }
@@ -219,69 +199,6 @@ public class HYPlatform {
         }
         params.put("v", "1");
         Sdk.getInstance().logReport(params);
-    }
-
-    //sdk退出
-    public void exit(Context context, CallbackListener listener) {
-        logout(context, listener);
-    }
-
-    public void onStart() {
-        Sdk.getInstance().onStart();
-    }
-
-    public void onResume() {
-        Sdk.getInstance().onResume();
-    }
-
-    public void onPause() {
-        Sdk.getInstance().onPause();
-    }
-
-    public void onStop() {
-        Sdk.getInstance().onStop();
-    }
-
-    public void onDestroy() {
-        Sdk.getInstance().onDestroy();
-    }
-
-
-    private Map<String, String> getPayParamsMap(PayParams payParams) {
-        Map<String, String> map = new HashMap<>();
-        map.put("ChannelId", Constant.CHANNEL_CODE);
-        map.put("UserId", SharedPreferenceHelper.getUserId());
-        map.put("ProductId", Constant.APPID);
-        map.put("ProductOrderId", payParams.getGameOrderId());
-        map.put("Amount", payParams.getAmount() + "");
-        map.put("DeviceId", PhoneInfoHelper.deviceId);
-        map.put("CallbackUrl", payParams.getCallBackUrl());
-        map.put("AppExt", payParams.getAppExtInfo());
-        map.put("Aid", Constant.PLAN_ID);
-        map.put("PayChannel", payParams.getPayChannel());
-        map.put("IsSwitchPayChannel", 1 + "");
-        map.put("appversion", AppUtils.APP_VERSION_NAME);
-        map.put("BundleId", AppUtils.APP_PACKAGE_NAME);
-        return map;
-    }
-
-    public Map<String, String> commonRequestData(Map<String, String> paramsMap) {
-        paramsMap.put("type", "0");
-        if (!TextUtils.isEmpty(PhoneInfoHelper.deviceId)) {
-            paramsMap.put("device", PhoneInfoHelper.deviceId);
-        }
-        paramsMap.put("aid", Constant.PLAN_ID);
-        paramsMap.put("app_id", Constant.APPID);
-        paramsMap.put("app", Constant.APPID);
-        paramsMap.put("appversion", AppUtils.APP_NAME);
-        paramsMap.put("imei", PhoneInfoHelper.imei);
-        paramsMap.put("channel", Constant.CHANNEL_CODE);
-        paramsMap.put("channel_id", Constant.CHANNEL_CODE);
-        paramsMap.put("sub_channel", Constant.CHANNEL_ID);
-        paramsMap.put("sub_channel_id", Constant.CHANNEL_ID);
-        paramsMap.put("sdk_version", Constant.HY_SDK_VERSION_CODE);
-        paramsMap.put("BundleId", AppUtils.APP_PACKAGE_NAME);
-        return paramsMap;
     }
 
     public interface SDKListener {

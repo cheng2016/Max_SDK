@@ -101,20 +101,26 @@ public class HYSDK extends BaseSdk implements HYSDKListener {
         mChannel.login(activity, new LoginCallBackListener() {
             @Override
             public void onLoginSuccess(final HYUser user) {
-                U9Platform.getInstance().verifyChannelLogin(activity, user, new CallbackListener() {
-                    @Override
-                    public void onResult(ResultCode resultCode, String msg, String data) {
-                        if (resultCode == ResultCode.SUCCESS) {
-                            user.userId = SharedPreferenceHelper.getUserId();
-                            mHYUser = user;
-                            listener.onLoginSuccess(user);
-                        } else if (resultCode == ResultCode.Fail) {
-                            listener.onLoginFailed(msg);
-                        } else if (resultCode == ResultCode.CANCEL) {
-                            listener.onLoginCancel();
+                if (Constant.CHANNEL_TYPE.contains("google")) {
+                    mHYUser = user;
+                    listener.onLoginSuccess(user);
+                }else {
+                    Logger.d(TAG,"not googlePlay_channel login");
+                    U9Platform.getInstance().verifyChannelLogin(activity, user, new CallbackListener() {
+                        @Override
+                        public void onResult(ResultCode resultCode, String msg, String data) {
+                            if (resultCode == ResultCode.SUCCESS) {
+                                user.userId = SharedPreferenceHelper.getUserId();
+                                mHYUser = user;
+                                listener.onLoginSuccess(user);
+                            } else if (resultCode == ResultCode.Fail) {
+                                listener.onLoginFailed(msg);
+                            } else if (resultCode == ResultCode.CANCEL) {
+                                listener.onLoginCancel();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
 
             @Override
@@ -174,6 +180,7 @@ public class HYSDK extends BaseSdk implements HYSDKListener {
             mChannel.pay(activity, params, listener);
             return;
         }
+        Logger.d(TAG,"not googlePlay_channel pay");
         U9Platform.getInstance().startPay(activity, params, mHYUser, new CallbackListener() {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {

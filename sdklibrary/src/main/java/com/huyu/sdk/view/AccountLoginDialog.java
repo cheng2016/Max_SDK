@@ -41,18 +41,27 @@ public class AccountLoginDialog extends Dialog {
     public AccountLoginDialog(Context context, CallbackListener listener) {
         super(context, ResourceHelper.getStyleId(context,"base_pop"));
         setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_login"));
-        this.context = context;
         setCanceledOnTouchOutside(false);
+        this.context = context;
         this.listener = listener;
-        initView();
         this.loginType = ACCOUNT_SWITCH;
+        initView();
     }
 
     public AccountLoginDialog(Context context, CallbackListener listener, int loginType) {
-        this(context, listener);
+        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_login"));
+        setCanceledOnTouchOutside(false);
+        this.context = context;
+        this.listener = listener;
         this.loginType = loginType;
-        if (loginType == ACCOUNT_LOGIN)
+
+        initView();
+
+        if (loginType == ACCOUNT_LOGIN){
             et_register_account.setText(SharedPreferenceHelper.getChannelUserName());
+            et_register_psd.setText(SharedPreferenceHelper.getUserPassword());
+        }
     }
 
     void initView() {

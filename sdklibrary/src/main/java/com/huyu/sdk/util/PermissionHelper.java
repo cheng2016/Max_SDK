@@ -33,8 +33,8 @@ import java.util.List;
  */
 
 public class PermissionHelper {
-
-    private static final int REQUEST_PERMISSION_CODE = 1000;
+    public static final String TAG = "PermissionHelper";
+    public static final int REQUEST_PERMISSION_CODE = 10001;
 
     private Object mContext;
 
@@ -88,6 +88,7 @@ public class PermissionHelper {
             }*/
             executePermissionsRequest(mContext, permissions, REQUEST_PERMISSION_CODE);
         } else if (mListener != null) { //有全部权限
+            Logger.i(TAG, "requestPermissions 有全部权限");
             mListener.doAfterGrand(permissions);
         }
     }
@@ -110,9 +111,15 @@ public class PermissionHelper {
                     }
                 }
 
-                if (allGranted && mListener != null) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String p : permissions) {
+                    stringBuilder.append(p + " , ");
+                }
+                Logger.d(TAG, "permissions : " + stringBuilder.toString());
 
+                if (allGranted && mListener != null && mPermissionList.size() == permissions.length) {
                     mListener.doAfterGrand((String[]) mPermissionList.toArray());
+                    Logger.i(TAG, "handleRequestPermissionsResult 有全部权限");
                 } else if (!allGranted && mListener != null) {
                     mListener.doAfterDenied((String[]) mPermissionList.toArray());
                 }

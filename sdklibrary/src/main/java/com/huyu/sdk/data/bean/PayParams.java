@@ -57,6 +57,11 @@ public class PayParams {
     /*****google支付初始化的公钥****/
     private String googlePublicKey;
 
+    /** 切换支付key*/
+    private String pgooglePublicKey;
+    /** 切换支付的包名 **/
+    private String packageName;
+
     public int getAmount() {
         return amount;
     }
@@ -146,6 +151,14 @@ public class PayParams {
         this.payUrl = payUrl;
     }
 
+    public String getU9uid() {
+        return u9uid;
+    }
+
+    public void setU9uid(String u9uid) {
+        this.u9uid = u9uid;
+    }
+
     public String getGooglePublicKey() {
         return googlePublicKey;
     }
@@ -153,13 +166,20 @@ public class PayParams {
     public void setGooglePublicKey(String googlePublicKey) {
         this.googlePublicKey = googlePublicKey;
     }
-
-    public String getU9uid() {
-        return u9uid;
+    public String getPGooglePublicKey() {
+        return pgooglePublicKey;
     }
 
-    public void setU9uid(String u9uid) {
-        this.u9uid = u9uid;
+    public void setPGooglePublicKey(String pgooglePublicKey) {
+        this.pgooglePublicKey = pgooglePublicKey;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     @Override

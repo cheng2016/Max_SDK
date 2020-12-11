@@ -24,10 +24,13 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public class User implements IUser {
-    static final String TAG = User.class.getSimpleName();
+    public static final String TAG = User.class.getSimpleName();
+
+    public static final int ACCOUNT_LOGIN = 0;
+
+    public static final int ONEKEY_LOGIN = 1;
 
     private static User instance;
-
 
     public static User getInstance() {
         if (instance == null)
@@ -56,6 +59,8 @@ public class User implements IUser {
                         SharedPreferenceHelper.setChannelUserId(data.optString("guid"));
                         SharedPreferenceHelper.setChannelUserName(data.optString("username"));
                         SharedPreferenceHelper.setAccessToken(data.optString("token"));
+                        SharedPreferenceHelper.setUserPassword(data.optString("password"));
+                        SharedPreferenceHelper.setLoginType(ONEKEY_LOGIN);
 
                         if (data.optInt("is_create") == 1) {
                             AppsFlyerActionHelper.registerEvent((Activity) context);
@@ -92,6 +97,7 @@ public class User implements IUser {
                     if (status == 0) {
                         U9Platform.getInstance().verifylogin(context, listener);
                     } else {
+                        SharedPreferenceHelper.setAccessToken("");
                         listener.onResult(ResultCode.Fail, message, "");
                     }
                 } catch (Exception e) {
@@ -102,7 +108,7 @@ public class User implements IUser {
     }
 
     @Override
-    public void accountlogin(final Context context, Map<String, String> map, final LoginCallBackListener listener) {
+    public void accountlogin(final Context context, final Map<String, String> map, final LoginCallBackListener listener) {
         OkHttpUtils.postNoLoading(U9_HttpUrl.URL_LOGIN, map, new OkHttpUtils.SimpleResponseHandler() {
             public void onFailure(Exception param1Exception) {
                 listener.onLoginFailed("accountlogin onFailure" + param1Exception.toString());
@@ -125,6 +131,9 @@ public class User implements IUser {
                         SharedPreferenceHelper.setChannelUserId(data.optString("guid"));
                         SharedPreferenceHelper.setChannelUserName(data.optString("username"));
                         SharedPreferenceHelper.setAccessToken(data.optString("token"));
+                        SharedPreferenceHelper.setUserPassword(map.get("password"));
+                        SharedPreferenceHelper.setLoginType(ACCOUNT_LOGIN);
+
                         user.hyuid = data.optString("uid");
                         user.channelUserId = data.optString("guid");
                         user.channelUserName = data.optString("username");

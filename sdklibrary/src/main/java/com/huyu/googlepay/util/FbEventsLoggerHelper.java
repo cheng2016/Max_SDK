@@ -1,13 +1,9 @@
 package com.huyu.googlepay.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.appsflyer.AFInAppEventType;
-import com.appsflyer.AppsFlyerLib;
-import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.huyu.sdk.util.Logger;

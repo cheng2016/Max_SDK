@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.huyu.sdk.data.Constant;
+import com.huyu.sdk.data.config.PhoneInfoHelper;
 import com.huyu.sdk.data.config.XmlConfigHelper;
 import com.huyu.sdk.util.HY_Utils;
 import com.huyu.sdk.util.Logger;
@@ -117,17 +117,24 @@ public abstract class HY_SplashActivity extends Activity {
                             new PermissionHelper.PermissionListener() {
                                 @Override
                                 public void doAfterGrand(String... permission) {
+                                    //获取设备信息
+                                    PhoneInfoHelper.getInstance().init(HY_SplashActivity.this);
                                     //成功回调
                                     HY_SplashActivity.this.onSplashStop();
                                 }
 
                                 @Override
                                 public void doAfterDenied(String... permission) {
+                                    //获取设备信息
+                                    PhoneInfoHelper.getInstance().init(HY_SplashActivity.this);
                                     //失败回调
                                     HY_SplashActivity.this.onSplashStop();
                                 }
                             }, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE);
                 } else {
+                    //获取设备信息
+                    PhoneInfoHelper.getInstance().init(HY_SplashActivity.this);
+                    //回调
                     HY_SplashActivity.this.onSplashStop();
                 }
             }
@@ -137,6 +144,7 @@ public abstract class HY_SplashActivity extends Activity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Logger.d(TAG,"onRequestPermissionsResult requestCode : " + requestCode);
         if (mHelper != null) {
             mHelper.handleRequestPermissionsResult(requestCode, permissions, grantResults);
         }

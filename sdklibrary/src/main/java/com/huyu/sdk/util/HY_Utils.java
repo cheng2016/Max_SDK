@@ -1,8 +1,11 @@
 package com.huyu.sdk.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+
+import com.huyu.sdk.data.HttpUrl;
 
 /**
  * 文件名：HY_Utils
@@ -61,5 +64,14 @@ public class HY_Utils {
             result = "";
         }
         return result;
+    }
+
+    public static String getPayCallbackUrl(Activity paramActivity) {
+        String gameCode = HY_Utils.getManifestMeta(paramActivity, "HY_GAME_ID");
+        String channelCode = HY_Utils.getManifestMeta(paramActivity,
+                "HY_CHANNEL_CODE");
+        String url = HttpUrl.URL_PAY_CALLBACK + "/"
+                + gameCode + "/" + channelCode;
+        return url;
     }
 }

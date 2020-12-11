@@ -46,7 +46,7 @@ public class Sdk implements ISdk {
         //获取assets下渠道信息
         ChannelInfoHelper.getInstance().init(context);
         //获取设备信息
-        PhoneInfoHelper.getInstance().init(context);
+//        PhoneInfoHelper.getInstance().init(context);
         //获取app信息
         AppUtils.getInstance().init(context);
     }
