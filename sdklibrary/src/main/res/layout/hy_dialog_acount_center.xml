@@ -41,7 +41,7 @@
 
         <TextView
             android:id="@+id/bind_tv"
-            style="@style/pop_button"
+            style="@style/hy_pop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

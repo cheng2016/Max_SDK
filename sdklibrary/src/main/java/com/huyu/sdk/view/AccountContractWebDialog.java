@@ -37,7 +37,7 @@ public class AccountContractWebDialog extends Dialog {
     private ProgressBar pro;
 
     public AccountContractWebDialog(final Context context, final CallbackListener loginListener) {
-        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        super(context, ResourceHelper.getStyleId(context,"hy_base_pop"));
         setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_contract_web"));
         this.loginListener = loginListener;
         this.context = context;

@@ -123,7 +123,6 @@ public class Test_Channel extends BaseChannel {
     @Override
     public void exit(final Activity activity) {
         Logger.d(TAG, "exit");
-
         new AlertDialog.Builder(activity)
                 .setTitle("模拟SDK推出框")
                 .setMessage("是否退出游戏")

@@ -61,13 +61,13 @@
 
         <Button
             android:id="@+id/btn_login"
-            style="@style/pop_button"
+            style="@style/hy_pop_button"
             android:layout_gravity="center"
             android:text="登录" />
 
         <Button
             android:id="@+id/btn_facebook"
-            style="@style/pop_button"
+            style="@style/hy_pop_button"
             android:layout_gravity="center"
             android:layout_marginTop="10.0dip"
             android:text="facebook登录"
@@ -75,7 +75,7 @@
 
         <Button
             android:id="@+id/btn_google"
-            style="@style/pop_button"
+            style="@style/hy_pop_button"
             android:layout_gravity="center"
             android:layout_marginTop="10.0dip"
             android:text="google登录"

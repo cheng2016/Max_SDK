@@ -35,7 +35,7 @@
 
         <EditText
             android:id="@+id/et_register_account"
-            style="@style/pop_edittext"
+            style="@style/hy_pop_edittext"
             android:layout_toRightOf="@+id/account_"
             android:background="@android:color/transparent"
             android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -68,7 +68,7 @@
 
         <EditText
             android:id="@+id/et_register_psd"
-            style="@style/pop_edittext"
+            style="@style/hy_pop_edittext"
             android:layout_toRightOf="@+id/password_"
             android:background="@android:color/transparent"
             android:gravity="left|center_vertical"

@@ -37,7 +37,7 @@
 
     <Button
         android:id="@+id/btn_comfirm"
-        style="@style/pop_button"
+        style="@style/hy_pop_button"
         android:layout_below="@+id/message_tv"
         android:layout_centerInParent="true"
         android:layout_gravity="center"

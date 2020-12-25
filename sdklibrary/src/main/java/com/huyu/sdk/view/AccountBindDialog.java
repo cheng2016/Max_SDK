@@ -33,7 +33,7 @@ public class AccountBindDialog extends Dialog {
     private CheckBox checkbox_contract;
 
     public AccountBindDialog(Context context, CallbackListener listener) {
-        super(context, ResourceHelper.getStyleId(context, "base_pop"));
+        super(context, ResourceHelper.getStyleId(context, "hy_base_pop"));
         setContentView(ResourceHelper.getLayoutId(context, "hy_dialog_account_bind"));
 
         this.context = context;

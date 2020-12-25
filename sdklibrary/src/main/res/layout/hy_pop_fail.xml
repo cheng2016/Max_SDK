@@ -30,7 +30,7 @@
 
         <Button
             android:id="@+id/btn_return"
-            style="@style/pop_button"
+            style="@style/hy_pop_button"
             android:layout_width="120.0dip"
             android:layout_gravity="center"
             android:layout_marginTop="10.0dip"

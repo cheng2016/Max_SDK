@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
-        applicationId "com.hy.sdk.demo"
-        versionCode 1
+        applicationId "com.trainer.abc"
+        versionCode 10
         versionName "1.0"
         ndk {abiFilters 'armeabi-v7a','armeabi','x86' }
     }
@@ -20,6 +20,12 @@ android {
             storeFile file('angle.jks')
             storePassword '123456'
         }
+/*        Dynasty {
+            keyAlias 'Dynasty'
+            keyPassword 'Dynasty123'
+            storeFile file('Dynasty.jks')
+            storePassword 'Dynasty123'
+        }*/
     }
 
 
@@ -30,6 +36,8 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             aaptOptions.cruncherEnabled = false
             aaptOptions.useNewCruncher = false
         }
@@ -57,7 +65,7 @@ android {
 //        implementation 'com.google.android.gms:play-services-wallet:16.0.1'
 //        implementation 'com.appsflyer:af-android-sdk:4+@aar'
 //        implementation 'com.android.installreferrer:installreferrer:1.0'
-
+//
 //        implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     }
 }

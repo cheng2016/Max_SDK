@@ -37,7 +37,7 @@
 
     <Button
         android:id="@+id/btn_register"
-        style="@style/pop_button"
+        style="@style/hy_pop_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_size_36"
         android:layout_gravity="center"

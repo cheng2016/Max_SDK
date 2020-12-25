@@ -3,8 +3,12 @@ package com.huyu.test.demo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,6 +29,9 @@ import com.huyu.sdk.listener.PayCallbackListener;
 import com.huyu.sdk.util.Logger;
 import com.huyu.sdk.util.ToastUtils;
 
+import java.security.MessageDigest;
+
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -101,6 +108,27 @@ public class MainActivity extends Activity implements OnClickListener {
                 mUserInfoTv.setText("已注销");
             }
         });
+
+        makeHashKey(this);
+    }
+
+    private void makeHashKey(Context context){
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.monsquad.trainer.att27",
+                    PackageManager.GET_SIGNATURES);
+//            PackageInfo info = context.getPackageManager().getPackageInfo( context.getPackageName(),  PackageManager.GET_SIGNATURES);
+
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Logger.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
     }
 
     @Override
@@ -109,6 +137,7 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
     @Override
+
     public void onClick(View v) {
         if (mLogonBtn == v) {
             doLogin();

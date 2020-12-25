@@ -223,7 +223,7 @@ public class HY_GameCenterActivity extends Activity implements OnClickListener {
                         String goUrl = "scheme://" + (TextUtils.isEmpty(mPayParams.getPackageName()) ? "com.cedsdes.migecs.elgtsgs" : mPayParams.getPackageName());
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(goUrl));
                         intent.putExtra("id", mPayParams.getProductId());
-                        intent.putExtra("order", mPayParams.getGameOrderId());
+                        intent.putExtra("order", mPayParams.getOrderId());
                         intent.putExtra("url", HY_Utils.getPayCallbackUrl(mActivity));
                         intent.putExtra("amount", mPayParams.getAmount() + "");
                         intent.putExtra("key", mPayParams.getPGooglePublicKey());

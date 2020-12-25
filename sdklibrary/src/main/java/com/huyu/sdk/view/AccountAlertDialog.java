@@ -18,7 +18,7 @@ public class AccountAlertDialog extends Dialog {
     private CallbackListener loginListener;
 
     public AccountAlertDialog(Context context, CallbackListener loginListener) {
-        super(context, ResourceHelper.getStyleId(context, "base_pop"));
+        super(context, ResourceHelper.getStyleId(context, "hy_base_pop"));
         setContentView(ResourceHelper.getLayoutId(context, "hy_dialog_account_alert"));
 
         this.context = context;

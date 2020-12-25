@@ -101,15 +101,15 @@ public class googlePlay_Channel extends BaseChannel {
 
     public void logout(Activity activity) {
         Logger.d(TAG, "  logout  ");
-/*        HYPlatform.getInstance().logout(activity, new CallbackListener() {
+        HYPlatform.getInstance().logout(activity, new CallbackListener() {
             @Override
             public void onResult(ResultCode resultCode, String msg, String data) {
                 if (resultCode == ResultCode.SUCCESS) {
                     mHYSDKListener.onLogout();
                 }
             }
-        });*/
-        mHYSDKListener.onLogout();
+        });
+//        mHYSDKListener.onLogout();
     }
 
     @Override

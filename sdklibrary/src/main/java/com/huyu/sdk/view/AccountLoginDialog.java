@@ -39,7 +39,7 @@ public class AccountLoginDialog extends Dialog {
     public static final int ACCOUNT_SWITCH = 1;
 
     public AccountLoginDialog(Context context, CallbackListener listener) {
-        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        super(context, ResourceHelper.getStyleId(context,"hy_base_pop"));
         setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_login"));
         setCanceledOnTouchOutside(false);
         this.context = context;
@@ -49,7 +49,7 @@ public class AccountLoginDialog extends Dialog {
     }
 
     public AccountLoginDialog(Context context, CallbackListener listener, int loginType) {
-        super(context, ResourceHelper.getStyleId(context,"base_pop"));
+        super(context, ResourceHelper.getStyleId(context,"hy_base_pop"));
         setContentView(ResourceHelper.getLayoutId(context,"hy_dialog_account_login"));
         setCanceledOnTouchOutside(false);
         this.context = context;

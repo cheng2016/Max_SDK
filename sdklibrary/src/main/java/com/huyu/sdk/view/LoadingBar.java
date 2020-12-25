@@ -11,7 +11,7 @@ public class LoadingBar extends Dialog {
     ObjectAnimator animator;
 
     public LoadingBar(Context context) {
-        super(context, ResourceHelper.getStyleId(context, "base_pop"));
+        super(context, ResourceHelper.getStyleId(context, "hy_base_pop"));
         setContentView(ResourceHelper.getLayoutId(context, "hy_loading"));
 
         this.animator = ObjectAnimator.ofFloat((ImageView) findViewById(ResourceHelper.getId(context, "progressBar")), "rotation", new float[]{0.0F, 360.0F});

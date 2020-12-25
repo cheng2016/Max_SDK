@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="base_pop" parent="@android:style/Theme.Dialog">
+    <style name="hy_base_pop" parent="@android:style/Theme.Dialog">
         <item name="android:backgroundDimAmount">0.6</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
@@ -11,7 +11,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
-    <style name="pop_edittext">
+    <style name="hy_pop_edittext">
         <item name="android:textSize">@dimen/font_size_14</item>
         <item name="android:textColor">#ff868686</item>
         <item name="android:gravity">center</item>
@@ -22,7 +22,7 @@
         <item name="android:layout_height">38.0dip</item>
         <item name="android:maxLines">1</item>
     </style>
-    <style name="pop_button">
+    <style name="hy_pop_button">
         <item name="android:textSize">@dimen/font_size_15</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:ellipsize">end</item>
@@ -35,14 +35,14 @@
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_marginRight">30dp</item>
     </style>
-    <style name="pop_checkbox">
+    <style name="hy_pop_checkbox">
         <item name="android:textColor">#ffaeaeae</item>
         <item name="android:background">@drawable/hy_checkbox_state</item>
         <item name="android:layout_width">10.0dip</item>
         <item name="android:layout_height">10.0dip</item>
         <item name="android:button">@null</item>
     </style>
-    <style name="pop_title">
+    <style name="hy_pop_title">
         <item name="android:textSize">@dimen/font_size_16</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:gravity">center</item>
